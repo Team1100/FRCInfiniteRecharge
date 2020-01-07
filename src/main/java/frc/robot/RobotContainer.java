@@ -41,12 +41,22 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    //Subsystem instantiation
     drive = new Drive();
+
+    //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
+
+    //OI Device instantiation
     leftStick = new AttackThree(RobotMap.U_LEFT_STICK, 0.01);
     rightStick = new AttackThree(RobotMap.U_RIGHT_STICK, 0.01);
   }
 
+  /**
+   * <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton Method</a> to return one instance of a class
+   * @return New instance of RobotContainer class
+   */
   public static RobotContainer getInstance(){
    if(robotContainer == null){
      robotContainer = new RobotContainer();
@@ -64,10 +74,18 @@ public class RobotContainer {
     
   }
 
+  /**
+   * Method to return instance of the Left Joystick
+   * @return AttackThree Left Joystick
+   */
   public AttackThree getLeftStick(){
     return leftStick;
   }
 
+  /**
+   * Method to return instance of the Right Joystick
+   * @return AttackThree Right Joystick
+   */
   public AttackThree getRightStick(){
     return rightStick;
   }
@@ -79,7 +97,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    //TODO: Fill with autocommand
     return null;
   }
 }

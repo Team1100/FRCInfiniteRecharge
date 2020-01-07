@@ -13,7 +13,7 @@ import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * An example command that uses an example subsystem.
+ * A Default Drive commmand that passes joystick input to a TankDrive drivetrain.
  */
 public class DefaultDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -22,18 +22,19 @@ public class DefaultDrive extends CommandBase {
   private final AttackThreeAxis yAxis = AttackThreeAxis.kY;
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new DefaultDrive.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param Drive The subsystem used by this command.
    */
   public DefaultDrive(Drive drive) {
     m_drive = drive;
     rc = RobotContainer.getInstance();
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
   }
 
-  // Called when the command is initially scheduled.
+  // Called when the command is initially scheduled. (Unused)
   @Override
   public void initialize() {
   }
@@ -44,7 +45,7 @@ public class DefaultDrive extends CommandBase {
     m_drive.tankDrive(rc.getLeftStick().getAxis(yAxis), rc.getRightStick().getAxis(yAxis));
   }
 
-  // Called once the command ends or is interrupted.
+  // Called once the command ends or is interrupted. (Unused)
   @Override
   public void end(boolean interrupted) {
   }
