@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.input.AttackThree;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,11 +23,17 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and default commands are defined here...
-  private final Drive drive = new Drive();
+  
+  //Subsystems
+  private final Drive drive;
 
-  private final DefaultDrive defaultdrive = new DefaultDrive(drive);
-
-
+  //Commands
+  private final DefaultDrive defaultdrive;
+  
+  //OI
+  private RobotContainer robotContainer;
+  private AttackThree leftStick;
+  private AttackThree rightStick;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -34,6 +41,17 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    drive = new Drive();
+    defaultdrive = new DefaultDrive(drive);
+    leftStick = new AttackThree(RobotMap.U_LEFT_STICK, 0.01);
+    rightStick = new AttackThree(RobotMap.U_RIGHT_STICK, 0.01);
+  }
+
+  public RobotContainer getInstance(){
+   if(robotContainer == null){
+     robotContainer = new RobotContainer();
+   } 
+   return robotContainer;
   }
 
   /**
