@@ -31,7 +31,7 @@ public class RobotContainer {
   private final DefaultDrive defaultdrive;
   
   //OI
-  private RobotContainer robotContainer;
+  private static RobotContainer robotContainer;
   private AttackThree leftStick;
   private AttackThree rightStick;
 
@@ -47,7 +47,7 @@ public class RobotContainer {
     rightStick = new AttackThree(RobotMap.U_RIGHT_STICK, 0.01);
   }
 
-  public RobotContainer getInstance(){
+  public static RobotContainer getInstance(){
    if(robotContainer == null){
      robotContainer = new RobotContainer();
    } 
@@ -61,6 +61,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
+  }
+
+  public AttackThree getLeftStick(){
+    return leftStick;
+  }
+
+  public AttackThree getRightStick(){
+    return rightStick;
   }
 
 

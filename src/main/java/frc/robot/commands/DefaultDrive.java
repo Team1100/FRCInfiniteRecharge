@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import frc.robot.RobotContainer;
+import frc.robot.input.AttackThree.AttackThreeAxis;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -16,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DefaultDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drive m_drive;
+  private final RobotContainer rc;
+  private final AttackThreeAxis yAxis = AttackThreeAxis.kY;
 
   /**
    * Creates a new ExampleCommand.
@@ -24,6 +28,7 @@ public class DefaultDrive extends CommandBase {
    */
   public DefaultDrive(Drive drive) {
     m_drive = drive;
+    rc = RobotContainer.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
   }
@@ -36,6 +41,7 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_drive.tankDrive(rc.getLeftStick().getAxis(yAxis), rc.getRightStick().getAxis(yAxis));
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +50,7 @@ public class DefaultDrive extends CommandBase {
   }
 
   // Returns true when the command should end.
+  //Default Command so will never finish running.
   @Override
   public boolean isFinished() {
     return false;
