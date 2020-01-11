@@ -157,6 +157,10 @@ public class RobotMap {
     public static final int D_FRONT_LEFT = CAN_0;
     public static final int D_FRONT_RIGHT = CAN_1;
     public static final int D_BACK_LEFT = CAN_2;
-    public static final int D_BACK_RIGHT = CAN_3;
+	public static final int D_BACK_RIGHT = CAN_3;
+	
+	//[U]ser Input
+	public static final int U_LEFT_STICK = 0;
+	public static final int U_RIGHT_STICK = 1;
 
 }

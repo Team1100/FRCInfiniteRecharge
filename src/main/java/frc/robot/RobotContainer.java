@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.input.AttackThree;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,11 +23,17 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and default commands are defined here...
-  private final Drive drive = new Drive();
+  
+  //Subsystems
+  private final Drive drive;
 
-  private final DefaultDrive defaultdrive = new DefaultDrive(drive);
-
-
+  //Commands
+  private final DefaultDrive defaultdrive;
+  
+  //OI
+  private static RobotContainer robotContainer;
+  private AttackThree leftStick;
+  private AttackThree rightStick;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -34,6 +41,27 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    //Subsystem instantiation
+    drive = new Drive();
+
+    //Default command instantiation
+    defaultdrive = new DefaultDrive(drive);
+
+    //OI Device instantiation
+    leftStick = new AttackThree(RobotMap.U_LEFT_STICK, 0.01);
+    rightStick = new AttackThree(RobotMap.U_RIGHT_STICK, 0.01);
+  }
+
+  /**
+   * <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton Method</a> to return one instance of a class
+   * @return New instance of RobotContainer class
+   */
+  public static RobotContainer getInstance(){
+   if(robotContainer == null){
+     robotContainer = new RobotContainer();
+   } 
+   return robotContainer;
   }
 
   /**
@@ -43,6 +71,23 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
+  }
+
+  /**
+   * Method to return instance of the Left Joystick
+   * @return AttackThree Left Joystick
+   */
+  public AttackThree getLeftStick(){
+    return leftStick;
+  }
+
+  /**
+   * Method to return instance of the Right Joystick
+   * @return AttackThree Right Joystick
+   */
+  public AttackThree getRightStick(){
+    return rightStick;
   }
 
 
@@ -52,7 +97,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    //TODO: Fill with autocommand
     return null;
   }
 }
