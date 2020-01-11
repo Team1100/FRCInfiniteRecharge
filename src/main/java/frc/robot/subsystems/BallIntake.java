@@ -8,12 +8,19 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class BallIntake extends SubsystemBase {
-  /**
-   * Creates a new BallIntake.
-   */
+
+  WPI_TalonSRX intakeRoller;
+  WPI_TalonSRX handoff;
+
   public BallIntake() {
+    
+    intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
+    handoff = new WPI_TalonSRX(RobotMap.B_HANDOFF);
 
   }
 
