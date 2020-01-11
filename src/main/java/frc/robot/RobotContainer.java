@@ -46,6 +46,7 @@ public class RobotContainer {
 
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
+    drive.setDefaultCommand(defaultdrive);
 
     //OI Device instantiation
     OI.getInstance();

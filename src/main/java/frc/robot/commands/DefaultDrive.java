@@ -41,7 +41,11 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.tankDrive(oi.getLeftStick().getAxis(yAxis), oi.getRightStick().getAxis(yAxis));
+    // NOTE: Forward on the left and right sticks is negative
+    //       Backwards is positive, hence the inversion below
+    double leftStick = - oi.getLeftStick().getAxis(yAxis);
+    double rightStick = - oi.getRightStick().getAxis(yAxis);
+    m_drive.tankDrive(leftStick, rightStick);
   }
 
   // Called once the command ends or is interrupted. (Unused)
