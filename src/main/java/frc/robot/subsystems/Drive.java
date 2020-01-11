@@ -25,10 +25,12 @@ public class Drive extends SubsystemBase {
 
   DifferentialDrive drivetrain;
   
+  public static Drive drive;
+
   /**
    * Creates a new Drive subsystem
    */
-  public Drive() {
+  private Drive() {
     frontLeft = new WPI_TalonSRX(RobotMap.D_FRONT_LEFT);
     frontRight = new WPI_TalonSRX(RobotMap.D_FRONT_RIGHT);
     backLeft = new WPI_TalonSRX(RobotMap.D_BACK_LEFT);
@@ -38,6 +40,17 @@ public class Drive extends SubsystemBase {
     right = new SpeedControllerGroup(frontRight, backRight);
 
     drivetrain = new DifferentialDrive(left, right);
+  }
+
+  /**
+   * Used outside of the Drive subsystem to return an instance of Drive subsystem.
+   * @return Returns instance of Drive subsystem formed from constructor.
+   */
+  public static Drive getInstance(){
+    if (drive == null){
+      drive = new Drive();
+    }
+    return drive;
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed){
