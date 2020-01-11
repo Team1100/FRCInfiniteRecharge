@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.input.AttackThree;
-import frc.robot.commands.DefaultDrive;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -43,14 +42,13 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Subsystem instantiation
-    drive = new Drive();
+    drive = Drive.getInstance();
 
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
 
     //OI Device instantiation
-    leftStick = new AttackThree(RobotMap.U_LEFT_STICK, 0.01);
-    rightStick = new AttackThree(RobotMap.U_RIGHT_STICK, 0.01);
+    OI.getInstance();
   }
 
   /**

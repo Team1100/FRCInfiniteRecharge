@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
+import frc.robot.OI;
 import frc.robot.input.AttackThree.AttackThreeAxis;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DefaultDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drive m_drive;
-  private final RobotContainer rc;
   private final AttackThreeAxis yAxis = AttackThreeAxis.kY;
+  private static OI oi;
 
   /**
    * Creates a new DefaultDrive.
@@ -28,8 +28,7 @@ public class DefaultDrive extends CommandBase {
    */
   public DefaultDrive(Drive drive) {
     m_drive = drive;
-    rc = RobotContainer.getInstance();
-
+    oi = OI.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
   }
@@ -42,7 +41,7 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.tankDrive(rc.getLeftStick().getAxis(yAxis), rc.getRightStick().getAxis(yAxis));
+    m_drive.tankDrive(oi.getLeftStick().getAxis(yAxis), oi.getRightStick().getAxis(yAxis));
   }
 
   // Called once the command ends or is interrupted. (Unused)
