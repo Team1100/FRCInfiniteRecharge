@@ -166,5 +166,6 @@ public class RobotMap {
 
 	//[B]all Intake
 	public static final int B_INTAKE_ROLLER = CAN_4;
-	public static final int B_HANDOFF = CAN_5;
+	public static final int B_CONVEYER1 = CAN_5;
+	public static final int B_CONVEYER2 = CAN_6;
 }
