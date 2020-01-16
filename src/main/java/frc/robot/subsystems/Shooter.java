@@ -10,11 +10,20 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
+  public static Shooter shooter;
+
   /**
    * Creates a new Shooter.
    */
-  public Shooter() {
+  private Shooter() {
 
+  }
+
+  public static Shooter getInstance() {
+    if (shooter == null) {
+      shooter = new Shooter();
+    }
+    return shooter;
   }
 
   @Override

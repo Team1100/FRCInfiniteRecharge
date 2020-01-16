@@ -10,11 +10,20 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Spinner extends SubsystemBase {
+  public static Spinner spinner;
+
   /**
    * Creates a new Spinner.
    */
-  public Spinner() {
+  private Spinner() {
 
+  }
+
+  public static Spinner getInstance() {
+    if (spinner == null) {
+      spinner = new Spinner();
+    }
+    return spinner;
   }
 
   @Override

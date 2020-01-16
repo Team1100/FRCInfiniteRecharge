@@ -10,11 +10,20 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+  public static Vision vision;
+
   /**
    * Creates a new Vision.
    */
-  public Vision() {
+  private Vision() {
 
+  }
+
+  public static Vision getInstance() {
+    if (vision == null) {
+      vision = new Vision();
+    }
+    return vision;
   }
 
   @Override

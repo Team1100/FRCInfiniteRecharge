@@ -10,8 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.input.AttackThree;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -25,14 +24,17 @@ public class RobotContainer {
   
   //Subsystems
   private final Drive drive;
+  private final Climber climber;
+  private final BallIntake ballIntake;
+  private final Shooter shooter;
+  private final Spinner spinner;
+  private final Vision vision;
 
   //Commands
   private final DefaultDrive defaultdrive;
   
   //OI
   private static RobotContainer robotContainer;
-  private AttackThree leftStick;
-  private AttackThree rightStick;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -43,6 +45,11 @@ public class RobotContainer {
 
     //Subsystem instantiation
     drive = Drive.getInstance();
+    climber = Climber.getInstance();
+    ballIntake = BallIntake.getInstance();
+    shooter = Shooter.getInstance();
+    spinner = Spinner.getInstance();
+    vision = Vision.getInstance();
 
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
@@ -72,23 +79,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
   }
-
-  /**
-   * Method to return instance of the Left Joystick
-   * @return AttackThree Left Joystick
-   */
-  public AttackThree getLeftStick(){
-    return leftStick;
-  }
-
-  /**
-   * Method to return instance of the Right Joystick
-   * @return AttackThree Right Joystick
-   */
-  public AttackThree getRightStick(){
-    return rightStick;
-  }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
