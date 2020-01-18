@@ -96,6 +96,7 @@ public class TestingDashboard {
             System.out.println("WARNING: Subsystem for command does not exist!");
             return;
         }
+        System.out.println("Adding command " + command.toString());
         tab.commandTable.add(cmdGrpName, command);
     }
 
@@ -112,8 +113,9 @@ public class TestingDashboard {
                 System.out.println("Creating \"" + cmdGrpName + "\" command group");
                 ArrayList<CommandBase> cmdList = tdt.commandTable.getCommandList(cmdGrpName);
                 ShuffleboardLayout layout = tdt.tab.getLayout(cmdGrpName, BuiltInLayouts.kList);
+                layout.withSize(1,cmdList.size());
                 for (int j = 0; j < cmdList.size(); j++) {
-                    layout.add(cmdList.get(i));
+                    layout.add(cmdList.get(j));
                 }
             }
         }
