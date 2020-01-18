@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
   public static Vision vision;
@@ -22,6 +23,7 @@ public class Vision extends SubsystemBase {
   public static Vision getInstance() {
     if (vision == null) {
       vision = new Vision();
+      TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
     }
     return vision;
   }

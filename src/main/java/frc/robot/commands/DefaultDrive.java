@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.OI;
+import frc.robot.TestingDashboard;
 import frc.robot.input.AttackThree.AttackThreeAxis;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -31,6 +32,12 @@ public class DefaultDrive extends CommandBase {
     oi = OI.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
+  }
+
+  public static void registerWithTestingDashboard() {
+    Drive drive = Drive.getInstance();
+    DefaultDrive cmd = new DefaultDrive(Drive.getInstance());
+    TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled. (Unused)

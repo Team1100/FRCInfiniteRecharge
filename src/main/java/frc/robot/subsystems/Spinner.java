@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.TestingDashboard;
 
 public class Spinner extends SubsystemBase {
   public static Spinner spinner;
@@ -22,6 +23,7 @@ public class Spinner extends SubsystemBase {
   public static Spinner getInstance() {
     if (spinner == null) {
       spinner = new Spinner();
+      TestingDashboard.getInstance().registerSubsystem(spinner, "Spinner");
     }
     return spinner;
   }

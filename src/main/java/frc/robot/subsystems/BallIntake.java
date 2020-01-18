@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.TestingDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -32,6 +33,7 @@ public class BallIntake extends SubsystemBase {
   public static BallIntake getInstance() {
     if (ballIntake == null) {
       ballIntake = new BallIntake();
+      TestingDashboard.getInstance().registerSubsystem(ballIntake, "BallIntake");
     }
     return ballIntake;
   }

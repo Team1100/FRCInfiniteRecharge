@@ -57,6 +57,12 @@ public class RobotContainer {
 
     //OI Device instantiation
     OI.getInstance();
+
+    // Register commands with TestingDashboard commands
+    DefaultDrive.registerWithTestingDashboard();
+
+    // Create Testing Dashboard
+    TestingDashboard.getInstance().createTestingDashboard();
   }
 
   /**

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.TestingDashboard;
 
 public class Drive extends SubsystemBase {
   WPI_TalonSRX frontLeft;
@@ -50,6 +51,7 @@ public class Drive extends SubsystemBase {
   public static Drive getInstance(){
     if (drive == null){
       drive = new Drive();
+      TestingDashboard.getInstance().registerSubsystem(drive, "Drive");
     }
     return drive;
   }
