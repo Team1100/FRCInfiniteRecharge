@@ -108,15 +108,18 @@ public class TestingDashboard {
             Enumeration<String> cmdGrpNames = tdt.commandTable.getCommandGroups();
             Iterator<String> it = cmdGrpNames.asIterator();
             System.out.println("Created tab for " + tdt.subsystemName + " subsystem");
+            int colpos = 0;
             while (it.hasNext()) {
                 String cmdGrpName = it.next();
                 System.out.println("Creating \"" + cmdGrpName + "\" command group");
                 ArrayList<CommandBase> cmdList = tdt.commandTable.getCommandList(cmdGrpName);
                 ShuffleboardLayout layout = tdt.tab.getLayout(cmdGrpName, BuiltInLayouts.kList);
+                layout.withPosition(colpos,0);
                 layout.withSize(1,cmdList.size());
                 for (int j = 0; j < cmdList.size(); j++) {
                     layout.add(cmdList.get(j));
                 }
+                colpos++;
             }
         }
         createDebugTab();

@@ -61,6 +61,8 @@ public class RobotContainer {
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();
 
+    // Create Testing Dashboard
+    TestingDashboard.getInstance().createTestingDashboard();
   }
 
   /**
