@@ -12,11 +12,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.TestingDashboard;
 
 public class Spinner extends SubsystemBase {
+  public static Spinner spinner;
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-    /**
+  /**
    * Creates a new Spinner.
    */
   public Spinner() {
@@ -24,6 +26,15 @@ public class Spinner extends SubsystemBase {
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
+
+  }
+
+  public static Spinner getInstance() {
+    if (spinner == null) {
+      spinner = new Spinner();
+      TestingDashboard.getInstance().registerSubsystem(spinner, "Spinner");
+    }
+    return spinner;
   }
 
   @Override

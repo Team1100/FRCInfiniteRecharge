@@ -7,5 +7,9 @@ We will be commenting our code as the season progresses, to help future programm
 
 # Branches
 
-Master - Default branch that should contain code that passes build and should be ready to run on the Robot
+master - Default branch that should contain stable code that passes build and should be ready to run on the Robot
+
+dev - The common development branch, where most of the newer code will be written. Once tested and accepted, should be merged to master.
+
+feature/[your-feature-here] - A feature branch. Make a new branch for every major new feature. Merge into dev once finished.
 

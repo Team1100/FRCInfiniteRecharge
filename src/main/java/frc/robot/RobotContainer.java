@@ -10,8 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.DefaultDrive;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -22,11 +21,20 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and default commands are defined here...
-  private final Drive drive = new Drive();
+  
+  //Subsystems
+  private final Drive drive;
+  private final Climber climber;
+  private final BallIntake ballIntake;
+  private final Shooter shooter;
+  private final Spinner spinner;
+  private final Vision vision;
 
-  private final DefaultDrive defaultdrive = new DefaultDrive(drive);
-
-
+  //Commands
+  private final DefaultDrive defaultdrive;
+  
+  //OI
+  private static RobotContainer robotContainer;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -34,6 +42,38 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    //Subsystem instantiation
+    drive = Drive.getInstance();
+    climber = Climber.getInstance();
+    ballIntake = BallIntake.getInstance();
+    shooter = Shooter.getInstance();
+    spinner = Spinner.getInstance();
+    vision = Vision.getInstance();
+
+    //Default command instantiation
+    defaultdrive = new DefaultDrive(drive);
+    drive.setDefaultCommand(defaultdrive);
+
+    //OI Device instantiation
+    OI.getInstance();
+
+    // Register commands with TestingDashboard commands
+    DefaultDrive.registerWithTestingDashboard();
+
+    // Create Testing Dashboard
+    TestingDashboard.getInstance().createTestingDashboard();
+  }
+
+  /**
+   * <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton Method</a> to return one instance of a class
+   * @return New instance of RobotContainer class
+   */
+  public static RobotContainer getInstance(){
+   if(robotContainer == null){
+     robotContainer = new RobotContainer();
+   } 
+   return robotContainer;
   }
 
   /**
@@ -43,8 +83,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -52,7 +92,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    //TODO: Fill with autocommand
     return null;
   }
 }
