@@ -10,22 +10,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TestingDashboard;
 
-public class Spinner extends SubsystemBase {
-  public static Spinner spinner;
+public class Vision extends SubsystemBase {
+  public static Vision vision;
 
   /**
-   * Creates a new Spinner.
+   * Creates a new Vision.
    */
-  private Spinner() {
+  private Vision() {
 
   }
 
-  public static Spinner getInstance() {
-    if (spinner == null) {
-      spinner = new Spinner();
-      TestingDashboard.getInstance().registerSubsystem(spinner, "Spinner");
+  public static Vision getInstance() {
+    if (vision == null) {
+      vision = new Vision();
+      TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
     }
-    return spinner;
+    return vision;
   }
 
   @Override

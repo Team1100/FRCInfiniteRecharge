@@ -11,8 +11,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.TestingDashboard;
 
 public class Drive extends SubsystemBase {
   WPI_TalonSRX frontLeft;
@@ -25,10 +27,12 @@ public class Drive extends SubsystemBase {
 
   DifferentialDrive drivetrain;
   
+  public static Drive drive;
+
   /**
    * Creates a new Drive subsystem
    */
-  public Drive() {
+  private Drive() {
     frontLeft = new WPI_TalonSRX(RobotMap.D_FRONT_LEFT);
     frontRight = new WPI_TalonSRX(RobotMap.D_FRONT_RIGHT);
     backLeft = new WPI_TalonSRX(RobotMap.D_BACK_LEFT);
@@ -40,6 +44,18 @@ public class Drive extends SubsystemBase {
     drivetrain = new DifferentialDrive(left, right);
   }
 
+  /**
+   * Used outside of the Drive subsystem to return an instance of Drive subsystem.
+   * @return Returns instance of Drive subsystem formed from constructor.
+   */
+  public static Drive getInstance(){
+    if (drive == null){
+      drive = new Drive();
+      TestingDashboard.getInstance().registerSubsystem(drive, "Drive");
+    }
+    return drive;
+  }
+
   public void tankDrive(double leftSpeed, double rightSpeed){
     drivetrain.tankDrive(leftSpeed, rightSpeed);
   }
@@ -47,5 +63,11 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void setDefaultCommand(Command defaultCommand) {
+    // TODO Auto-generated method stub
+    super.setDefaultCommand(defaultCommand);
   }
 }

@@ -160,7 +160,12 @@ public class RobotMap {
 	public static final int D_BACK_RIGHT = CAN_3;
 	
 	//[U]ser Input
-	public static final int U_LEFT_STICK = 0;
-	public static final int U_RIGHT_STICK = 1;
+	public static final int U_JOYSTICK_LEFT = 0;
+	public static final int U_JOYSTICK_RIGHT = 1;
+	public static final int U_XBOX_CONTROLLER = 2;
 
+	//[B]all Intake
+	public static final int B_INTAKE_ROLLER = CAN_4;
+	public static final int B_CONVEYER1 = CAN_5;
+	public static final int B_CONVEYER2 = CAN_6;
 }
