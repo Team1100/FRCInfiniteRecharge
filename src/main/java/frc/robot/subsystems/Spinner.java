@@ -10,23 +10,31 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.ColorSensorV3;
-import edu.wpi.first.wpilibj.I2C;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TestingDashboard;
+import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.Compressor;
 
 public class Spinner extends SubsystemBase {
   public static Spinner spinner;
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  private ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  private ColorSensorV3 m_colorSensor; 
+  private VictorSP m_motor;
+  private Compressor m_compressor;
+  private DoubleSolenoid m_piston;
+
   /**
    * Creates a new Spinner.
    */
   public Spinner() {
-    Color detectedColor = m_colorSensor.getColor();
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-
+    m_compressor = new Compressor(RobotMap.S_PISTON);
+    m_compressor.setClosedLoopControl(true);
+    m_piston = new DoubleSolenoid(RobotMap.S_PISTON_PORT0, RobotMap.S_PISTON_PORT1);
+    m_colorSensor = new ColorSensorV3(RobotMap.S_COLOR_SENSOR);
+    m_motor = new VictorSP(RobotMap.S_MOTOR);
+    
   }
 
   public static Spinner getInstance() {
