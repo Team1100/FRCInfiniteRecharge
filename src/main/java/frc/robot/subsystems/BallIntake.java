@@ -15,14 +15,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class BallIntake extends SubsystemBase {
 
   WPI_TalonSRX intakeRoller;
-  WPI_TalonSRX conveyer1;
-  WPI_TalonSRX conveyer2;
+  WPI_TalonSRX conveyor1;
+  WPI_TalonSRX conveyor2;
 
   public BallIntake() {
     
     intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
-    conveyer1 = new WPI_TalonSRX(RobotMap.B_CONVEYER1);
-    conveyer2 = new WPI_TalonSRX(RobotMap.B_CONVEYER2);
+    conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
+    conveyor2 = new WPI_TalonSRX(RobotMap.B_CONVEYOR2);
 
   }
 
