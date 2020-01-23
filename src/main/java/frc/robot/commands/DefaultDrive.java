@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.OI;
+import frc.robot.TestingDashboard;
 import frc.robot.input.AttackThree.AttackThreeAxis;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -33,6 +34,12 @@ public class DefaultDrive extends CommandBase {
     addRequirements(m_drive);
   }
 
+  public static void registerWithTestingDashboard() {
+    Drive drive = Drive.getInstance();
+    DefaultDrive cmd = new DefaultDrive(Drive.getInstance());
+    TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
+  }
+
   // Called when the command is initially scheduled. (Unused)
   @Override
   public void initialize() {
@@ -41,7 +48,11 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.tankDrive(oi.getLeftStick().getAxis(yAxis), oi.getRightStick().getAxis(yAxis));
+    // NOTE: Forward on the left and right sticks is negative
+    //       Backwards is positive, hence the inversion below
+    double leftStick = - oi.getLeftStick().getAxis(yAxis);
+    double rightStick = - oi.getRightStick().getAxis(yAxis);
+    m_drive.tankDrive(leftStick, rightStick);
   }
 
   // Called once the command ends or is interrupted. (Unused)
