@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.I2C;
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -168,4 +169,11 @@ public class RobotMap {
 	public static final int B_INTAKE_ROLLER = CAN_4;
 	public static final int B_CONVEYOR1 = CAN_5;
 	public static final int B_CONVEYOR2 = CAN_6;
+
+	//[S]pinner
+	public static final int S_MOTOR = PWM_0;
+	public static final int S_PISTON = PCM_0;
+	public static final int S_PISTON_PORT0 = RELAY_0;
+	public static final int S_PISTON_PORT1 = RELAY_1;
+	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;	
 }

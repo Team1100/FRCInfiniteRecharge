@@ -8,13 +8,24 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.TestingDashboard;
 
 public class Climber extends SubsystemBase {
+  public static Climber climber;
+
   /**
    * Creates a new Climber.
    */
-  public Climber() {
+  private Climber() {
 
+  }
+
+  public static Climber getInstance() {
+    if (climber == null) {
+      climber = new Climber();
+      TestingDashboard.getInstance().registerSubsystem(climber, "Climber");
+    }
+    return climber;
   }
 
   @Override

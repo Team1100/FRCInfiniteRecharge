@@ -8,34 +8,24 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+public class Vision extends SubsystemBase {
+  public static Vision vision;
 
   /**
-   * Creates a new Ball Intake subsystem
+   * Creates a new Vision.
    */
-public class BallIntake extends SubsystemBase {
+  private Vision() {
 
-  public static BallIntake ballIntake;
-
-  WPI_TalonSRX intakeRoller;
-  WPI_TalonSRX conveyor1;
-  WPI_TalonSRX conveyor2;
-
-  private BallIntake() {
-    intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
-    conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
-    conveyor2 = new WPI_TalonSRX(RobotMap.B_CONVEYOR2);
   }
 
-  public static BallIntake getInstance() {
-    if (ballIntake == null) {
-      ballIntake = new BallIntake();
-      TestingDashboard.getInstance().registerSubsystem(ballIntake, "BallIntake");
+  public static Vision getInstance() {
+    if (vision == null) {
+      vision = new Vision();
+      TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
     }
-    return ballIntake;
+    return vision;
   }
 
   @Override
