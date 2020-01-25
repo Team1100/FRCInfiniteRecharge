@@ -28,7 +28,7 @@ public class SpinIntakeRoller extends CommandBase {
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
     SpinIntakeRoller cmd = new SpinIntakeRoller();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Timed", cmd);
+    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
