@@ -15,6 +15,7 @@ import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -127,6 +128,17 @@ public class TestingDashboard {
 
     public void createDebugTab() {
         ShuffleboardTab debug_tab = Shuffleboard.getTab("Debug");
+
+        // Controlling inputs for Conveyor 2 motor
+        SmartDashboard.putNumber("Conveyor2MotorSpeed", 0.5);
+        SmartDashboard.putNumber("Conveyor2MotoryTimeout", 5);
+
+        // Controlling inputs for Conveyor 1 motor
+        SmartDashboard.putNumber("Conveyor1MotorSpeed", 0.5);
+        SmartDashboard.putNumber("Conveyor1MotoryTimeout", 5);
+
+        // Controlling inputs for Intake Roller motor
+        SmartDashboard.putNumber("IntakeRollerSpeed", 0.5);
     }
 
     public void updateDebugTab() {

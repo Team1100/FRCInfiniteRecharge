@@ -7,10 +7,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
   /**
@@ -24,6 +24,9 @@ public class BallIntake extends SubsystemBase {
   WPI_TalonSRX conveyor1;
   WPI_TalonSRX conveyor2;
 
+  private Encoder conveyor1Encoder;
+  private Encoder conveyor2Encoder;
+
   private BallIntake() {
     intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
     conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
@@ -36,6 +39,18 @@ public class BallIntake extends SubsystemBase {
       TestingDashboard.getInstance().registerSubsystem(ballIntake, "BallIntake");
     }
     return ballIntake;
+  }
+
+  public void spinIntakeRoller(double speed){
+    intakeRoller.set(speed);
+  }
+
+  public void spinConveyor1(double speed){
+    conveyor1.set(speed);
+  }
+
+  public void spinConveyor2(double speed){
+    conveyor2.set(speed);
   }
 
   @Override
