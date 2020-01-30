@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -18,39 +19,37 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
    */
 public class BallIntake extends SubsystemBase {
 
-  public static BallIntake ballIntake;
+  public static BallIntake m_ballIntake;
 
-  WPI_TalonSRX intakeRoller;
-  WPI_TalonSRX conveyor1;
-  WPI_TalonSRX conveyor2;
+  WPI_TalonSRX m_intakeRoller;
+  WPI_TalonSRX m_conveyor1;
 
-  private Encoder conveyor1Encoder;
-  private Encoder conveyor2Encoder;
+  DigitalInput m_ballIncoming;
+  DigitalInput m_ballReadyToShoot;
+
+  private Encoder m_conveyor1Encoder;
 
   private BallIntake() {
-    intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
-    conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
-    conveyor2 = new WPI_TalonSRX(RobotMap.B_CONVEYOR2);
+    m_intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
+    m_conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
+    m_ballIncoming = new DigitalInput(RobotMap.B_INCOMING);
+    m_ballReadyToShoot = new DigitalInput(RobotMap.B_READYTOSHOOT);
   }
 
   public static BallIntake getInstance() {
-    if (ballIntake == null) {
-      ballIntake = new BallIntake();
-      TestingDashboard.getInstance().registerSubsystem(ballIntake, "BallIntake");
+    if (m_ballIntake == null) {
+      m_ballIntake = new BallIntake();
+      TestingDashboard.getInstance().registerSubsystem(m_ballIntake, "BallIntake");
     }
-    return ballIntake;
+    return m_ballIntake;
   }
 
   public void spinIntakeRoller(double speed){
-    intakeRoller.set(speed);
+    m_intakeRoller.set(speed);
   }
 
   public void spinConveyor1(double speed){
-    conveyor1.set(speed);
-  }
-
-  public void spinConveyor2(double speed){
-    conveyor2.set(speed);
+    m_conveyor1.set(speed);
   }
 
   @Override
