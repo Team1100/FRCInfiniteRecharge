@@ -13,6 +13,8 @@ import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.SpinConveyor1Timed;
 import frc.robot.commands.SpinConveyor2Timed;
 import frc.robot.commands.SpinIntakeRoller;
+import frc.robot.commands.SpinSpinnerMotorTimed;
+import frc.robot.commands.SpinSpinnerToColor;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -66,6 +68,8 @@ public class RobotContainer {
     SpinConveyor1Timed.registerWithTestingDashboard();
     SpinConveyor2Timed.registerWithTestingDashboard();
     SpinIntakeRoller.registerWithTestingDashboard();
+    SpinSpinnerMotorTimed.registerWithTestingDashboard();
+    SpinSpinnerToColor.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();

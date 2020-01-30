@@ -139,6 +139,12 @@ public class TestingDashboard {
 
         // Controlling inputs for Intake Roller motor
         SmartDashboard.putNumber("IntakeRollerSpeed", 0.5);
+
+        // Controlling time for spinner
+        SmartDashboard.putNumber("SpinnerMotorPeriod",5);
+        SmartDashboard.putNumber("SpinnerMotorSpeed",0.2);
+        SmartDashboard.putString("SpinnerTargetColor","Yellow");
+        SmartDashboard.putString("SpinnerActualColor","Yellow");
     }
 
     public void updateDebugTab() {

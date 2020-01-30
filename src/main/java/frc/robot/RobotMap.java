@@ -171,7 +171,7 @@ public class RobotMap {
 	public static final int B_CONVEYOR2 = CAN_6;
 
 	//[S]pinner
-	public static final int S_MOTOR = PWM_0;
+	public static final int S_MOTOR = PWM_3;
 	public static final int S_PISTON = PCM_0;
 	public static final int S_PISTON_PORT0 = RELAY_0;
 	public static final int S_PISTON_PORT1 = RELAY_1;
