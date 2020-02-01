@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.SpinConveyor1Timed;
 import frc.robot.commands.SpinIntakeRoller;
+import frc.robot.commands.SpinSpinner3Times;
 import frc.robot.commands.SpinSpinnerMotorTimed;
 import frc.robot.commands.SpinSpinnerToColor;
 import frc.robot.subsystems.*;
@@ -68,6 +69,7 @@ public class RobotContainer {
     SpinIntakeRoller.registerWithTestingDashboard();
     SpinSpinnerMotorTimed.registerWithTestingDashboard();
     SpinSpinnerToColor.registerWithTestingDashboard();
+    SpinSpinner3Times.registerWithTestingDashboard();    
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
