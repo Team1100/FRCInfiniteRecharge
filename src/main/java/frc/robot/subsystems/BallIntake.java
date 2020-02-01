@@ -52,11 +52,11 @@ public class BallIntake extends SubsystemBase {
     m_conveyor1.set(speed);
   }
 
-  public boolean getBallIncoming(){
+  public boolean ballIncoming(){
     return !m_ballIncoming.get();
   }
 
-  public boolean getBallReadyToShoot(){
+  public boolean ballReadyToShoot(){
     return !m_ballReadyToShoot.get();
   }
 
