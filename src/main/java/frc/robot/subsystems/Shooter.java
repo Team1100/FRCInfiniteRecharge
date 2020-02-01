@@ -10,22 +10,22 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TestingDashboard;
 
-public class Vision extends SubsystemBase {
-  public static Vision vision;
+public class Shooter extends SubsystemBase {
+  public static Shooter shooter;
 
   /**
-   * Creates a new Vision.
+   * Creates a new Shooter.
    */
-  private Vision() {
+  private Shooter() {
 
   }
 
-  public static Vision getInstance() {
-    if (vision == null) {
-      vision = new Vision();
-      TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
+  public static Shooter getInstance() {
+    if (shooter == null) {
+      shooter = new Shooter();
+      TestingDashboard.getInstance().registerSubsystem(shooter, "Shooter");
     }
-    return vision;
+    return shooter;
   }
 
   @Override
