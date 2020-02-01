@@ -176,5 +176,5 @@ public class RobotMap {
 	public static final int S_PISTON = PCM_0;
 	public static final int S_PISTON_PORT0 = RELAY_0;
 	public static final int S_PISTON_PORT1 = RELAY_1;
-	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;	
+	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;
 }
