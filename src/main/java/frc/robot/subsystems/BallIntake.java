@@ -52,6 +52,15 @@ public class BallIntake extends SubsystemBase {
     m_conveyor1.set(speed);
   }
 
+  public boolean getBallIncoming(){
+    return !m_ballIncoming.get();
+  }
+
+  public boolean getBallReadyToShoot(){
+    return !m_ballReadyToShoot.get();
+  }
+
+ 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
