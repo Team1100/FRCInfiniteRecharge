@@ -22,6 +22,8 @@ public class BallIntake extends SubsystemBase {
 
   public static BallIntake m_ballIntake;
 
+  Integer m_numBallsStored;
+
   WPI_TalonSRX m_intakeRoller;
   WPI_TalonSRX m_conveyor1;
 
@@ -59,6 +61,14 @@ public class BallIntake extends SubsystemBase {
 
   public boolean ballReadyToShoot(){
     return !m_ballReadyToShoot.get();
+  }
+
+  public void decrementBallsStored(){
+    m_numBallsStored -= 1;
+  }
+
+  public void incrementBallsStored(){
+    m_numBallsStored += 1;
   }
 
  
