@@ -38,7 +38,7 @@ public class SpinSpinner3Times extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_startColor = m_spinner.getColor();
+    m_startColor = "Blue";
     m_currentColor = m_startColor;
     m_counter = 0;
   }
@@ -55,6 +55,7 @@ public class SpinSpinner3Times extends CommandBase {
       }
     }
     m_spinner.spin(speed);
+    SmartDashboard.putNumber("m_counter", m_counter);
   }
 
   // Called once the command ends or is interrupted.
@@ -66,7 +67,7 @@ public class SpinSpinner3Times extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    int target_count = NUM_ROTATIONS*NUM_COLORS_PER_ROTATION;  
+    int target_count = NUM_ROTATIONS*NUM_COLORS_PER_ROTATION + 1;  
     return ((m_counter == target_count) || (m_currentColor.equals("Unknown")));
   }
 }
