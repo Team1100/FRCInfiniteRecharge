@@ -80,9 +80,10 @@ public class Spinner extends SubsystemBase {
     return colorString;
   }
 
-  public DoubleSolenoid getValve() {
+  public DoubleSolenoid getPiston() {
 		return m_piston;
-	}
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -11,17 +11,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.subsystems.Spinner;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TestingDashboard;
 
 public class RetractSpinner extends CommandBase {
-  Spinner m_piston;
+  Spinner m_spinner;
   boolean m_finished = false;
+  DoubleSolenoid m_piston;
   
   public RetractSpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
-    m_piston = Spinner.getInstance();
+    m_spinner = Spinner.getInstance();
+    m_piston = m_spinner.getPiston();
   }
 
   public static void registerWithTestingDashboard() {
@@ -33,15 +34,15 @@ public class RetractSpinner extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.getValve().set(DoubleSolenoid.Value.kReverse);
+    m_piston.set(DoubleSolenoid.Value.kReverse);
     m_finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_piston.getValve().get() == DoubleSolenoid.Value.kReverse) {
-      m_piston.getValve().set(DoubleSolenoid.Value.kOff);
+    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
+      m_piston.set(DoubleSolenoid.Value.kOff);
       m_finished = true;
     }
   }
@@ -49,7 +50,7 @@ public class RetractSpinner extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_piston.getValve().set(DoubleSolenoid.Value.kOff); 
+    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.
