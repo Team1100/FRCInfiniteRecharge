@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//This command spins the control panel three times. 
+
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -44,7 +46,7 @@ public class SpinSpinner3Times extends CommandBase {
   @Override
   public void initialize() {
     m_timer.start();
-    m_period = SmartDashboard.getNumber("Spinner3TimeBuffer", 5);
+    m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout", 5);
     m_startColor = "Blue";
     m_currentColor = m_startColor;
     m_counter = 0;

@@ -5,6 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/*
+ * This subsystem includes a motor, a color sensor, a wheel, a piston, and an encoder.
+ * It is used to spin the control panel three times or spin it to a specific color.
+*/
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.util.Color;
