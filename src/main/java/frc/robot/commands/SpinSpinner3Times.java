@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
+import edu.wpi.first.wpilibj.Timer;
 
 public class SpinSpinner3Times extends CommandBase {
   /**
@@ -22,12 +23,16 @@ public class SpinSpinner3Times extends CommandBase {
   String m_startColor;
   String m_currentColor;
   int m_counter;
+  Timer m_timer;
+  double m_period;
+  boolean m_timePassed;
 
   public SpinSpinner3Times() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
     m_spinner = Spinner.getInstance();
     m_counter = 0;
+    m_timer = new Timer();
   }
 
   public static void registerWithTestingDashboard() {
@@ -38,6 +43,8 @@ public class SpinSpinner3Times extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_timer.start();
+    m_period = SmartDashboard.getNumber("Spinner3TimeBuffer", 5);
     m_startColor = m_spinner.getColor();
     m_currentColor = m_startColor;
     m_counter = 0;
@@ -50,8 +57,10 @@ public class SpinSpinner3Times extends CommandBase {
     String color = m_spinner.getColor();
     if (!color.equals(m_currentColor)) {
       m_currentColor = color;
+      m_timer.reset();      
       if (m_currentColor.equals(m_startColor)) {
         m_counter += 1;
+
       }
     }
     m_spinner.spin(speed);
@@ -66,7 +75,8 @@ public class SpinSpinner3Times extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    m_timePassed = m_timer.hasPeriodPassed(m_period);
     int target_count = NUM_ROTATIONS*NUM_COLORS_PER_ROTATION;  
-    return ((m_counter == target_count) || (m_currentColor.equals("Unknown")));
+    return ((m_counter == target_count) || (m_currentColor.equals("Unknown")) || (m_timePassed == true));
   }
 }
