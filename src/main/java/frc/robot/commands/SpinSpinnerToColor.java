@@ -5,17 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//This command spins the control panel to a certain color.
+
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
+import edu.wpi.first.wpilibj.Timer;
 
 public class SpinSpinnerToColor extends CommandBase {
   Spinner m_spinner;
   boolean m_detected_blue;
   int m_direction;
+  String m_currentColor;
+  double m_period;
+  boolean m_timePassed;
+  Timer m_timer;
   /**
    * Creates a new SpinSpinnerToColor.
    */
@@ -25,6 +32,7 @@ public class SpinSpinnerToColor extends CommandBase {
     m_spinner = Spinner.getInstance();
     m_detected_blue = false;
     m_direction = 1;
+    m_timer = new Timer();
   }
   
   public static void registerWithTestingDashboard() {
@@ -36,8 +44,11 @@ public class SpinSpinnerToColor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_timer.start();
+    m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout", 5);
     m_detected_blue = false;
     m_direction = 1;
+    m_currentColor = m_spinner.getColor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,6 +56,12 @@ public class SpinSpinnerToColor extends CommandBase {
   public void execute() {
     double speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);
     String color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
+    String m_actualColor = m_spinner.getColor();
+    if (!m_actualColor.equals(m_currentColor)) {
+      m_currentColor = m_actualColor;
+      m_timer.reset();
+      m_timer.start();
+    }
     if (m_spinner.getColor().equals("Blue")) {
       m_detected_blue = true;
       if (!color.equals("Yellow")) {
@@ -63,7 +80,8 @@ public class SpinSpinnerToColor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    m_timePassed = m_timer.hasPeriodPassed(m_period);
     String color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
-    return (m_spinner.getColor().equals(color) && m_detected_blue);
+    return ((m_spinner.getColor().equals(color) && m_detected_blue) || m_timePassed);
   }
 }

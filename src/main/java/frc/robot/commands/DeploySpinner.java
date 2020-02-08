@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//This command extends the piston that is used to push up the spinner motor and color sensor.
+
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;  
