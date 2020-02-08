@@ -25,6 +25,7 @@ public class SpinConveyor1Timed extends CommandBase {
   public SpinConveyor1Timed() {
     // Use addRequirements() here to declare subsystem dependencies.
     
+    addRequirements(BallIntake.getInstance());
     m_timer = new Timer();
     m_ballIntake = BallIntake.getInstance();
 

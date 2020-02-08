@@ -22,6 +22,7 @@ public class SpinIntakeRoller extends CommandBase {
   public SpinIntakeRoller() {
     // Use addRequirements() here to declare subsystem dependencies.
 
+    addRequirements(BallIntake.getInstance());
     m_ballIntake = BallIntake.getInstance();
   }
 

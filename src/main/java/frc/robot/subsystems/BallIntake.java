@@ -33,8 +33,11 @@ public class BallIntake extends SubsystemBase {
   private Encoder m_conveyor1Encoder;
 
   private BallIntake() {
+    m_numBallsStored = 0;
+
     m_intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
     m_conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
+
     m_ballIncoming = new DigitalInput(RobotMap.B_INCOMING);
     m_ballReadyToShoot = new DigitalInput(RobotMap.B_READYTOSHOOT);
   }
