@@ -47,9 +47,9 @@ public class PrepareBallsToShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
+    double conveyorSpeed = SmartDashboard.getNumber("ConveyorSpeed",0.5);
     if (m_ballIntake.ballReadyToShoot() == false){
-      m_ballIntake.spinConveyor1(speed);
+      m_ballIntake.spinConveyor1(conveyorSpeed);
     }
     if (m_ballIntake.ballReadyToShoot() == true){
       m_ballIntake.spinConveyor1(0);

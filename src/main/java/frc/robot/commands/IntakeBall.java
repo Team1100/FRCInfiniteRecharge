@@ -57,11 +57,12 @@ public class IntakeBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
+    double intakeSpeed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
+    double conveyorSpeed = SmartDashboard.getNumber("ConveyorSpeed",0.5);
 
     switch (state){
     case START:
-      m_ballIntake.spinIntakeRoller(speed);
+      m_ballIntake.spinIntakeRoller(intakeSpeed);
       m_ballIntake.spinConveyor1(0);
       if (m_ballIntake.ballIncoming() == true){
         state = MOVE;
@@ -72,7 +73,7 @@ public class IntakeBall extends CommandBase {
 
     case MOVE:
       m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinConveyor1(speed);
+      m_ballIntake.spinConveyor1(conveyorSpeed);
       if ((m_ballIntake.ballIncoming() == false) || (m_timer.hasPeriodPassed(m_period))){
         if (m_ballIntake.ballIncoming() == false) {
           m_ballIntake.incrementBallsStored();
