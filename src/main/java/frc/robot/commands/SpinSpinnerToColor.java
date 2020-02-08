@@ -14,6 +14,8 @@ import frc.robot.subsystems.Spinner;
 
 public class SpinSpinnerToColor extends CommandBase {
   Spinner m_spinner;
+  boolean m_detected_blue;
+  int m_direction;
   /**
    * Creates a new SpinSpinnerToColor.
    */
@@ -21,6 +23,8 @@ public class SpinSpinnerToColor extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
     m_spinner = Spinner.getInstance();
+    m_detected_blue = false;
+    m_direction = 1;
   }
   
   public static void registerWithTestingDashboard() {
@@ -32,13 +36,22 @@ public class SpinSpinnerToColor extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_detected_blue = false;
+    m_direction = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);
-    m_spinner.spin(speed);
+    String color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
+    if (m_spinner.getColor().equals("Blue")) {
+      m_detected_blue = true;
+      if (!color.equals("Yellow")) {
+        m_direction = -1;
+      }
+    }
+    m_spinner.spin((m_direction*speed));
   }
 
   // Called once the command ends or is interrupted.
@@ -51,6 +64,6 @@ public class SpinSpinnerToColor extends CommandBase {
   @Override
   public boolean isFinished() {
     String color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
-    return m_spinner.getColor().equals(color);
+    return (m_spinner.getColor().equals(color) && m_detected_blue);
   }
 }
