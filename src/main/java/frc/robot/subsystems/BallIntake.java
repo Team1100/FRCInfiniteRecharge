@@ -22,7 +22,7 @@ public class BallIntake extends SubsystemBase {
 
   public static BallIntake m_ballIntake;
 
-  Integer m_numBallsStored;
+  int m_numBallsStored;
 
   WPI_TalonSRX m_intakeRoller;
   WPI_TalonSRX m_conveyor1;
