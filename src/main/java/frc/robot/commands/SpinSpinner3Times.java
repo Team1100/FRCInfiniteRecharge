@@ -57,7 +57,8 @@ public class SpinSpinner3Times extends CommandBase {
     String color = m_spinner.getColor();
     if (!color.equals(m_currentColor)) {
       m_currentColor = color;
-      m_timer.reset();      
+      m_timer.reset();
+      m_timer.start();
       if (m_currentColor.equals(m_startColor)) {
         m_counter += 1;
 
