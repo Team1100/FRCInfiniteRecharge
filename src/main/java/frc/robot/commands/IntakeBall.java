@@ -58,7 +58,7 @@ public class IntakeBall extends CommandBase {
   @Override
   public void execute() {
     double intakeSpeed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    double conveyorSpeed = SmartDashboard.getNumber("ConveyorSpeed",0.5);
+    double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
 
     switch (state){
     case START:
@@ -73,7 +73,7 @@ public class IntakeBall extends CommandBase {
 
     case MOVE:
       m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinConveyor1(conveyorSpeed);
+      m_ballIntake.spinConveyor1(speed);
       if ((m_ballIntake.ballIncoming() == false) || (m_timer.hasPeriodPassed(m_period))){
         if (m_ballIntake.ballIncoming() == false) {
           m_ballIntake.incrementBallsStored();
