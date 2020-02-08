@@ -22,6 +22,8 @@ public class BallIntake extends SubsystemBase {
 
   public static BallIntake m_ballIntake;
 
+  int m_numBallsStored;
+
   WPI_TalonSRX m_intakeRoller;
   WPI_TalonSRX m_conveyor1;
 
@@ -31,8 +33,11 @@ public class BallIntake extends SubsystemBase {
   private Encoder m_conveyor1Encoder;
 
   private BallIntake() {
+    m_numBallsStored = 0;
+
     m_intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
     m_conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
+
     m_ballIncoming = new DigitalInput(RobotMap.B_INCOMING);
     m_ballReadyToShoot = new DigitalInput(RobotMap.B_READYTOSHOOT);
   }
@@ -59,6 +64,14 @@ public class BallIntake extends SubsystemBase {
 
   public boolean ballReadyToShoot(){
     return !m_ballReadyToShoot.get();
+  }
+
+  public void decrementBallsStored(){
+    m_numBallsStored -= 1;
+  }
+
+  public void incrementBallsStored(){
+    m_numBallsStored += 1;
   }
 
  
