@@ -45,7 +45,7 @@ public class SpinSpinner3Times extends CommandBase {
   public void initialize() {
     m_timer.start();
     m_period = SmartDashboard.getNumber("Spinner3TimeBuffer", 5);
-    m_startColor = m_spinner.getColor();
+    m_startColor = "Blue";
     m_currentColor = m_startColor;
     m_counter = 0;
   }
@@ -64,6 +64,7 @@ public class SpinSpinner3Times extends CommandBase {
       }
     }
     m_spinner.spin(speed);
+    SmartDashboard.putNumber("m_counter", m_counter);
   }
 
   // Called once the command ends or is interrupted.
@@ -76,7 +77,7 @@ public class SpinSpinner3Times extends CommandBase {
   @Override
   public boolean isFinished() {
     m_timePassed = m_timer.hasPeriodPassed(m_period);
-    int target_count = NUM_ROTATIONS*NUM_COLORS_PER_ROTATION;  
+    int target_count = NUM_ROTATIONS*NUM_COLORS_PER_ROTATION + 1;  
     return ((m_counter == target_count) || (m_currentColor.equals("Unknown")) || (m_timePassed == true));
   }
 }
