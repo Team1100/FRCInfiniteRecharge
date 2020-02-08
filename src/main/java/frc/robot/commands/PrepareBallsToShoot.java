@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+// Spins the conveyor motor until there is a ball ready to shoot.
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -34,7 +35,7 @@ public class PrepareBallsToShoot extends CommandBase {
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
     PrepareBallsToShoot cmd = new PrepareBallsToShoot();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Timed", cmd);
+    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.

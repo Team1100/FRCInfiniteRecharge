@@ -5,6 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/* 
+ * Spins the intake roller until a ball has entered the ball intake. 
+ * Once the ball is inside the ball intake, the conveyor motor will run
+ * to move the ball towards the end of the conveyor.
+ */
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -30,6 +35,9 @@ public class IntakeBall extends CommandBase {
 
   public IntakeBall() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(BallIntake.getInstance());
+    m_ballIntake = BallIntake.getInstance();
+    m_timer = new Timer();
 
   }
 

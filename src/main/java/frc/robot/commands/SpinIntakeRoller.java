@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+// Spins the ball intake roller while command is active.
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
