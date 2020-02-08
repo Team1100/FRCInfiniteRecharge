@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallIntake;
 import frc.robot.TestingDashboard;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PrepareBallsToShoot extends CommandBase {
   /**
@@ -19,10 +20,12 @@ public class PrepareBallsToShoot extends CommandBase {
 
    BallIntake m_ballIntake;
    Timer m_timer;
+   private static final int m_period = 10;
 
   public PrepareBallsToShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
 
+    addRequirements(BallIntake.getInstance());
     m_ballIntake = BallIntake.getInstance();
     m_timer = new Timer();
     
@@ -37,18 +40,18 @@ public class PrepareBallsToShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_ballIntake.ballReadyToShoot();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
     if (m_ballIntake.ballReadyToShoot() == false){
-      m_timer.start();
-      m_ballIntake.spinConveyor1(0.5);
+      m_ballIntake.spinConveyor1(speed);
+    }
     if (m_ballIntake.ballReadyToShoot() == true){
       m_ballIntake.spinConveyor1(0);
-    }
     }
   }
 
@@ -61,7 +64,7 @@ public class PrepareBallsToShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean timerExpired = m_timer.hasPeriodPassed(10);
-    return timerExpired;
+    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
+    return (timerExpired || (m_ballIntake.ballReadyToShoot() == true));
   }
 }
