@@ -46,7 +46,7 @@ public class SpinSpinner3Times extends CommandBase {
   @Override
   public void initialize() {
     m_timer.start();
-    m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout", 5);
+
     m_startColor = "Blue";
     m_currentColor = m_startColor;
     m_counter = 0;
@@ -55,6 +55,7 @@ public class SpinSpinner3Times extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout", 5.0);
     double speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);    
     String color = m_spinner.getColor();
     if (!color.equals(m_currentColor)) {
