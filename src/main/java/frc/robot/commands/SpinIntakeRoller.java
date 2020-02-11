@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+// Spins the ball intake roller while command is active.
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -22,6 +23,7 @@ public class SpinIntakeRoller extends CommandBase {
   public SpinIntakeRoller() {
     // Use addRequirements() here to declare subsystem dependencies.
 
+    addRequirements(BallIntake.getInstance());
     m_ballIntake = BallIntake.getInstance();
   }
 
