@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.I2C;
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -155,12 +156,25 @@ public class RobotMap {
 
     //[D]rive
     public static final int D_FRONT_LEFT = CAN_0;
-    public static final int D_FRONT_RIGHT = CAN_1;
-    public static final int D_BACK_LEFT = CAN_2;
-	public static final int D_BACK_RIGHT = CAN_3;
+    public static final int D_FRONT_RIGHT = CAN_15;
+    public static final int D_BACK_LEFT = CAN_1;
+	public static final int D_BACK_RIGHT = CAN_14;
 	
 	//[U]ser Input
-	public static final int U_LEFT_STICK = 0;
-	public static final int U_RIGHT_STICK = 1;
+	public static final int U_JOYSTICK_LEFT = 0;
+	public static final int U_JOYSTICK_RIGHT = 1;
+	public static final int U_XBOX_CONTROLLER = 2;
 
+	//[B]all Intake
+	public static final int B_INTAKE_ROLLER = CAN_4;
+	public static final int B_CONVEYOR1 = CAN_5;
+	public static final int B_INCOMING = DIO_0;
+	public static final int B_READYTOSHOOT = DIO_1;
+
+	//[S]pinner
+	public static final int S_MOTOR = PWM_3;
+	public static final int S_PCM_CAN = CAN_0;
+	public static final int S_PISTON_PORT0 = PCM_0;
+	public static final int S_PISTON_PORT1 = PCM_1;
+	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;
 }

@@ -10,10 +10,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.input.AttackThree;
-import frc.robot.commands.DefaultDrive;
-import frc.robot.subsystems.Drive;
+import frc.robot.commands.DeploySpinner;
+import frc.robot.commands.RetractSpinner;
+import frc.robot.commands.SpinConveyor1Timed;
+import frc.robot.commands.SpinIntakeRoller;
+import frc.robot.commands.SpinSpinner3Times;
+import frc.robot.commands.SpinSpinnerMotorTimed;
+import frc.robot.commands.SpinSpinnerToColor;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,14 +32,17 @@ public class RobotContainer {
   
   //Subsystems
   private final Drive drive;
+  private final Climber climber;
+  private final BallIntake ballIntake;
+  private final Shooter shooter;
+  private final Spinner spinner;
+  private final Vision vision;
 
   //Commands
   private final DefaultDrive defaultdrive;
   
   //OI
   private static RobotContainer robotContainer;
-  private AttackThree leftStick;
-  private AttackThree rightStick;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -43,14 +52,32 @@ public class RobotContainer {
     configureButtonBindings();
 
     //Subsystem instantiation
-    drive = new Drive();
+    drive = Drive.getInstance();
+    climber = Climber.getInstance();
+    ballIntake = BallIntake.getInstance();
+    shooter = Shooter.getInstance();
+    spinner = Spinner.getInstance();
+    vision = Vision.getInstance();
 
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
+    drive.setDefaultCommand(defaultdrive);
 
     //OI Device instantiation
-    leftStick = new AttackThree(RobotMap.U_LEFT_STICK, 0.01);
-    rightStick = new AttackThree(RobotMap.U_RIGHT_STICK, 0.01);
+    OI.getInstance();
+
+    // Register commands with TestingDashboard commands
+    DefaultDrive.registerWithTestingDashboard();
+    SpinConveyor1Timed.registerWithTestingDashboard();
+    SpinIntakeRoller.registerWithTestingDashboard();
+    SpinSpinnerMotorTimed.registerWithTestingDashboard();
+    SpinSpinnerToColor.registerWithTestingDashboard();
+    SpinSpinner3Times.registerWithTestingDashboard();
+    DeploySpinner.registerWithTestingDashboard();
+    RetractSpinner.registerWithTestingDashboard();    
+
+    // Create Testing Dashboard
+    TestingDashboard.getInstance().createTestingDashboard();
   }
 
   /**
@@ -73,23 +100,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
   }
-
-  /**
-   * Method to return instance of the Left Joystick
-   * @return AttackThree Left Joystick
-   */
-  public AttackThree getLeftStick(){
-    return leftStick;
-  }
-
-  /**
-   * Method to return instance of the Right Joystick
-   * @return AttackThree Right Joystick
-   */
-  public AttackThree getRightStick(){
-    return rightStick;
-  }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
