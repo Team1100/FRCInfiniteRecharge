@@ -43,7 +43,9 @@ public class TimedForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.tankDrive(.75, .75);
+    double speed =  SmartDashboard .getNumber("AutoDriveSpeed", 0.5);
+    drive.tankDrive(speed, speed);
+
   }
   
 
