@@ -149,6 +149,9 @@ public class TestingDashboard {
         
         // Controlling amount of time to drive forward
         SmartDashboard.putNumber("DriveForwardTime", 3);
+        
+        // Controlling speed
+        SmartDashboard .putNumber("AutoDriveSpeed", 0.5);
 
     }
  
