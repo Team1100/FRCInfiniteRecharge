@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//This command spins the spinner motor for a certain amount of time.
+
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;

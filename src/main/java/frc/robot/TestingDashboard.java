@@ -145,9 +145,11 @@ public class TestingDashboard {
         SmartDashboard.putNumber("SpinnerMotorSpeed",0.2);
         SmartDashboard.putString("SpinnerTargetColor","Yellow");
         SmartDashboard.putString("SpinnerActualColor","Yellow");
+        SmartDashboard.putNumber("SpinnerColorNotFoundTimeout",5.0);
         
         // Controlling amount of time to drive forward
         SmartDashboard.putNumber("DriveForwardTime", 3);
+
     }
  
     public void updateDebugTab() {
