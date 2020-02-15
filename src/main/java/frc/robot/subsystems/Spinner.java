@@ -5,6 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/*
+ * This subsystem includes a motor, a color sensor, a wheel, a piston, and an encoder.
+ * It is used to spin the control panel three times or spin it to a specific color.
+*/
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.util.Color;
@@ -37,9 +41,9 @@ public class Spinner extends SubsystemBase {
    * Creates a new Spinner.
    */
   public Spinner() {
-    m_compressor = new Compressor(RobotMap.S_PISTON);
-    m_compressor.setClosedLoopControl(true);
-    m_piston = new DoubleSolenoid(RobotMap.S_PISTON_PORT0, RobotMap.S_PISTON_PORT1);
+    //m_compressor = new Compressor(RobotMap.S_PISTON);
+    //m_compressor.setClosedLoopControl(true);
+    m_piston = new DoubleSolenoid(RobotMap.S_PCM_CAN, RobotMap.S_PISTON_PORT0, RobotMap.S_PISTON_PORT1);
     m_motor = new VictorSP(RobotMap.S_MOTOR);
     m_colorSensor = new ColorSensorV3(RobotMap.S_COLOR_SENSOR);
     m_colorMatcher = new ColorMatch();
@@ -80,6 +84,10 @@ public class Spinner extends SubsystemBase {
     return colorString;
   }
 
+  public DoubleSolenoid getPiston() {
+		return m_piston;
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
