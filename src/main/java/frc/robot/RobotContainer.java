@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.DefaultIntake;
 import frc.robot.commands.DeploySpinner;
 import frc.robot.commands.RetractSpinner;
 import frc.robot.commands.SpinConveyor1Timed;
@@ -40,6 +41,7 @@ public class RobotContainer {
 
   //Commands
   private final DefaultDrive defaultdrive;
+  private final DefaultIntake defaultintake;
   
   //OI
   private static RobotContainer robotContainer;
@@ -62,12 +64,15 @@ public class RobotContainer {
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
     drive.setDefaultCommand(defaultdrive);
+    defaultintake = new DefaultIntake(ballIntake);
+    ballIntake.setDefaultCommand(defaultintake);
 
     //OI Device instantiation
     OI.getInstance();
 
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();
+    DefaultIntake.registerWithTestingDashboard();
     SpinConveyor1Timed.registerWithTestingDashboard();
     SpinIntakeRoller.registerWithTestingDashboard();
     SpinSpinnerMotorTimed.registerWithTestingDashboard();

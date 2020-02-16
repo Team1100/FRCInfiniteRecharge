@@ -166,7 +166,7 @@ public class RobotMap {
 	public static final int U_XBOX_CONTROLLER = 2;
 
 	//[B]all Intake
-	public static final int B_INTAKE_ROLLER = CAN_4;
+	public static final int B_INTAKE_ROLLER = CAN_12;
 	public static final int B_CONVEYOR1 = CAN_5;
 	public static final int B_INCOMING = DIO_0;
 	public static final int B_READYTOSHOOT = DIO_1;
