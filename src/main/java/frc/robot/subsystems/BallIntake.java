@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
   /**
    * Creates a new Ball Intake subsystem
@@ -24,19 +26,24 @@ public class BallIntake extends SubsystemBase {
 
   int m_numBallsStored;
 
-  WPI_TalonSRX m_intakeRoller;
-  WPI_TalonSRX m_conveyor1;
+  VictorSPX m_intakeRoller;
+  VictorSPX m_Hconveyor1;
+  VictorSPX m_Hconveyor2;
+  VictorSPX m_Vconveyor;
 
   DigitalInput m_ballIncoming;
   DigitalInput m_ballReadyToShoot;
 
   private Encoder m_conveyor1Encoder;
+  private Encoder m_conveyor2Encoder;
 
   private BallIntake() {
     m_numBallsStored = 0;
 
-    m_intakeRoller = new WPI_TalonSRX(RobotMap.B_INTAKE_ROLLER);
-    m_conveyor1 = new WPI_TalonSRX(RobotMap.B_CONVEYOR1);
+    m_intakeRoller = new VictorSPX(RobotMap.B_INTAKE_ROLLER);
+    m_Hconveyor1 = new VictorSPX(RobotMap.B_HCONVEYOR1);
+    m_Hconveyor2 = new VictorSPX(RobotMap.B_HCONVEYOR2);
+    m_Vconveyor = new VictorSPX(RobotMap.B_VCONVEYOR);
 
     m_ballIncoming = new DigitalInput(RobotMap.B_INCOMING);
     m_ballReadyToShoot = new DigitalInput(RobotMap.B_READYTOSHOOT);
@@ -51,11 +58,23 @@ public class BallIntake extends SubsystemBase {
   }
 
   public void spinIntakeRoller(double speed){
-    m_intakeRoller.set(speed);
+   m_intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
-  public void spinConveyor1(double speed){
-    m_conveyor1.set(speed);
+  public void spinHConveyor(double speed){
+    m_Hconveyor1.set(ControlMode.PercentOutput, -speed);
+    m_Hconveyor2.set(ControlMode.PercentOutput, -speed);
+  }
+
+  public void spinVConveyor(double speed){
+    m_Vconveyor.set(ControlMode.PercentOutput, -speed);
+  }
+
+  public void spinBothConveyors(double hSpeed, double vSpeed){
+    m_Hconveyor1.set(ControlMode.PercentOutput, -hSpeed);
+    m_Hconveyor2.set(ControlMode.PercentOutput, -hSpeed);
+    m_Vconveyor.set(ControlMode.PercentOutput, -vSpeed);
+
   }
 
   public boolean ballIncoming(){

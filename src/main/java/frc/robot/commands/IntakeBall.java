@@ -63,7 +63,7 @@ public class IntakeBall extends CommandBase {
     switch (state){
     case START:
       m_ballIntake.spinIntakeRoller(intakeSpeed);
-      m_ballIntake.spinConveyor1(0);
+      m_ballIntake.spinHConveyor(0);
       if (m_ballIntake.ballIncoming() == true){
         state = MOVE;
       }
@@ -73,7 +73,7 @@ public class IntakeBall extends CommandBase {
 
     case MOVE:
       m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinConveyor1(speed);
+      m_ballIntake.spinHConveyor(speed);
       if ((m_ballIntake.ballIncoming() == false) || (m_timer.hasPeriodPassed(m_period))){
         if (m_ballIntake.ballIncoming() == false) {
           m_ballIntake.incrementBallsStored();
@@ -82,7 +82,7 @@ public class IntakeBall extends CommandBase {
       }
     case END:
       m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinConveyor1(0);
+      m_ballIntake.spinHConveyor(0);
     default:
 
     }
@@ -93,7 +93,7 @@ public class IntakeBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_ballIntake.spinIntakeRoller(0);
-    m_ballIntake.spinConveyor1(0);
+    m_ballIntake.spinHConveyor(0);
   }
 
   // Returns true when the command should end.

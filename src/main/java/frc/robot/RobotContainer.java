@@ -66,7 +66,8 @@ public class RobotContainer {
     DefaultDrive.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
     DefaultTurret.registerWithTestingDashboard();
-    SpinConveyor1Timed.registerWithTestingDashboard();
+    SpinConveyorHTimed.registerWithTestingDashboard();
+    SpinConveyorVTimed.registerWithTestingDashboard();
     SpinIntakeRoller.registerWithTestingDashboard();
     SpinSpinnerMotorTimed.registerWithTestingDashboard();
     SpinSpinnerToColor.registerWithTestingDashboard();
@@ -74,6 +75,8 @@ public class RobotContainer {
     DeploySpinner.registerWithTestingDashboard();
     RetractSpinner.registerWithTestingDashboard();
     TimedForward.registerWithTestingDashboard();
+    SpinBothConveyorsTimed.registerWithTestingDashboard();
+    SpinShooter.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();

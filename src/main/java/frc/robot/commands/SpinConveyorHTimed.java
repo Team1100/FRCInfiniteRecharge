@@ -14,7 +14,7 @@ import frc.robot.subsystems.BallIntake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SpinConveyor1Timed extends CommandBase {
+public class SpinConveyorHTimed extends CommandBase {
   /**
    * Creates a new SpinConveyor1Timed.
    */
@@ -23,7 +23,7 @@ public class SpinConveyor1Timed extends CommandBase {
    BallIntake m_ballIntake;
    double m_period;
 
-  public SpinConveyor1Timed() {
+  public SpinConveyorHTimed() {
     // Use addRequirements() here to declare subsystem dependencies.
     
     addRequirements(BallIntake.getInstance());
@@ -34,7 +34,7 @@ public class SpinConveyor1Timed extends CommandBase {
 
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
-    SpinConveyor1Timed cmd = new SpinConveyor1Timed();
+    SpinConveyorHTimed cmd = new SpinConveyorHTimed();
     TestingDashboard.getInstance().registerCommand(ballIntake, "Timed", cmd);
   }
 
@@ -50,14 +50,14 @@ public class SpinConveyor1Timed extends CommandBase {
   public void execute() {
 
     double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
-    m_ballIntake.spinConveyor1(speed);
+    m_ballIntake.spinHConveyor(speed);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinConveyor1(0);
+    m_ballIntake.spinHConveyor(0);
   }
 
   // Returns true when the command should end.

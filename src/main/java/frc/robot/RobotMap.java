@@ -166,8 +166,10 @@ public class RobotMap {
 	public static final int U_XBOX_CONTROLLER = 2;
 
 	//[B]all Intake
-	public static final int B_INTAKE_ROLLER = CAN_12;
-	public static final int B_CONVEYOR1 = CAN_5;
+	public static final int B_INTAKE_ROLLER = CAN_11;
+	public static final int B_HCONVEYOR1 = CAN_6;
+	public static final int B_HCONVEYOR2 = CAN_9;
+	public static final int B_VCONVEYOR = CAN_12;
 	public static final int B_INCOMING = DIO_0;
 	public static final int B_READYTOSHOOT = DIO_1;
 
@@ -179,7 +181,11 @@ public class RobotMap {
 	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;
 
 	//[T]urret
-	public static final int T_MOTOR = PWM_0;
+	public static final int T_MOTOR = CAN_3;
 	public static final int T_LEFT_STOP = DIO_2;
 	public static final int T_RIGHT_STOP = DIO_3;
+
+	//[SH]ooter
+	public static final int SH_TOP = CAN_13;
+	public static final int SH_BOTTOM = CAN_2;
 }

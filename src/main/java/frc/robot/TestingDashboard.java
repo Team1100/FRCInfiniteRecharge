@@ -133,9 +133,13 @@ public class TestingDashboard {
         SmartDashboard.putNumber("Conveyor2MotorSpeed", 0.5);
         SmartDashboard.putNumber("Conveyor2MotoryTimeout", 5);
 
-        // Controlling inputs for Conveyor 1 motor
-        SmartDashboard.putNumber("Conveyor1MotorSpeed", 0.5);
-        SmartDashboard.putNumber("Conveyor1MotoryTimeout", 5);
+        // Controlling inputs for Conveyor H motors
+        SmartDashboard.putNumber("ConveyorHMotorSpeed", 0.5);
+        SmartDashboard.putNumber("ConveyorHMotoryTimeout", 5);
+
+        // Controlling inputs for Conveyor V motor
+        SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
+        SmartDashboard.putNumber("ConveyorVMotoryTimeout", 5);
 
         // Controlling inputs for Intake Roller motor
         SmartDashboard.putNumber("IntakeRollerSpeed", 0.5);
@@ -152,6 +156,10 @@ public class TestingDashboard {
         
         // Controlling speed
         SmartDashboard .putNumber("AutoDriveSpeed", 0.5);
+
+        //Controlling shooter speeds
+        SmartDashboard.putNumber("TopShooterSpeed",0);
+        SmartDashboard.putNumber("BottomShooterSpeed",0);
 
     }
  

@@ -7,31 +7,27 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
 import frc.robot.TestingDashboard;
-import frc.robot.input.XboxController.XboxAxis;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Shooter;
 
-public class DefaultTurret extends CommandBase {
+public class SpinShooter extends CommandBase {
   /**
-   * Creates a new DefaultTurret.
+   * Creates a new SpinShooter.
    */
-  Turret m_turret;
-  private static OI oi;
+  Shooter m_shooter;
 
-  public DefaultTurret() {
+  public SpinShooter() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Turret.getInstance());
-    oi = OI.getInstance();
-    m_turret = Turret.getInstance();
+    addRequirements(Shooter.getInstance());
+    m_shooter = Shooter.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
-    Turret turret = Turret.getInstance();
-    DefaultTurret cmd = new DefaultTurret();
-    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
-
+    Shooter shooter = Shooter.getInstance();
+    SpinShooter cmd = new SpinShooter();
+    TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
@@ -42,14 +38,17 @@ public class DefaultTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Drives the Turret with the x-axis of the left Xbox joystick.
-    double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
-    m_turret.spinTurretMotor(0.75*speed);
+    double topSpeed = SmartDashboard.getNumber("TopShooterSpeed",0);
+    double botSpeed = SmartDashboard.getNumber("BottomShooterSpeed",0);
+    m_shooter.setTop(-topSpeed);
+    m_shooter.setBottom(-botSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shooter.setTop(0);
+    m_shooter.setBottom(0);
   }
 
   // Returns true when the command should end.
