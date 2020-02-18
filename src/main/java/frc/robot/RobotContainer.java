@@ -9,15 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.DefaultIntake;
-import frc.robot.commands.DeploySpinner;
-import frc.robot.commands.RetractSpinner;
-import frc.robot.commands.SpinConveyor1Timed;
-import frc.robot.commands.SpinIntakeRoller;
-import frc.robot.commands.SpinSpinner3Times;
-import frc.robot.commands.SpinSpinnerMotorTimed;
-import frc.robot.commands.SpinSpinnerToColor;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -79,7 +71,8 @@ public class RobotContainer {
     SpinSpinnerToColor.registerWithTestingDashboard();
     SpinSpinner3Times.registerWithTestingDashboard();
     DeploySpinner.registerWithTestingDashboard();
-    RetractSpinner.registerWithTestingDashboard();    
+    RetractSpinner.registerWithTestingDashboard();
+    TimedForward.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
