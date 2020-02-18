@@ -47,7 +47,7 @@ public class DefaultIntake extends CommandBase {
   @Override
   public void execute() {
     //Drives the ball intake with the y-axis of the left XBox joystick
-    double speed = oi.getXbox().getAxis(XboxAxis.kYLeft);
+    double speed = oi.getXbox().getAxis(XboxAxis.kRightTrigger);
     m_intake.spinIntakeRoller(speed);
   }
 
