@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.DefaultIntake;
+import frc.robot.commands.DefaultTurret;
 import frc.robot.commands.DeploySpinner;
 import frc.robot.commands.RetractSpinner;
 import frc.robot.commands.SpinConveyor1Timed;
@@ -73,13 +74,14 @@ public class RobotContainer {
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
+    DefaultTurret.registerWithTestingDashboard();
     SpinConveyor1Timed.registerWithTestingDashboard();
     SpinIntakeRoller.registerWithTestingDashboard();
     SpinSpinnerMotorTimed.registerWithTestingDashboard();
     SpinSpinnerToColor.registerWithTestingDashboard();
     SpinSpinner3Times.registerWithTestingDashboard();
     DeploySpinner.registerWithTestingDashboard();
-    RetractSpinner.registerWithTestingDashboard();    
+    RetractSpinner.registerWithTestingDashboard();  
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();

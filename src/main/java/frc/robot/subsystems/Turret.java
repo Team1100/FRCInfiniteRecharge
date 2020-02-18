@@ -40,7 +40,9 @@ public class Turret extends SubsystemBase {
     return m_turret;
   }
 
-  
+  public void spinTurretMotor(double speed){
+    m_turretMotor.set(speed);
+  }
       
   public void periodic() {
     // This method will be called once per scheduler run
