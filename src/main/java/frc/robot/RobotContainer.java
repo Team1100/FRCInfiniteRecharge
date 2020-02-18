@@ -65,6 +65,7 @@ public class RobotContainer {
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
+    DefaultTurret.registerWithTestingDashboard();
     SpinConveyor1Timed.registerWithTestingDashboard();
     SpinIntakeRoller.registerWithTestingDashboard();
     SpinSpinnerMotorTimed.registerWithTestingDashboard();
