@@ -5,32 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the ball intake roller while command is active.
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.BallIntake;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Shooter;
 
-public class SpinIntakeRoller extends CommandBase {
+public class SpinShooter extends CommandBase {
   /**
-   * Creates a new SpinIntakeRoller.
+   * Creates a new SpinShooter.
    */
+  Shooter m_shooter;
 
-   BallIntake m_ballIntake;
-
-  public SpinIntakeRoller() {
+  public SpinShooter() {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
+    addRequirements(Shooter.getInstance());
+    m_shooter = Shooter.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
-    SpinIntakeRoller cmd = new SpinIntakeRoller();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
+    Shooter shooter = Shooter.getInstance();
+    SpinShooter cmd = new SpinShooter();
+    TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
@@ -41,16 +38,17 @@ public class SpinIntakeRoller extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    m_ballIntake.spinIntakeRoller(speed);
-
+    double topSpeed = SmartDashboard.getNumber("TopShooterSpeed",0);
+    double botSpeed = SmartDashboard.getNumber("BottomShooterSpeed",0);
+    m_shooter.setTop(-topSpeed);
+    m_shooter.setBottom(-botSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinIntakeRoller(0);
+    m_shooter.setTop(0);
+    m_shooter.setBottom(0);
   }
 
   // Returns true when the command should end.

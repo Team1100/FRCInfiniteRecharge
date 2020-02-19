@@ -5,32 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the ball intake roller while command is active.
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.BallIntake;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.input.XboxController.XboxAxis;
+import frc.robot.subsystems.Turret;
 
-public class SpinIntakeRoller extends CommandBase {
+public class DefaultTurret extends CommandBase {
   /**
-   * Creates a new SpinIntakeRoller.
+   * Creates a new DefaultTurret.
    */
+  Turret m_turret;
+  private static OI oi;
 
-   BallIntake m_ballIntake;
-
-  public SpinIntakeRoller() {
+  public DefaultTurret() {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
+    addRequirements(Turret.getInstance());
+    oi = OI.getInstance();
+    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
-    SpinIntakeRoller cmd = new SpinIntakeRoller();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
+    Turret turret = Turret.getInstance();
+    DefaultTurret cmd = new DefaultTurret();
+    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
+
   }
 
   // Called when the command is initially scheduled.
@@ -41,16 +42,14 @@ public class SpinIntakeRoller extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    m_ballIntake.spinIntakeRoller(speed);
-
+    // Drives the Turret with the x-axis of the left Xbox joystick.
+    double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
+    m_turret.spinTurretMotor(0.75*speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinIntakeRoller(0);
   }
 
   // Returns true when the command should end.

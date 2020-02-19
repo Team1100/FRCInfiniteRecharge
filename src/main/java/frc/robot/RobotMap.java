@@ -154,11 +154,11 @@ public class RobotMap {
 	private static final int PDP_15 = 15;
 	private static final int PDP_16 = 16;
 
-    //[D]rive
-    public static final int D_FRONT_LEFT = CAN_0;
-    public static final int D_FRONT_RIGHT = CAN_1;
-    public static final int D_BACK_LEFT = CAN_2;
-	public static final int D_BACK_RIGHT = CAN_3;
+	//[D]rive
+	public static final int D_FRONT_LEFT = CAN_0;
+	public static final int D_FRONT_RIGHT = CAN_15;
+	public static final int D_BACK_LEFT = CAN_1;
+	public static final int D_BACK_RIGHT = CAN_14;
 	public static final Port D_NAVX = SPI.Port.kMXP;
 	
 	//[U]ser Input
@@ -167,15 +167,26 @@ public class RobotMap {
 	public static final int U_XBOX_CONTROLLER = 2;
 
 	//[B]all Intake
-	public static final int B_INTAKE_ROLLER = CAN_4;
-	public static final int B_CONVEYOR1 = CAN_5;
+	public static final int B_INTAKE_ROLLER = CAN_11;
+	public static final int B_HCONVEYOR1 = CAN_6;
+	public static final int B_HCONVEYOR2 = CAN_9;
+	public static final int B_VCONVEYOR = CAN_12;
 	public static final int B_INCOMING = DIO_0;
 	public static final int B_READYTOSHOOT = DIO_1;
 
 	//[S]pinner
 	public static final int S_MOTOR = PWM_3;
-	public static final int S_PISTON = PCM_0;
-	public static final int S_PISTON_PORT0 = RELAY_0;
-	public static final int S_PISTON_PORT1 = RELAY_1;
+	public static final int S_PCM_CAN = CAN_0;
+	public static final int S_PISTON_PORT0 = PCM_0;
+	public static final int S_PISTON_PORT1 = PCM_1;
 	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;
+
+	//[T]urret
+	public static final int T_MOTOR = CAN_3;
+	public static final int T_LEFT_STOP = DIO_2;
+	public static final int T_RIGHT_STOP = DIO_3;
+
+	//[SH]ooter
+	public static final int SH_TOP = CAN_13;
+	public static final int SH_BOTTOM = CAN_2;
 }

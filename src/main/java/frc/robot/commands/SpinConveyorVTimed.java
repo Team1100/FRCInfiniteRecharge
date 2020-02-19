@@ -5,57 +5,66 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the ball intake roller while command is active.
+// Spins the conveyor motor for a specified amount of time.
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.BallIntake;
+import frc.robot.subsystems.Conveyor;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SpinIntakeRoller extends CommandBase {
+public class SpinConveyorVTimed extends CommandBase {
   /**
-   * Creates a new SpinIntakeRoller.
+   * Creates a new SpinConveyor1Timed.
    */
 
-   BallIntake m_ballIntake;
+   Timer m_timer;
+   Conveyor m_conveyor;
+   double m_period;
 
-  public SpinIntakeRoller() {
+  public SpinConveyorVTimed() {
     // Use addRequirements() here to declare subsystem dependencies.
+    
+    addRequirements(Conveyor.getInstance());
+    m_timer = new Timer();
+    m_conveyor = Conveyor.getInstance();
 
-    addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
-    SpinIntakeRoller cmd = new SpinIntakeRoller();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
+    Conveyor conveyor = Conveyor.getInstance();
+    SpinConveyorVTimed cmd = new SpinConveyorVTimed();
+    TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_period = SmartDashboard.getNumber("ConveyorVMotoryTimeout", 5); // default of 5 seconds
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    m_ballIntake.spinIntakeRoller(speed);
+    double speed = SmartDashboard.getNumber("ConveyorVMotorSpeed",0.5);
+    m_conveyor.spinVConveyor(speed);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinIntakeRoller(0);
+    m_conveyor.spinVConveyor(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
+    return timerExpired;
   }
 }
