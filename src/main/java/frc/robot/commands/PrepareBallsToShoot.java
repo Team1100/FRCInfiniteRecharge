@@ -10,6 +10,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallIntake;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.TestingDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,23 +20,23 @@ public class PrepareBallsToShoot extends CommandBase {
    * Creates a new PrepareBallsToShoot.
    */
 
-   BallIntake m_ballIntake;
+   Conveyor m_conveyor;
    Timer m_timer;
    private static final int m_period = 10;
 
   public PrepareBallsToShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
+    addRequirements(Conveyor.getInstance());
+    m_conveyor = Conveyor.getInstance();
     m_timer = new Timer();
     
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
+    Conveyor conveyor = Conveyor.getInstance();
     PrepareBallsToShoot cmd = new PrepareBallsToShoot();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
+    TestingDashboard.getInstance().registerCommand(conveyor, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
@@ -48,24 +49,24 @@ public class PrepareBallsToShoot extends CommandBase {
   @Override
   public void execute() {
     double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
-    if (m_ballIntake.ballReadyToShoot() == false){
-      m_ballIntake.spinHConveyor(speed);
+    if (m_conveyor.ballReadyToShoot() == false){
+      m_conveyor.spinHConveyor(speed);
     }
-    if (m_ballIntake.ballReadyToShoot() == true){
-      m_ballIntake.spinHConveyor(0);
+    if (m_conveyor.ballReadyToShoot() == true){
+      m_conveyor.spinHConveyor(0);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinHConveyor(0);
+    m_conveyor.spinHConveyor(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     boolean timerExpired = m_timer.hasPeriodPassed(m_period);
-    return (timerExpired || (m_ballIntake.ballReadyToShoot() == true));
+    return (timerExpired || (m_conveyor.ballReadyToShoot() == true));
   }
 }

@@ -11,6 +11,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.BallIntake;
+import frc.robot.subsystems.Conveyor;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,22 +21,22 @@ public class SpinBothConveyorsTimed extends CommandBase {
    */
 
    Timer m_timer;
-   BallIntake m_ballIntake;
+   Conveyor m_conveyor;
    double m_Vperiod, m_Hperiod;
 
   public SpinBothConveyorsTimed() {
     // Use addRequirements() here to declare subsystem dependencies.
     
-    addRequirements(BallIntake.getInstance());
+    addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
-    m_ballIntake = BallIntake.getInstance();
+    m_conveyor = Conveyor.getInstance();
 
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
+    Conveyor conveyor = Conveyor.getInstance();
     SpinBothConveyorsTimed cmd = new SpinBothConveyorsTimed();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Timed", cmd);
+    TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);
   }
 
   // Called when the command is initially scheduled.
@@ -53,14 +54,14 @@ public class SpinBothConveyorsTimed extends CommandBase {
     double vSpeed = SmartDashboard.getNumber("ConveyorVMotorSpeed",0.5);
     double hSpeed = SmartDashboard.getNumber("ConveyorHMotorSpeed",0.5);
 
-    m_ballIntake.spinBothConveyors(hSpeed, vSpeed);
+    m_conveyor.spinBothConveyors(hSpeed, vSpeed);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinBothConveyors(0,0);
+    m_conveyor.spinBothConveyors(0,0);
   }
 
   // Returns true when the command should end.

@@ -14,6 +14,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallIntake;
+import frc.robot.subsystems.Conveyor;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TestingDashboard;
@@ -24,6 +25,7 @@ public class IntakeBall extends CommandBase {
    */
 
    BallIntake m_ballIntake;
+   Conveyor m_conveyor;
    Timer m_timer;
    private static final int m_period = 30;
 
@@ -35,8 +37,9 @@ public class IntakeBall extends CommandBase {
 
   public IntakeBall() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(BallIntake.getInstance());
+    addRequirements(BallIntake.getInstance(), Conveyor.getInstance());
     m_ballIntake = BallIntake.getInstance();
+    m_conveyor = Conveyor.getInstance();
     m_timer = new Timer();
 
   }
@@ -63,8 +66,8 @@ public class IntakeBall extends CommandBase {
     switch (state){
     case START:
       m_ballIntake.spinIntakeRoller(intakeSpeed);
-      m_ballIntake.spinHConveyor(0);
-      if (m_ballIntake.ballIncoming() == true){
+      m_conveyor.spinHConveyor(0);
+      if (m_conveyor.ballIncoming() == true){
         state = MOVE;
       }
       if (m_timer.hasPeriodPassed(m_period)){
@@ -73,16 +76,16 @@ public class IntakeBall extends CommandBase {
 
     case MOVE:
       m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinHConveyor(speed);
-      if ((m_ballIntake.ballIncoming() == false) || (m_timer.hasPeriodPassed(m_period))){
-        if (m_ballIntake.ballIncoming() == false) {
-          m_ballIntake.incrementBallsStored();
+      m_conveyor.spinHConveyor(speed);
+      if ((m_conveyor.ballIncoming() == false) || (m_timer.hasPeriodPassed(m_period))){
+        if (m_conveyor.ballIncoming() == false) {
+          m_conveyor.incrementBallsStored();
         }
         state = END;
       }
     case END:
       m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinHConveyor(0);
+      m_conveyor.spinHConveyor(0);
     default:
 
     }
@@ -93,7 +96,7 @@ public class IntakeBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_ballIntake.spinIntakeRoller(0);
-    m_ballIntake.spinHConveyor(0);
+    m_conveyor.spinHConveyor(0);
   }
 
   // Returns true when the command should end.
