@@ -161,6 +161,8 @@ public class TestingDashboard {
         SmartDashboard.putNumber("TopShooterSpeed",0);
         SmartDashboard.putNumber("BottomShooterSpeed",0);
 
+        // Control Turret speed
+        SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);
     }
  
     public void updateDebugTab() {

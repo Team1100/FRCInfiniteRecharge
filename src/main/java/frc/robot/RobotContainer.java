@@ -77,6 +77,9 @@ public class RobotContainer {
     TimedForward.registerWithTestingDashboard();
     SpinBothConveyorsTimed.registerWithTestingDashboard();
     SpinShooter.registerWithTestingDashboard();
+    TurretStop.registerWithTestingDashboard();
+    TurretLeft.registerWithTestingDashboard();
+    TurretRight.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
