@@ -7,9 +7,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
@@ -17,37 +14,41 @@ import frc.robot.TestingDashboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Victor;
+
+public class Turret extends SubsystemBase {
+  private VictorSPX m_turretMotor;
+  private static Turret m_turret;
+  private Encoder m_turretEncoder;
+  private DigitalInput m_leftStop;
+  private DigitalInput m_rightStop;
+
   /**
-   * Creates a new Ball Intake subsystem
+   * Creates a new Turret.
    */
-public class BallIntake extends SubsystemBase {
+  public Turret() {
+    m_turretMotor = new VictorSPX(RobotMap.T_MOTOR);
+    m_leftStop = new DigitalInput(RobotMap.T_LEFT_STOP);
+    m_rightStop = new DigitalInput(RobotMap.T_RIGHT_STOP);
 
-  public static BallIntake m_ballIntake;
-
-  VictorSPX m_intakeRoller;
-
-  private BallIntake() {
-    m_intakeRoller = new VictorSPX(RobotMap.B_INTAKE_ROLLER);
-    
   }
 
-  public static BallIntake getInstance() {
-    if (m_ballIntake == null) {
-      m_ballIntake = new BallIntake();
-      TestingDashboard.getInstance().registerSubsystem(m_ballIntake, "BallIntake");
+  public static Turret getInstance() {
+    if (m_turret == null) {
+      m_turret = new Turret();
+      TestingDashboard.getInstance().registerSubsystem(m_turret, "Turret");
+
     }
-    return m_ballIntake;
+    return m_turret;
   }
 
-  public void spinIntakeRoller(double speed){
-   m_intakeRoller.set(ControlMode.PercentOutput, speed);
+  public void spinTurretMotor(double speed){
+    m_turretMotor.set(ControlMode.PercentOutput, speed);
   }
-
-
- 
-  @Override
+      
   public void periodic() {
     // This method will be called once per scheduler run
-    
   }
 }

@@ -41,9 +41,9 @@ public class Spinner extends SubsystemBase {
    * Creates a new Spinner.
    */
   public Spinner() {
-    m_compressor = new Compressor(RobotMap.S_PISTON);
-    m_compressor.setClosedLoopControl(true);
-    m_piston = new DoubleSolenoid(RobotMap.S_PISTON_PORT0, RobotMap.S_PISTON_PORT1);
+    //m_compressor = new Compressor(RobotMap.S_PISTON);
+    //m_compressor.setClosedLoopControl(true);
+    m_piston = new DoubleSolenoid(RobotMap.S_PCM_CAN, RobotMap.S_PISTON_PORT0, RobotMap.S_PISTON_PORT1);
     m_motor = new VictorSP(RobotMap.S_MOTOR);
     m_colorSensor = new ColorSensorV3(RobotMap.S_COLOR_SENSOR);
     m_colorMatcher = new ColorMatch();

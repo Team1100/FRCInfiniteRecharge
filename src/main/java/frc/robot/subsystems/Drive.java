@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -21,11 +22,8 @@ import com.kauailabs.navx.frc.AHRS;
 public class Drive extends SubsystemBase {
   WPI_TalonSRX frontLeft;
   WPI_TalonSRX frontRight;
-  WPI_TalonSRX backLeft;
-  WPI_TalonSRX backRight;
-
-  SpeedControllerGroup left;
-  SpeedControllerGroup right;
+  VictorSPX backLeft;
+  VictorSPX backRight;
 
   DifferentialDrive drivetrain;
 
@@ -39,13 +37,14 @@ public class Drive extends SubsystemBase {
   private Drive() {
     frontLeft = new WPI_TalonSRX(RobotMap.D_FRONT_LEFT);
     frontRight = new WPI_TalonSRX(RobotMap.D_FRONT_RIGHT);
-    backLeft = new WPI_TalonSRX(RobotMap.D_BACK_LEFT);
-    backRight = new WPI_TalonSRX(RobotMap.D_BACK_RIGHT);
+    backLeft = new VictorSPX(RobotMap.D_BACK_LEFT);
+    backRight = new VictorSPX(RobotMap.D_BACK_RIGHT);
     
-    left = new SpeedControllerGroup(frontLeft, backLeft);
-    right = new SpeedControllerGroup(frontRight, backRight);
+    backLeft.follow(frontLeft);
+    backLeft.setInverted(true);
+    backRight.follow(frontRight);
 
-    drivetrain = new DifferentialDrive(left, right);
+    drivetrain = new DifferentialDrive(frontLeft, frontRight);
 
     ahrs = new AHRS(RobotMap.D_NAVX);
   }
@@ -75,7 +74,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed){
-    drivetrain.tankDrive(leftSpeed, rightSpeed);
+    drivetrain.tankDrive(-leftSpeed, rightSpeed);
   }
 
   @Override

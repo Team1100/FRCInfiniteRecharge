@@ -9,14 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.DeploySpinner;
-import frc.robot.commands.RetractSpinner;
-import frc.robot.commands.SpinConveyor1Timed;
-import frc.robot.commands.SpinIntakeRoller;
-import frc.robot.commands.SpinSpinner3Times;
-import frc.robot.commands.SpinSpinnerMotorTimed;
-import frc.robot.commands.SpinSpinnerToColor;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -40,6 +33,7 @@ public class RobotContainer {
 
   //Commands
   private final DefaultDrive defaultdrive;
+  private final DefaultIntake defaultintake;
   
   //OI
   private static RobotContainer robotContainer;
@@ -62,19 +56,27 @@ public class RobotContainer {
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
     drive.setDefaultCommand(defaultdrive);
+    defaultintake = new DefaultIntake(ballIntake);
+    ballIntake.setDefaultCommand(defaultintake);
 
     //OI Device instantiation
     OI.getInstance();
 
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();
-    SpinConveyor1Timed.registerWithTestingDashboard();
+    DefaultIntake.registerWithTestingDashboard();
+    DefaultTurret.registerWithTestingDashboard();
+    SpinConveyorHTimed.registerWithTestingDashboard();
+    SpinConveyorVTimed.registerWithTestingDashboard();
     SpinIntakeRoller.registerWithTestingDashboard();
     SpinSpinnerMotorTimed.registerWithTestingDashboard();
     SpinSpinnerToColor.registerWithTestingDashboard();
     SpinSpinner3Times.registerWithTestingDashboard();
     DeploySpinner.registerWithTestingDashboard();
-    RetractSpinner.registerWithTestingDashboard();    
+    RetractSpinner.registerWithTestingDashboard();
+    TimedForward.registerWithTestingDashboard();
+    SpinBothConveyorsTimed.registerWithTestingDashboard();
+    SpinShooter.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
