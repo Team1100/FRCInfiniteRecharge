@@ -12,10 +12,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
+import com.kauailabs.navx.frc.AHRS;
 
 public class Drive extends SubsystemBase {
   WPI_TalonSRX frontLeft;
@@ -24,6 +26,8 @@ public class Drive extends SubsystemBase {
   VictorSPX backRight;
 
   DifferentialDrive drivetrain;
+
+  private AHRS ahrs;
   
   public static Drive drive;
 
@@ -41,6 +45,8 @@ public class Drive extends SubsystemBase {
     backRight.follow(frontRight);
 
     drivetrain = new DifferentialDrive(frontLeft, frontRight);
+
+    ahrs = new AHRS(RobotMap.D_NAVX);
   }
 
   /**
@@ -55,6 +61,18 @@ public class Drive extends SubsystemBase {
     return drive;
   }
 
+  protected double getYaw() {
+    return ahrs.getYaw();
+  }
+
+  protected double getPitch() {
+    return ahrs.getPitch();
+  }
+
+  protected double getRoll() {
+    return ahrs.getRoll();
+  }
+
   public void tankDrive(double leftSpeed, double rightSpeed){
     drivetrain.tankDrive(-leftSpeed, rightSpeed);
   }
@@ -62,6 +80,9 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Yaw",getYaw());
+    SmartDashboard.putNumber("Pitch",getPitch());
+    SmartDashboard.putNumber("Roll",getRoll());
   }
 
   @Override

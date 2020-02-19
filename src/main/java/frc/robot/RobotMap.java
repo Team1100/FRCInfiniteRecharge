@@ -154,11 +154,12 @@ public class RobotMap {
 	private static final int PDP_15 = 15;
 	private static final int PDP_16 = 16;
 
-    //[D]rive
-    public static final int D_FRONT_LEFT = CAN_0;
-    public static final int D_FRONT_RIGHT = CAN_15;
-    public static final int D_BACK_LEFT = CAN_1;
+	//[D]rive
+	public static final int D_FRONT_LEFT = CAN_0;
+	public static final int D_FRONT_RIGHT = CAN_15;
+	public static final int D_BACK_LEFT = CAN_1;
 	public static final int D_BACK_RIGHT = CAN_14;
+	public static final Port D_NAVX = SPI.Port.kMXP;
 	
 	//[U]ser Input
 	public static final int U_JOYSTICK_LEFT = 0;
