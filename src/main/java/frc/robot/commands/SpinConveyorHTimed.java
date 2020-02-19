@@ -42,7 +42,7 @@ public class SpinConveyorHTimed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_period = SmartDashboard.getNumber("Conveyor1MotoryTimeout", 5); // default of 5 seconds
+    m_period = SmartDashboard.getNumber("ConveyorHMotoryTimeout", 5); // default of 5 seconds
     m_timer.start();
   }
 
@@ -50,15 +50,17 @@ public class SpinConveyorHTimed extends CommandBase {
   @Override
   public void execute() {
 
-    double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
-    m_conveyor.spinHConveyor(speed);
+    double speed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.5);
+    double speed2 = SmartDashboard.getNumber("ConveyorHMotor2Speed",0.5);
+    m_conveyor.spinHConveyor1(speed1);
+    m_conveyor.spinHConveyor2(speed2);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_conveyor.spinHConveyor(0);
+    m_conveyor.spinHConveyors(0);
   }
 
   // Returns true when the command should end.

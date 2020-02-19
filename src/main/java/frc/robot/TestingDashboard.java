@@ -129,16 +129,15 @@ public class TestingDashboard {
     public void createDebugTab() {
         ShuffleboardTab debug_tab = Shuffleboard.getTab("Debug");
 
-        // Controlling inputs for Conveyor 2 motor
-        SmartDashboard.putNumber("Conveyor2MotorSpeed", 0.5);
-        SmartDashboard.putNumber("Conveyor2MotoryTimeout", 5);
-
-        // Controlling inputs for Conveyor H motors
-        SmartDashboard.putNumber("ConveyorHMotorSpeed", 0.5);
+        // Controlling inputs for Conveyor H motor1
+        SmartDashboard.putNumber("ConveyorHMotor1Speed", 0.5);
         SmartDashboard.putNumber("ConveyorHMotoryTimeout", 5);
 
+        // Controlling inputs for Conveyor H motor2
+        SmartDashboard.putNumber("ConveyorHMotor2Speed", 0.5);
+
         // Controlling inputs for Conveyor V motor
-        SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
+        SmartDashboard.putNumber("ConveyorVMotorSpeed", 1);
         SmartDashboard.putNumber("ConveyorVMotoryTimeout", 5);
 
         // Controlling inputs for Intake Roller motor

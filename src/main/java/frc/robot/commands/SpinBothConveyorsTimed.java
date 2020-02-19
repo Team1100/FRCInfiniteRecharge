@@ -52,16 +52,18 @@ public class SpinBothConveyorsTimed extends CommandBase {
   public void execute() {
 
     double vSpeed = SmartDashboard.getNumber("ConveyorVMotorSpeed",0.5);
-    double hSpeed = SmartDashboard.getNumber("ConveyorHMotorSpeed",0.5);
+    double hSpeed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.5);
+    double hSpeed2 = SmartDashboard.getNumber("ConveyorHMotor2Speed",0.5);
 
-    m_conveyor.spinBothConveyors(hSpeed, vSpeed);
+
+    m_conveyor.spinBothConveyors(hSpeed1, hSpeed2, vSpeed);
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_conveyor.spinBothConveyors(0,0);
+    m_conveyor.spinBothConveyors(0,0,0);
   }
 
   // Returns true when the command should end.

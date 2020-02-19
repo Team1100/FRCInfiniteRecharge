@@ -50,17 +50,17 @@ public class PrepareBallsToShoot extends CommandBase {
   public void execute() {
     double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
     if (m_conveyor.ballReadyToShoot() == false){
-      m_conveyor.spinHConveyor(speed);
+      m_conveyor.spinHConveyors(speed);
     }
     if (m_conveyor.ballReadyToShoot() == true){
-      m_conveyor.spinHConveyor(0);
+      m_conveyor.spinHConveyors(0);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_conveyor.spinHConveyor(0);
+    m_conveyor.spinHConveyors(0);
   }
 
   // Returns true when the command should end.
