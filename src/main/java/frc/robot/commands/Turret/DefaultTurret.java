@@ -20,7 +20,7 @@ public class DefaultTurret extends CommandBase {
   Turret m_turret;
   private static OI oi;
 
-  public DefaultTurret() {
+  public DefaultTurret(Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Turret.getInstance());
     oi = OI.getInstance();
@@ -29,7 +29,7 @@ public class DefaultTurret extends CommandBase {
 
   public static void registerWithTestingDashboard() {
     Turret turret = Turret.getInstance();
-    DefaultTurret cmd = new DefaultTurret();
+    DefaultTurret cmd = new DefaultTurret(Turret.getInstance());
     TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
 
   }
