@@ -10,7 +10,7 @@
  * Once the ball is inside the ball intake, the conveyor motor will run
  * to move the ball towards the end of the conveyor.
  */
-package frc.robot.commands;
+package frc.robot.commands.BallIntake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallIntake;

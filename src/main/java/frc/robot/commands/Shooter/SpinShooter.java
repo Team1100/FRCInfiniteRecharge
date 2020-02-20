@@ -5,65 +5,55 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the conveyor motor for a specified amount of time.
-package frc.robot.commands;
+package frc.robot.commands.Shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Conveyor;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Shooter;
 
-public class SpinConveyorVTimed extends CommandBase {
+public class SpinShooter extends CommandBase {
   /**
-   * Creates a new SpinConveyor1Timed.
+   * Creates a new SpinShooter.
    */
+  Shooter m_shooter;
 
-   Timer m_timer;
-   Conveyor m_conveyor;
-   double m_period;
-
-  public SpinConveyorVTimed() {
+  public SpinShooter() {
     // Use addRequirements() here to declare subsystem dependencies.
-    
-    addRequirements(Conveyor.getInstance());
-    m_timer = new Timer();
-    m_conveyor = Conveyor.getInstance();
-
+    addRequirements(Shooter.getInstance());
+    m_shooter = Shooter.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
-    Conveyor conveyor = Conveyor.getInstance();
-    SpinConveyorVTimed cmd = new SpinConveyorVTimed();
-    TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);
+    Shooter shooter = Shooter.getInstance();
+    SpinShooter cmd = new SpinShooter();
+    TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_period = SmartDashboard.getNumber("ConveyorVMotoryTimeout", 5); // default of 5 seconds
-    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed = SmartDashboard.getNumber("ConveyorVMotorSpeed",0.5);
-    m_conveyor.spinVConveyor(speed);
-
+    double topSpeed = SmartDashboard.getNumber("TopShooterSpeed",0);
+    double botSpeed = SmartDashboard.getNumber("BottomShooterSpeed",0);
+    m_shooter.setTop(-topSpeed);
+    m_shooter.setBottom(-botSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_conveyor.spinVConveyor(0);
+    m_shooter.setTop(0);
+    m_shooter.setBottom(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
-    return timerExpired;
+    return false;
   }
 }

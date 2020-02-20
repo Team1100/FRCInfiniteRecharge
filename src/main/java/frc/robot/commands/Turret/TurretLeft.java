@@ -5,50 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 
-public class SpinShooter extends CommandBase {
+public class TurretLeft extends CommandBase {
+  Turret m_turret;
   /**
-   * Creates a new SpinShooter.
+   * Creates a new TurretLeft.
    */
-  Shooter m_shooter;
-
-  public SpinShooter() {
+  public TurretLeft() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Shooter.getInstance());
-    m_shooter = Shooter.getInstance();
+    m_turret = Turret.getInstance();
+    addRequirements(m_turret);
   }
 
   public static void registerWithTestingDashboard() {
-    Shooter shooter = Shooter.getInstance();
-    SpinShooter cmd = new SpinShooter();
-    TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
+    Turret turret = Turret.getInstance();
+    TurretLeft cmd = new TurretLeft();
+    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    double speed = SmartDashboard.getNumber("IncrementTurretMotorSpeed", 0.5);
+    m_turret.spinTurretMotor(-speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double topSpeed = SmartDashboard.getNumber("TopShooterSpeed",0);
-    double botSpeed = SmartDashboard.getNumber("BottomShooterSpeed",0);
-    m_shooter.setTop(-topSpeed);
-    m_shooter.setBottom(-botSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.setTop(0);
-    m_shooter.setBottom(0);
+    m_turret.spinTurretMotor(0);
   }
 
   // Returns true when the command should end.

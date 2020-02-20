@@ -5,59 +5,60 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-//This command retracts the piston that is used to push up the spinner motor and color sensor.
+//This command spins the spinner motor for a certain amount of time.
 
-package frc.robot.commands;
+package frc.robot.commands.Spinner;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
 
-import frc.robot.TestingDashboard;
-
-public class RetractSpinner extends CommandBase {
+public class SpinSpinnerMotorTimed extends CommandBase {
+  Timer m_timer;
+  double m_period;
   Spinner m_spinner;
-  boolean m_finished = false;
-  DoubleSolenoid m_piston;
-  
-  public RetractSpinner() {
+  /**
+   * Creates a new SpinSpinnerMotorTimed.
+   */
+  public SpinSpinnerMotorTimed() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
+    m_timer = new Timer();
     m_spinner = Spinner.getInstance();
-    m_piston = m_spinner.getPiston();
   }
 
   public static void registerWithTestingDashboard() {
     Spinner spinner = Spinner.getInstance();
-    RetractSpinner cmd = new RetractSpinner();
-    TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
+    SpinSpinnerMotorTimed cmd = new SpinSpinnerMotorTimed();
+    TestingDashboard.getInstance().registerCommand(spinner, "Timed", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kReverse);
-    m_finished = false;
+    m_timer.start();
+    m_period = SmartDashboard.getNumber("SpinnerMotorPeriod", 5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
-      m_piston.set(DoubleSolenoid.Value.kOff);
-      m_finished = true;
-    }
+    double speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);
+    m_spinner.spin(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_piston.set(DoubleSolenoid.Value.kOff); 
+    m_spinner.spin(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_finished;
+    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
+    return timerExpired;
   }
 }

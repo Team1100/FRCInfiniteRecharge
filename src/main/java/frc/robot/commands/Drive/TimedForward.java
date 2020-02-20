@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Drive;
 
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Drive;

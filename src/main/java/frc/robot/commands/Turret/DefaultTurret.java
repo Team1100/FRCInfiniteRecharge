@@ -5,58 +5,56 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-//This command extends the piston that is used to push up the spinner motor and color sensor.
+package frc.robot.commands.Turret;
 
-package frc.robot.commands;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;  
-import frc.robot.subsystems.Spinner;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.TestingDashboard;
+import frc.robot.input.XboxController.XboxAxis;
+import frc.robot.subsystems.Turret;
 
-public class DeploySpinner extends CommandBase {
-  Spinner m_spinner;
-  boolean m_finished = false;
-  DoubleSolenoid m_piston;
-  
-  public DeploySpinner() {
+public class DefaultTurret extends CommandBase {
+  /**
+   * Creates a new DefaultTurret.
+   */
+  Turret m_turret;
+  private static OI oi;
+
+  public DefaultTurret(Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Spinner.getInstance());
-    m_spinner = Spinner.getInstance();
-    m_piston = m_spinner.getPiston();
+    addRequirements(Turret.getInstance());
+    oi = OI.getInstance();
+    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
-    Spinner spinner = Spinner.getInstance();
-    DeploySpinner cmd = new DeploySpinner();
-    TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
+    Turret turret = Turret.getInstance();
+    DefaultTurret cmd = new DefaultTurret(Turret.getInstance());
+    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
+
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kForward);
-    m_finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
-      m_piston.set(DoubleSolenoid.Value.kOff);
-      m_finished = true;
-    }  
+    // Drives the Turret with the x-axis of the left Xbox joystick.
+    double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
+    m_turret.spinTurretMotor(0.5*speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_finished;
+    return false;
   }
 }
