@@ -7,7 +7,7 @@
 
 //This command spins the control panel three times. 
 
-package frc.robot.commands;
+package frc.robot.commands.Spinner;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

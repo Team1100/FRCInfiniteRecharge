@@ -5,52 +5,59 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+//This command retracts the piston that is used to push up the spinner motor and color sensor.
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+package frc.robot.commands.Spinner;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.TestingDashboard;
-import frc.robot.TestingDashboardTab;
-import frc.robot.subsystems.Turret;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.subsystems.Spinner;
 
-public class TurretRight extends CommandBase {
-  Turret m_turret;
-  /**
-   * Creates a new TurretRight.
-   */
-  public TurretRight() {
+import frc.robot.TestingDashboard;
+
+public class RetractSpinner extends CommandBase {
+  Spinner m_spinner;
+  boolean m_finished = false;
+  DoubleSolenoid m_piston;
+  
+  public RetractSpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = Turret.getInstance();
-    addRequirements(m_turret);
+    addRequirements(Spinner.getInstance());
+    m_spinner = Spinner.getInstance();
+    m_piston = m_spinner.getPiston();
   }
 
   public static void registerWithTestingDashboard() {
-    Turret turret = Turret.getInstance();
-    TurretRight cmd = new TurretRight();
-    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
+    Spinner spinner = Spinner.getInstance();
+    RetractSpinner cmd = new RetractSpinner();
+    TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double speed = SmartDashboard.getNumber("IncrementTurretMotorSpeed", 0.5);
-    m_turret.spinTurretMotor(speed);
+    m_piston.set(DoubleSolenoid.Value.kReverse);
+    m_finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
+      m_piston.set(DoubleSolenoid.Value.kOff);
+      m_finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_turret.spinTurretMotor(0);
+    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_finished;
   }
 }

@@ -9,7 +9,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.*;
+import frc.robot.commands.BallIntake.*;
+import frc.robot.commands.Conveyor.*;
+import frc.robot.commands.Drive.*;
+import frc.robot.commands.Shooter.*;
+import frc.robot.commands.Spinner.*;
+import frc.robot.commands.Turret.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -27,6 +32,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Climber climber;
   private final BallIntake ballIntake;
+  private final Conveyor conveyor;
   private final Shooter shooter;
   private final Spinner spinner;
   private final Vision vision;
@@ -49,6 +55,7 @@ public class RobotContainer {
     drive = Drive.getInstance();
     climber = Climber.getInstance();
     ballIntake = BallIntake.getInstance();
+    conveyor = Conveyor.getInstance();
     shooter = Shooter.getInstance();
     spinner = Spinner.getInstance();
     vision = Vision.getInstance();

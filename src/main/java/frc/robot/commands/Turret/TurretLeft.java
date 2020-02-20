@@ -5,52 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the ball intake roller while command is active.
-package frc.robot.commands;
+package frc.robot.commands.Turret;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.BallIntake;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Turret;
 
-public class SpinIntakeRoller extends CommandBase {
+public class TurretLeft extends CommandBase {
+  Turret m_turret;
   /**
-   * Creates a new SpinIntakeRoller.
+   * Creates a new TurretLeft.
    */
-
-   BallIntake m_ballIntake;
-
-  public SpinIntakeRoller() {
+  public TurretLeft() {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
+    m_turret = Turret.getInstance();
+    addRequirements(m_turret);
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
-    SpinIntakeRoller cmd = new SpinIntakeRoller();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
+    Turret turret = Turret.getInstance();
+    TurretLeft cmd = new TurretLeft();
+    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    double speed = SmartDashboard.getNumber("IncrementTurretMotorSpeed", 0.5);
+    m_turret.spinTurretMotor(-speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    m_ballIntake.spinIntakeRoller(speed);
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinIntakeRoller(0);
+    m_turret.spinTurretMotor(0);
   }
 
   // Returns true when the command should end.
