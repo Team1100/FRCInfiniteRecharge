@@ -35,11 +35,13 @@ public class RobotContainer {
   private final Conveyor conveyor;
   private final Shooter shooter;
   private final Spinner spinner;
+  private final Turret turret;
   private final Vision vision;
 
   //Commands
   private final DefaultDrive defaultdrive;
   private final DefaultIntake defaultintake;
+  private final DefaultTurret defaultturret;
   
   //OI
   private static RobotContainer robotContainer;
@@ -58,6 +60,7 @@ public class RobotContainer {
     conveyor = Conveyor.getInstance();
     shooter = Shooter.getInstance();
     spinner = Spinner.getInstance();
+    turret = Turret.getInstance();
     vision = Vision.getInstance();
 
     //Default command instantiation
@@ -65,6 +68,8 @@ public class RobotContainer {
     drive.setDefaultCommand(defaultdrive);
     defaultintake = new DefaultIntake(ballIntake);
     ballIntake.setDefaultCommand(defaultintake);
+    defaultturret = new DefaultTurret(turret);
+    turret.setDefaultCommand(defaultturret);
 
     //OI Device instantiation
     OI.getInstance();
