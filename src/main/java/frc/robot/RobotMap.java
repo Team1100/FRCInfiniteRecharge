@@ -168,11 +168,13 @@ public class RobotMap {
 
 	//[B]all Intake
 	public static final int B_INTAKE_ROLLER = CAN_11;
-	public static final int B_HCONVEYOR1 = CAN_6;
-	public static final int B_HCONVEYOR2 = CAN_9;
-	public static final int B_VCONVEYOR = CAN_12;
-	public static final int B_INCOMING = DIO_0;
-	public static final int B_READYTOSHOOT = DIO_1;
+
+	//[C]onveyer
+	public static final int C_HCONVEYOR_L = CAN_6;
+	public static final int C_HCONVEYOR_R = CAN_9;
+	public static final int C_VCONVEYOR = CAN_12;
+	public static final int C_INCOMING = DIO_0;
+	public static final int C_READYTOSHOOT = DIO_1;
 
 	//[S]pinner
 	public static final int S_MOTOR = PWM_3;
