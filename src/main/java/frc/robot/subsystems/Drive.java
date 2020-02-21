@@ -22,11 +22,10 @@ import frc.robot.TestingDashboard;
 import com.kauailabs.navx.frc.AHRS;
 
 public class Drive extends SubsystemBase {
-  private WPI_TalonSRX frontLeft;
-  private WPI_TalonSRX frontRight;
-
-  private VictorSPX backLeft;
-  private VictorSPX backRight;
+  VictorSPX frontLeft;
+  VictorSPX frontRight;
+  WPI_TalonSRX backLeft;
+  WPI_TalonSRX backRight;
 
   private DifferentialDrive drivetrain;
 
@@ -38,16 +37,17 @@ public class Drive extends SubsystemBase {
    * Creates a new Drive subsystem
    */
   private Drive() {
-    frontLeft = new WPI_TalonSRX(RobotMap.D_FRONT_LEFT);
-    frontRight = new WPI_TalonSRX(RobotMap.D_FRONT_RIGHT);
-    backLeft = new VictorSPX(RobotMap.D_BACK_LEFT);
-    backRight = new VictorSPX(RobotMap.D_BACK_RIGHT);
+    frontLeft = new VictorSPX(RobotMap.D_FRONT_LEFT);
+    frontRight = new VictorSPX(RobotMap.D_FRONT_RIGHT);
+    backLeft = new WPI_TalonSRX(RobotMap.D_BACK_LEFT);
+    backRight = new WPI_TalonSRX(RobotMap.D_BACK_RIGHT);
     
-    backLeft.follow(frontLeft);
-    backLeft.setInverted(true);
-    backRight.follow(frontRight);
+    frontLeft.follow(backLeft);
+    frontRight.follow(backRight);
+    frontRight.setInverted(true);
 
-    drivetrain = new DifferentialDrive(frontLeft, frontRight);
+
+    drivetrain = new DifferentialDrive(backLeft, backRight);
 
     ahrs = new AHRS(RobotMap.D_NAVX);
   }
