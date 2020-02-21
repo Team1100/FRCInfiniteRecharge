@@ -55,12 +55,12 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void spinHConveyors(double speed){
-    m_Hconveyor1.set(ControlMode.PercentOutput, -speed);
+    m_Hconveyor1.set(ControlMode.PercentOutput, speed);
     m_Hconveyor2.set(ControlMode.PercentOutput, -speed);
   }
 
   public void spinHConveyor1(double speed){
-    m_Hconveyor1.set(ControlMode.PercentOutput, -speed);
+    m_Hconveyor1.set(ControlMode.PercentOutput, speed);
   }
 
   public void spinHConveyor2(double speed){
@@ -72,7 +72,7 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void spinBothConveyors(double hSpeed1, double hSpeed2, double vSpeed){
-    m_Hconveyor1.set(ControlMode.PercentOutput, -hSpeed1);
+    m_Hconveyor1.set(ControlMode.PercentOutput, hSpeed1);
     m_Hconveyor2.set(ControlMode.PercentOutput, -hSpeed2);
     m_Vconveyor.set(ControlMode.PercentOutput, -vSpeed);
     

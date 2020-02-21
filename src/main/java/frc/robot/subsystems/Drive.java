@@ -20,10 +20,10 @@ import frc.robot.TestingDashboard;
 import com.kauailabs.navx.frc.AHRS;
 
 public class Drive extends SubsystemBase {
-  WPI_TalonSRX frontLeft;
-  WPI_TalonSRX frontRight;
-  VictorSPX backLeft;
-  VictorSPX backRight;
+  VictorSPX frontLeft;
+  VictorSPX frontRight;
+  WPI_TalonSRX backLeft;
+  WPI_TalonSRX backRight;
 
   DifferentialDrive drivetrain;
 
@@ -35,16 +35,17 @@ public class Drive extends SubsystemBase {
    * Creates a new Drive subsystem
    */
   private Drive() {
-    frontLeft = new WPI_TalonSRX(RobotMap.D_FRONT_LEFT);
-    frontRight = new WPI_TalonSRX(RobotMap.D_FRONT_RIGHT);
-    backLeft = new VictorSPX(RobotMap.D_BACK_LEFT);
-    backRight = new VictorSPX(RobotMap.D_BACK_RIGHT);
+    frontLeft = new VictorSPX(RobotMap.D_FRONT_LEFT);
+    frontRight = new VictorSPX(RobotMap.D_FRONT_RIGHT);
+    backLeft = new WPI_TalonSRX(RobotMap.D_BACK_LEFT);
+    backRight = new WPI_TalonSRX(RobotMap.D_BACK_RIGHT);
     
-    backLeft.follow(frontLeft);
-    backLeft.setInverted(true);
-    backRight.follow(frontRight);
+    frontLeft.follow(backLeft);
+    frontRight.follow(backRight);
+    frontRight.setInverted(true);
 
-    drivetrain = new DifferentialDrive(frontLeft, frontRight);
+
+    drivetrain = new DifferentialDrive(backLeft, backRight);
 
     ahrs = new AHRS(RobotMap.D_NAVX);
   }
@@ -74,7 +75,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed){
-    drivetrain.tankDrive(-leftSpeed, rightSpeed);
+    drivetrain.tankDrive(leftSpeed, rightSpeed);
   }
 
   @Override
