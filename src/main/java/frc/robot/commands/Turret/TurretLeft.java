@@ -32,13 +32,13 @@ public class TurretLeft extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double speed = SmartDashboard.getNumber("IncrementTurretMotorSpeed", 0.5);
-    m_turret.spinTurretMotor(-speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speed = SmartDashboard.getNumber("IncrementTurretMotorSpeed", 0.5);
+    m_turret.spinTurretMotor(-speed);
   }
 
   // Called once the command ends or is interrupted.
