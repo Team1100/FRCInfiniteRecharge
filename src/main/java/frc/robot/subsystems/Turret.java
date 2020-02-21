@@ -20,26 +20,27 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class Turret extends SubsystemBase {
   private VictorSPX m_turretMotor;
+  
   private static Turret m_turret;
+  
   private Encoder m_turretEncoder;
+
   private DigitalInput m_leftStop;
   private DigitalInput m_rightStop;
 
   /**
    * Creates a new Turret.
    */
-  public Turret() {
+  private Turret() {
     m_turretMotor = new VictorSPX(RobotMap.T_MOTOR);
     m_leftStop = new DigitalInput(RobotMap.T_LEFT_STOP);
     m_rightStop = new DigitalInput(RobotMap.T_RIGHT_STOP);
-
   }
 
   public static Turret getInstance() {
     if (m_turret == null) {
       m_turret = new Turret();
       TestingDashboard.getInstance().registerSubsystem(m_turret, "Turret");
-
     }
     return m_turret;
   }

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
-  public static Vision vision;
+  private static Vision vision;
 
   /**
    * Creates a new Vision.

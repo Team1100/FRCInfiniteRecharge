@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TestingDashboard;
 
 public class Shooter extends SubsystemBase {
-  public static Shooter shooter;
+  private static Shooter shooter;
 
   private WPI_TalonSRX bottomShooter;
   private WPI_TalonSRX topShooter;

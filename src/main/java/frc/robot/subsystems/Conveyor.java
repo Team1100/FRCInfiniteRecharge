@@ -20,21 +20,22 @@ import frc.robot.TestingDashboard;
 public class Conveyor extends SubsystemBase {
   private static Conveyor m_conveyor;
 
-  int m_numBallsStored;
+  private int m_numBallsStored;
 
-  VictorSPX m_Hconveyor1;
-  VictorSPX m_Hconveyor2;
-  VictorSPX m_Vconveyor;
+  private VictorSPX m_Hconveyor1;
+  private VictorSPX m_Hconveyor2;
+  private VictorSPX m_Vconveyor;
 
-  DigitalInput m_ballIncoming;
-  DigitalInput m_ballReadyToShoot;
+  private DigitalInput m_ballIncoming;
+  private DigitalInput m_ballReadyToShoot;
 
   private Encoder m_conveyor1Encoder;
   private Encoder m_conveyor2Encoder;
+  
   /**
    * Creates a new Conveyor.
    */
-  public Conveyor() {
+  private Conveyor() {
     m_numBallsStored = 0;
 
     m_Hconveyor1 = new VictorSPX(RobotMap.B_HCONVEYOR1);
@@ -43,7 +44,6 @@ public class Conveyor extends SubsystemBase {
 
     m_ballIncoming = new DigitalInput(RobotMap.B_INCOMING);
     m_ballReadyToShoot = new DigitalInput(RobotMap.B_READYTOSHOOT);
-
   }
 
   public static Conveyor getInstance() {
@@ -54,43 +54,42 @@ public class Conveyor extends SubsystemBase {
     return m_conveyor;
   }
 
-  public void spinHConveyors(double speed){
+  public void spinHConveyors(double speed) {
     m_Hconveyor1.set(ControlMode.PercentOutput, -speed);
     m_Hconveyor2.set(ControlMode.PercentOutput, -speed);
   }
 
-  public void spinHConveyor1(double speed){
+  public void spinHConveyor1(double speed) {
     m_Hconveyor1.set(ControlMode.PercentOutput, -speed);
   }
 
-  public void spinHConveyor2(double speed){
+  public void spinHConveyor2(double speed) {
     m_Hconveyor2.set(ControlMode.PercentOutput, -speed);
   }
 
-  public void spinVConveyor(double speed){
+  public void spinVConveyor(double speed) {
     m_Vconveyor.set(ControlMode.PercentOutput, -speed);
   }
 
-  public void spinBothConveyors(double hSpeed1, double hSpeed2, double vSpeed){
+  public void spinBothConveyors(double hSpeed1, double hSpeed2, double vSpeed) {
     m_Hconveyor1.set(ControlMode.PercentOutput, -hSpeed1);
     m_Hconveyor2.set(ControlMode.PercentOutput, -hSpeed2);
     m_Vconveyor.set(ControlMode.PercentOutput, -vSpeed);
-    
   }
 
-  public boolean ballIncoming(){
+  public boolean ballIncoming() {
     return !m_ballIncoming.get();
   }
 
-  public boolean ballReadyToShoot(){
+  public boolean ballReadyToShoot() {
     return !m_ballReadyToShoot.get();
   }
 
-  public void decrementBallsStored(){
+  public void decrementBallsStored() {
     m_numBallsStored -= 1;
   }
 
-  public void incrementBallsStored(){
+  public void incrementBallsStored() {
     m_numBallsStored += 1;
   }
 

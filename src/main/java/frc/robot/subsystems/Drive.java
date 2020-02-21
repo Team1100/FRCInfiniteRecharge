@@ -20,16 +20,17 @@ import frc.robot.TestingDashboard;
 import com.kauailabs.navx.frc.AHRS;
 
 public class Drive extends SubsystemBase {
-  WPI_TalonSRX frontLeft;
-  WPI_TalonSRX frontRight;
-  VictorSPX backLeft;
-  VictorSPX backRight;
+  private WPI_TalonSRX frontLeft;
+  private WPI_TalonSRX frontRight;
 
-  DifferentialDrive drivetrain;
+  private VictorSPX backLeft;
+  private VictorSPX backRight;
+
+  private DifferentialDrive drivetrain;
 
   private AHRS ahrs;
   
-  public static Drive drive;
+  private static Drive drive;
 
   /**
    * Creates a new Drive subsystem
