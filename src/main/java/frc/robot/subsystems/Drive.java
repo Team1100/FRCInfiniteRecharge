@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
+
 import com.kauailabs.navx.frc.AHRS;
 
 public class Drive extends SubsystemBase {
@@ -25,11 +27,11 @@ public class Drive extends SubsystemBase {
   WPI_TalonSRX backLeft;
   WPI_TalonSRX backRight;
 
-  DifferentialDrive drivetrain;
+  private DifferentialDrive drivetrain;
 
   private AHRS ahrs;
   
-  public static Drive drive;
+  private static Drive drive;
 
   /**
    * Creates a new Drive subsystem
@@ -54,8 +56,8 @@ public class Drive extends SubsystemBase {
    * Used outside of the Drive subsystem to return an instance of Drive subsystem.
    * @return Returns instance of Drive subsystem formed from constructor.
    */
-  public static Drive getInstance(){
-    if (drive == null){
+  public static Drive getInstance() {
+    if (drive == null) {
       drive = new Drive();
       TestingDashboard.getInstance().registerSubsystem(drive, "Drive");
     }
@@ -74,8 +76,8 @@ public class Drive extends SubsystemBase {
     return ahrs.getRoll();
   }
 
-  public void tankDrive(double leftSpeed, double rightSpeed){
-    drivetrain.tankDrive(leftSpeed, rightSpeed);
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drivetrain.tankDrive(-leftSpeed, rightSpeed);
   }
 
   @Override

@@ -29,9 +29,8 @@ public class DefaultTurret extends CommandBase {
 
   public static void registerWithTestingDashboard() {
     Turret turret = Turret.getInstance();
-    DefaultTurret cmd = new DefaultTurret(Turret.getInstance());
+    DefaultTurret cmd = new DefaultTurret(turret);
     TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
-
   }
 
   // Called when the command is initially scheduled.
@@ -42,7 +41,7 @@ public class DefaultTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Drives the Turret with the x-axis of the left Xbox joystick.
+    // Drives the Turret with the x-axis of the right Xbox joystick.
     double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
     m_turret.spinTurretMotor(0.5*speed);
   }
