@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
@@ -45,7 +46,7 @@ public class Turret extends SubsystemBase {
     return m_turret;
   }
 
-  public void spinTurretMotor(double speed){
+  public void spinTurretMotor(double speed) {
     m_turretMotor.set(ControlMode.PercentOutput, speed);
   }
       

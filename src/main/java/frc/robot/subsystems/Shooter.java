@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.TestingDashboard;
 
 public class Shooter extends SubsystemBase {
@@ -34,14 +35,13 @@ public class Shooter extends SubsystemBase {
     return shooter;
   }
 
-  public void setBottom(double speed){
+  public void setBottom(double speed) {
     bottomShooter.set(-speed);
   }
 
-  public void setTop(double speed){
+  public void setTop(double speed) {
     topShooter.set(speed);
   }
-
 
   @Override
   public void periodic() {
