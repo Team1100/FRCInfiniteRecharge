@@ -7,6 +7,7 @@
 
 package frc.robot.commands.BallIntake;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.TestingDashboard;
@@ -19,6 +20,7 @@ import frc.robot.subsystems.BallIntake;
 public class DefaultIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final BallIntake m_intake;
+  private DoubleSolenoid m_piston;
   private static OI oi;
 
   /**
@@ -26,10 +28,12 @@ public class DefaultIntake extends CommandBase {
    * @param BallIntake the subsystem used by this command.
    */
   public DefaultIntake(BallIntake intake) {
+    // Use addRequirements() here to declare subsystem dependencies.
     m_intake = intake;
     oi = OI.getInstance();
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_intake);
+    m_piston = intake.getPiston();
+    
   }
 
   public static void registerWithTestingDashboard() {
@@ -41,12 +45,13 @@ public class DefaultIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Drives the ball intake with the y-axis of the left XBox joystick
+    //Drives the ball intake with the right trigger.
     double speed = oi.getXbox().getAxis(XboxAxis.kRightTrigger);
     m_intake.spinIntakeRoller(speed);
   }

@@ -36,13 +36,13 @@ public class BallIntakeDown extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kReverse);
+    m_piston.set(DoubleSolenoid.Value.kForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
-    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
+    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
       m_piston.set(DoubleSolenoid.Value.kOff);
       m_finished = true;
     }
