@@ -9,8 +9,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
 public class Shooter extends SubsystemBase {
@@ -18,6 +19,7 @@ public class Shooter extends SubsystemBase {
 
   private WPI_TalonSRX bottomShooter;
   private WPI_TalonSRX topShooter;
+  private static DoubleSolenoid m_piston;
 
   /**
    * Creates a new Shooter.
@@ -25,6 +27,8 @@ public class Shooter extends SubsystemBase {
   private Shooter() {
     bottomShooter = new WPI_TalonSRX(2);
     topShooter = new WPI_TalonSRX(13);
+    m_piston = new DoubleSolenoid(RobotMap.SH_PCM_CAN, 
+    RobotMap.SH_PISTON_PORT0, RobotMap.SH_PISTON_PORT1);
   }
 
   public static Shooter getInstance() {
@@ -41,6 +45,10 @@ public class Shooter extends SubsystemBase {
 
   public void setTop(double speed) {
     topShooter.set(speed);
+  }
+
+  public DoubleSolenoid getPiston() {
+    return m_piston;
   }
 
   @Override
