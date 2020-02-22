@@ -14,7 +14,7 @@ import frc.robot.TestingDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class PrepareBallsToShoot extends CommandBase {
+public class ConveyorPrepBalls extends CommandBase {
   /**
    * Creates a new PrepareBallsToShoot.
    */
@@ -23,7 +23,7 @@ public class PrepareBallsToShoot extends CommandBase {
    Timer m_timer;
    private static final int m_period = 10;
 
-  public PrepareBallsToShoot() {
+  public ConveyorPrepBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
 
     addRequirements(Conveyor.getInstance());
@@ -34,7 +34,7 @@ public class PrepareBallsToShoot extends CommandBase {
 
   public static void registerWithTestingDashboard() {
     Conveyor conveyor = Conveyor.getInstance();
-    PrepareBallsToShoot cmd = new PrepareBallsToShoot();
+    ConveyorPrepBalls cmd = new ConveyorPrepBalls();
     TestingDashboard.getInstance().registerCommand(conveyor, "Basic", cmd);
   }
 
