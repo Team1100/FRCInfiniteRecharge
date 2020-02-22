@@ -51,8 +51,8 @@ public class SpinConveyorHTimed extends CommandBase {
 
     double speed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.5);
     double speed2 = SmartDashboard.getNumber("ConveyorHMotor2Speed",0.5);
-    m_conveyor.spinHConveyor1(speed1);
-    m_conveyor.spinHConveyor2(speed2);
+    m_conveyor.spinHConveyorL(speed1);
+    m_conveyor.spinHConveyorR(speed2);
 
   }
 
