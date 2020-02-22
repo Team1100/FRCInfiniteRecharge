@@ -50,6 +50,14 @@ public class BallIntake extends SubsystemBase {
   public DoubleSolenoid getPiston() {
     return m_piston;
   }
+
+  public void lowerIntake(){
+    m_piston.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void raiseIntake(){
+    m_piston.set(DoubleSolenoid.Value.kReverse);
+  }
  
   @Override
   public void periodic() {

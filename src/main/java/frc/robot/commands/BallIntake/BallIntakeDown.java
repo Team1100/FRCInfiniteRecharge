@@ -20,6 +20,7 @@ public class BallIntakeDown extends CommandBase {
    BallIntake m_ballIntake;
    DoubleSolenoid m_piston;
    boolean m_finished = false;
+   boolean isUp = false;
    
   public BallIntakeDown() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,12 +37,18 @@ public class BallIntakeDown extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kForward);
+    if(m_piston.get() == DoubleSolenoid.Value.kReverse){
+      isUp = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() { 
+    if(isUp){
+      m_ballIntake.lowerIntake();
+    }
+
     if (m_piston.get() == DoubleSolenoid.Value.kForward) {
       m_finished = true;
     }
