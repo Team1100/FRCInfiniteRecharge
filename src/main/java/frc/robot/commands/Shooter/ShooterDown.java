@@ -5,36 +5,59 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Shooter;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.TestingDashboard;
+import frc.robot.subsystems.Shooter;
 
-public class IntakeBalls extends CommandBase {
+public class ShooterDown extends CommandBase {
   /**
-   * Creates a new IntakeBalls.
+   * Creates a new ShooterDown.
    */
-  public IntakeBalls() {
+  Shooter m_shooter;
+  DoubleSolenoid m_piston;
+  boolean m_finished = false;
+
+  public ShooterDown() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Shooter.getInstance());
+    m_shooter = Shooter.getInstance();
+    m_piston = m_shooter.getPiston();
+  }
+
+  public static void registerWithTestingDashboard() {
+    Shooter shooter = Shooter.getInstance();
+    ShooterDown cmd = new ShooterDown();
+    TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_piston.set(DoubleSolenoid.Value.kReverse);
+    m_finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
+      m_piston.set(DoubleSolenoid.Value.kOff);
+      m_finished = true;
+    }  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_piston.set(DoubleSolenoid.Value.kOff);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_finished;
   }
 }

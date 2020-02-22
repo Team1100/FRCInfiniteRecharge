@@ -10,8 +10,9 @@ package frc.robot.commands.Conveyor;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Shooter;
 import frc.robot.TestingDashboard;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ConveyorPrepBalls extends CommandBase {
@@ -20,15 +21,22 @@ public class ConveyorPrepBalls extends CommandBase {
    */
 
    Conveyor m_conveyor;
-   Timer m_timer;
-   private static final int m_period = 10;
+   Shooter m_shooter;
+   DoubleSolenoid.Value solenoidState;
+
+   private static final int STATE1 = 1;
+   private static final int STATE2 = 2;
+
+   int state;
+   int stateCounter;
 
   public ConveyorPrepBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    addRequirements(Conveyor.getInstance());
+    addRequirements(Conveyor.getInstance(), Shooter.getInstance());
     m_conveyor = Conveyor.getInstance();
-    m_timer = new Timer();
+    m_shooter = Shooter.getInstance();
+    solenoidState = m_shooter.getPiston().get();
     
   }
 
@@ -41,18 +49,33 @@ public class ConveyorPrepBalls extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_timer.start();
+    state = STATE1;
+    stateCounter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
-    if (m_conveyor.ballReadyToShoot() == false){
-      m_conveyor.spinHConveyors(speed);
-    }
-    if (m_conveyor.ballReadyToShoot() == true){
-      m_conveyor.spinHConveyors(0);
+    switch (state) {
+    case STATE1:
+      m_conveyor.spinVConveyor(speed);
+      if (m_conveyor.ballReadyToShoot() == true) {
+        state = STATE2;
+      }
+      break;
+
+    case STATE2:
+      if (solenoidState == DoubleSolenoid.Value.kForward) {
+        state = STATE1;
+      }
+      else {
+        while (solenoidState == DoubleSolenoid.Value.kReverse) {
+          m_conveyor.spinVConveyor(0);
+        }
+      }
+      state = STATE1;
+      break;
     }
   }
 
@@ -65,7 +88,6 @@ public class ConveyorPrepBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
-    return (timerExpired || (m_conveyor.ballReadyToShoot() == true));
+    return false;
   }
 }
