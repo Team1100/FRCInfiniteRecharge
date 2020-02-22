@@ -8,7 +8,9 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.TestingDashboard;
 import frc.robot.commands.Drive.TimedForward;
+import frc.robot.subsystems.Auto;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,4 +24,11 @@ public class ComplexAuto extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(new TimedForward());
   }
+
+  public static void registerWithTestingDashboard() {
+    Auto auto = Auto.getInstance();
+    ComplexAuto cmd = new ComplexAuto();
+    TestingDashboard.getInstance().registerCommand(auto, "Auto", cmd);
+  }
+
 }

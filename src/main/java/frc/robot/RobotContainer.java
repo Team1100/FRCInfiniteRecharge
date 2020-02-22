@@ -93,6 +93,7 @@ public class RobotContainer {
     TurretStop.registerWithTestingDashboard();
     TurretLeft.registerWithTestingDashboard();
     TurretRight.registerWithTestingDashboard();
+    ComplexAuto.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
