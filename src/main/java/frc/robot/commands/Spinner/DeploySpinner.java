@@ -5,57 +5,58 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the ball intake roller while command is active.
-package frc.robot.commands;
+//This command extends the piston that is used to push up the spinner motor and color sensor.
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+package frc.robot.commands.Spinner;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;  
+import frc.robot.subsystems.Spinner;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.BallIntake;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SpinIntakeRoller extends CommandBase {
-  /**
-   * Creates a new SpinIntakeRoller.
-   */
-
-   BallIntake m_ballIntake;
-
-  public SpinIntakeRoller() {
+public class DeploySpinner extends CommandBase {
+  Spinner m_spinner;
+  boolean m_finished = false;
+  DoubleSolenoid m_piston;
+  
+  public DeploySpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
+    addRequirements(Spinner.getInstance());
+    m_spinner = Spinner.getInstance();
+    m_piston = m_spinner.getPiston();
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
-    SpinIntakeRoller cmd = new SpinIntakeRoller();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
+    Spinner spinner = Spinner.getInstance();
+    DeploySpinner cmd = new DeploySpinner();
+    TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
   }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_piston.set(DoubleSolenoid.Value.kForward);
+    m_finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    m_ballIntake.spinIntakeRoller(speed);
-
+    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
+      m_piston.set(DoubleSolenoid.Value.kOff);
+      m_finished = true;
+    }  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinIntakeRoller(0);
+    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_finished;
   }
 }

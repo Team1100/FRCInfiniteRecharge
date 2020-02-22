@@ -129,13 +129,16 @@ public class TestingDashboard {
     public void createDebugTab() {
         ShuffleboardTab debug_tab = Shuffleboard.getTab("Debug");
 
-        // Controlling inputs for Conveyor 2 motor
-        SmartDashboard.putNumber("Conveyor2MotorSpeed", 0.5);
-        SmartDashboard.putNumber("Conveyor2MotoryTimeout", 5);
+        // Controlling inputs for Conveyor H motor1
+        SmartDashboard.putNumber("ConveyorHMotor1Speed", 0.5);
+        SmartDashboard.putNumber("ConveyorHMotorTimeout", 5);
 
-        // Controlling inputs for Conveyor 1 motor
-        SmartDashboard.putNumber("Conveyor1MotorSpeed", 0.5);
-        SmartDashboard.putNumber("Conveyor1MotoryTimeout", 5);
+        // Controlling inputs for Conveyor H motor2
+        SmartDashboard.putNumber("ConveyorHMotor2Speed", 0.5);
+
+        // Controlling inputs for Conveyor V motor
+        SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
+        SmartDashboard.putNumber("ConveyorVMotorTimeout", 5);
 
         // Controlling inputs for Intake Roller motor
         SmartDashboard.putNumber("IntakeRollerSpeed", 0.5);
@@ -146,8 +149,24 @@ public class TestingDashboard {
         SmartDashboard.putString("SpinnerTargetColor","Yellow");
         SmartDashboard.putString("SpinnerActualColor","Yellow");
         SmartDashboard.putNumber("SpinnerColorNotFoundTimeout",5.0);
-    }
+        
+        // Controlling amount of time to drive forward
+        SmartDashboard.putNumber("DriveForwardTime", 3);
+        
+        // Controlling speed
+        SmartDashboard .putNumber("AutoDriveSpeed", 0.5);
 
+        // Set delay for before we execute auto commands
+        SmartDashboard.putNumber("StartAutoWaitTime", 3);
+
+        //Controlling shooter speeds
+        SmartDashboard.putNumber("TopShooterSpeed",0.2);
+        SmartDashboard.putNumber("BottomShooterSpeed",0.2);
+
+        // Control Turret speed
+        SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);
+    }
+ 
     public void updateDebugTab() {
 
     }

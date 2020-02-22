@@ -5,58 +5,62 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-//This command extends the piston that is used to push up the spinner motor and color sensor.
+package frc.robot.commands.BallIntake;
 
-package frc.robot.commands;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;  
-import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.OI;
 import frc.robot.TestingDashboard;
+import frc.robot.input.XboxController.XboxAxis;
+import frc.robot.subsystems.BallIntake;
 
-public class DeploySpinner extends CommandBase {
-  Spinner m_spinner;
-  boolean m_finished = false;
-  DoubleSolenoid m_piston;
-  
-  public DeploySpinner() {
+/**
+ * A Default Intake command that passes XBox controller input to the Ball Intake.
+ */
+public class DefaultIntake extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final BallIntake m_intake;
+  private static OI oi;
+
+  /**
+   * Creates a new DefaultIntake.
+   * @param BallIntake the subsystem used by this command.
+   */
+  public DefaultIntake(BallIntake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Spinner.getInstance());
-    m_spinner = Spinner.getInstance();
-    m_piston = m_spinner.getPiston();
+    m_intake = intake;
+    oi = OI.getInstance();
+    addRequirements(m_intake);
   }
 
   public static void registerWithTestingDashboard() {
-    Spinner spinner = Spinner.getInstance();
-    DeploySpinner cmd = new DeploySpinner();
-    TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
+    BallIntake intake = BallIntake.getInstance();
+    DefaultIntake cmd = new DefaultIntake(BallIntake.getInstance());
+    TestingDashboard.getInstance().registerCommand(intake, "Basic", cmd);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kForward);
-    m_finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
-      m_piston.set(DoubleSolenoid.Value.kOff);
-      m_finished = true;
-    }  
+    //Drives the ball intake with the right trigger.
+    double speed = oi.getXbox().getAxis(XboxAxis.kRightTrigger);
+    m_intake.spinIntakeRoller(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.
+  //Default command so will never finish running
   @Override
   public boolean isFinished() {
-    return m_finished;
+    return false;
   }
 }
