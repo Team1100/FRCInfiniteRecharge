@@ -43,7 +43,6 @@ public class DeploySpinner extends CommandBase {
   @Override
   public void execute() {
     if (m_piston.get() == DoubleSolenoid.Value.kForward) {
-      m_piston.set(DoubleSolenoid.Value.kOff);
       m_finished = true;
     }  
   }
@@ -51,7 +50,6 @@ public class DeploySpinner extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.
