@@ -156,6 +156,9 @@ public class TestingDashboard {
         // Controlling speed
         SmartDashboard .putNumber("AutoDriveSpeed", 0.5);
 
+        // Set delay for before we execute auto commands
+        SmartDashboard.putNumber("StartAutoWaitTime", 3);
+
         //Controlling shooter speeds
         SmartDashboard.putNumber("TopShooterSpeed",0);
         SmartDashboard.putNumber("BottomShooterSpeed",0);
