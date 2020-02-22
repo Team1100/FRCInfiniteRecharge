@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.Auto.*;
 import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Drive.*;
@@ -124,7 +125,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //TODO: Fill with autocommand
-    return null;
+    return (new ComplexAuto());
   }
 }
