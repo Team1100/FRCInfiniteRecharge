@@ -41,8 +41,8 @@ public class SpinBothConveyorsTimed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Vperiod = SmartDashboard.getNumber("ConveyorVMotoryTimeout", 5); // default of 5 seconds
-    m_Hperiod = SmartDashboard.getNumber("ConveyorHMotoryTimeout", 5); // default of 5 seconds
+    m_Vperiod = SmartDashboard.getNumber("ConveyorVMotorTimeout", 5); // default of 5 seconds
+    m_Hperiod = SmartDashboard.getNumber("ConveyorHMotorTimeout", 5); // default of 5 seconds
     m_timer.start();
   }
 
@@ -51,9 +51,8 @@ public class SpinBothConveyorsTimed extends CommandBase {
   public void execute() {
 
     double vSpeed = SmartDashboard.getNumber("ConveyorVMotorSpeed",0.5);
-    double hSpeed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.5);
+    double hSpeed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.7);
     double hSpeed2 = SmartDashboard.getNumber("ConveyorHMotor2Speed",0.5);
-
 
     m_conveyor.spinBothConveyors(hSpeed1, hSpeed2, vSpeed);
 

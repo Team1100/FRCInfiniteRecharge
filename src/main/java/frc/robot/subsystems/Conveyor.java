@@ -61,10 +61,12 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void spinHConveyorL(double speed) {
-    m_HconveyerL.set(ControlMode.PercentOutput, -speed);
+    // Note that positive is the correct direction for this belt
+    m_HconveyerL.set(ControlMode.PercentOutput, speed);
   }
 
   public void spinHConveyorR(double speed) {
+    // Note that negative is the correct direction for this belt
     m_HconveyerR.set(ControlMode.PercentOutput, -speed);
   }
 
