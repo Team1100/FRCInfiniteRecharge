@@ -99,6 +99,7 @@ public class RobotContainer {
     BallIntakeUp.registerWithTestingDashboard();
     ShooterUp.registerWithTestingDashboard();
     ShooterDown.registerWithTestingDashboard();
+    ConveyorPrepBalls.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
