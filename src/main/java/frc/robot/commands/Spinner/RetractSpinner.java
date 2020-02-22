@@ -5,59 +5,59 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+//This command retracts the piston that is used to push up the spinner motor and color sensor.
+
+package frc.robot.commands.Spinner;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.subsystems.Spinner;
 
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Drive;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
-
-public class TimedForward extends CommandBase {
-  Timer t;
-  Drive drive;
-  double time;      
-  /**
-   * Creates a new timedforward.
-   */
-  public TimedForward() {
-    addRequirements(Drive.getInstance());
-    drive = Drive.getInstance();
-    t = new Timer();
+public class RetractSpinner extends CommandBase {
+  Spinner m_spinner;
+  boolean m_finished = false;
+  DoubleSolenoid m_piston;
+  
+  public RetractSpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Spinner.getInstance());
+    m_spinner = Spinner.getInstance();
+    m_piston = m_spinner.getPiston();
   }
+
   public static void registerWithTestingDashboard() {
-    Drive drive = Drive.getInstance();
-    TimedForward cmd = new TimedForward();
-    TestingDashboard.getInstance().registerCommand(drive, "Timed", cmd);
+    Spinner spinner = Spinner.getInstance();
+    RetractSpinner cmd = new RetractSpinner();
+    TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    time = SmartDashboard.getNumber("DriveForwardTime", 3);
-    t.start();
+    m_piston.set(DoubleSolenoid.Value.kReverse);
+    m_finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed =  SmartDashboard .getNumber("AutoDriveSpeed", 0.5);
-    drive.tankDrive(speed, speed);
-
+    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
+      m_piston.set(DoubleSolenoid.Value.kOff);
+      m_finished = true;
+    }
   }
-  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.tankDrive(0, 0);
+    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return t.get() > time; 
+    return m_finished;
   }
 }

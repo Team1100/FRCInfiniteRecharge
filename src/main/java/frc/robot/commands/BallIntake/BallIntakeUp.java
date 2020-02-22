@@ -10,95 +10,60 @@
  * Once the ball is inside the ball intake, the conveyor motor will run
  * to move the ball towards the end of the conveyor.
  */
-package frc.robot.commands;
+package frc.robot.commands.BallIntake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallIntake;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.TestingDashboard;
 
-public class IntakeBall extends CommandBase {
+public class BallIntakeUp extends CommandBase {
   /**
    * Creates a new IntakeBall.
    */
 
    BallIntake m_ballIntake;
-   Timer m_timer;
-   private static final int m_period = 30;
+   DoubleSolenoid m_piston;
+   boolean m_finished = false;
 
-   private static final int START = 1;
-   private static final int MOVE = 2;
-   private static final int END = 3;
-   int state = START;
-   int stateCounter = 0;
-
-  public IntakeBall() {
+  public BallIntakeUp() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(BallIntake.getInstance());
     m_ballIntake = BallIntake.getInstance();
-    m_timer = new Timer();
+    m_piston = m_ballIntake.getPiston();
 
   }
 
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
-    IntakeBall cmd = new IntakeBall();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Timed", cmd);
+    BallIntakeUp cmd = new BallIntakeUp();
+    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
 
   }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    state = START;
-    m_timer.start();
+    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double intakeSpeed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
-
-    switch (state){
-    case START:
-      m_ballIntake.spinIntakeRoller(intakeSpeed);
-      m_ballIntake.spinConveyor1(0);
-      if (m_ballIntake.ballIncoming() == true){
-        state = MOVE;
-      }
-      if (m_timer.hasPeriodPassed(m_period)){
-        state = END;
-      }
-
-    case MOVE:
-      m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinConveyor1(speed);
-      if ((m_ballIntake.ballIncoming() == false) || (m_timer.hasPeriodPassed(m_period))){
-        if (m_ballIntake.ballIncoming() == false) {
-          m_ballIntake.incrementBallsStored();
-        }
-        state = END;
-      }
-    case END:
-      m_ballIntake.spinIntakeRoller(0);
-      m_ballIntake.spinConveyor1(0);
-    default:
-
+    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
+      m_piston.set(DoubleSolenoid.Value.kOff);
+      m_finished = true;
     }
-      
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinIntakeRoller(0);
-    m_ballIntake.spinConveyor1(0);
+    m_piston.set(DoubleSolenoid.Value.kOff);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (state == END);
+    return m_finished;
   }
 }

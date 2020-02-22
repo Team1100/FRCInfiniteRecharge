@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
 import frc.robot.input.XboxController;
 
@@ -42,6 +43,8 @@ public class OI {
     xbox = new XboxController(RobotMap.U_XBOX_CONTROLLER, 0.3);
 
     //Now Mapping Commands to XBox
+    xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
+    xbox.getButtonRightBumper().whileHeld(new TurretRight());
 
   }
 

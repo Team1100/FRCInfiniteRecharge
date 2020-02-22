@@ -8,29 +8,30 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.TestingDashboard;
 
-public class Vision extends SubsystemBase {
-  private static Vision vision;
+public class Auto extends SubsystemBase {
+
+  public static Auto auto;
 
   /**
-   * Creates a new Vision.
+   * Creates a new Auto.
    */
-  private Vision() {
+  public Auto() {
 
-  }
-
-  public static Vision getInstance() {
-    if (vision == null) {
-      vision = new Vision();
-      TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
-    }
-    return vision;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public static Auto getInstance(){
+    if (auto == null){
+      auto = new Auto();
+      TestingDashboard.getInstance().registerSubsystem(auto, "Auto");
+    }
+    return auto;
+  }
+
 }

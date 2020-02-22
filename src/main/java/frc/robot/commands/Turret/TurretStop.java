@@ -5,65 +5,49 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the conveyor motor for a specified amount of time.
-package frc.robot.commands;
+package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.BallIntake;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Turret;
 
-public class SpinConveyor1Timed extends CommandBase {
+public class TurretStop extends CommandBase {
+  Turret m_turret;
   /**
-   * Creates a new SpinConveyor1Timed.
+   * Creates a new TurretStop.
    */
-
-   Timer m_timer;
-   BallIntake m_ballIntake;
-   double m_period;
-
-  public SpinConveyor1Timed() {
+  public TurretStop() {
     // Use addRequirements() here to declare subsystem dependencies.
-    
-    addRequirements(BallIntake.getInstance());
-    m_timer = new Timer();
-    m_ballIntake = BallIntake.getInstance();
-
+    m_turret = Turret.getInstance();
+    addRequirements(m_turret);
   }
 
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
-    SpinConveyor1Timed cmd = new SpinConveyor1Timed();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Timed", cmd);
+    Turret turret = Turret.getInstance();
+    TurretStop cmd = new TurretStop();
+    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_period = SmartDashboard.getNumber("Conveyor1MotoryTimeout", 5); // default of 5 seconds
-    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
-    m_ballIntake.spinConveyor1(speed);
-
+    m_turret.spinTurretMotor(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ballIntake.spinConveyor1(0);
+    m_turret.spinTurretMotor(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
-    return timerExpired;
+    return true;
   }
 }
