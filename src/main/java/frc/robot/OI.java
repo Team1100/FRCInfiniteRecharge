@@ -52,6 +52,9 @@ public class OI {
     xbox.getButtonY().whenPressed(new SpinShooter());
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
+    xbox.getDPad().getUp().whenPressed(new ShooterUp());
+    xbox.getDPad().getDown().whenPressed(new ShooterDown());
+
 
   }
 
