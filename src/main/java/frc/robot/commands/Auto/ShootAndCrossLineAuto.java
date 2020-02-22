@@ -15,19 +15,24 @@ import frc.robot.subsystems.Auto;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ComplexAuto extends SequentialCommandGroup {
+public class ShootAndCrossLineAuto extends SequentialCommandGroup {
   /**
    * Creates a new ComplexAuto.
    */
-  public ComplexAuto() {
+  public ShootAndCrossLineAuto() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new TimedForward());
+    // Autonomous mode will execute the below steps
+    // 1. Wait a certain amount of time (controlled by StartAutoWaitTime in SmartDashboard)
+    // 2. Move forward for a certain amount of time (controlled by DriveForwardTime in SmartDashboard)
+    // TODO: Add the commands for shooting here
+    super(new Wait(),
+          new TimedForward());
   }
 
   public static void registerWithTestingDashboard() {
     Auto auto = Auto.getInstance();
-    ComplexAuto cmd = new ComplexAuto();
+    ShootAndCrossLineAuto cmd = new ShootAndCrossLineAuto();
     TestingDashboard.getInstance().registerCommand(auto, "Auto", cmd);
   }
 
