@@ -41,7 +41,7 @@ public class SpinConveyorVTimed extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_period = SmartDashboard.getNumber("ConveyorVMotoryTimeout", 5); // default of 5 seconds
+    m_period = SmartDashboard.getNumber("ConveyorVMotorTimeout", 5); // default of 5 seconds
     m_timer.start();
   }
 

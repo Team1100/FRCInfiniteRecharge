@@ -44,7 +44,7 @@ public class BallIntake extends SubsystemBase {
   }
 
   public void spinIntakeRoller(double speed) {
-   m_intakeRoller.set(ControlMode.PercentOutput, speed);
+    m_intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
   public DoubleSolenoid getPiston() {

@@ -137,7 +137,7 @@ public class TestingDashboard {
         SmartDashboard.putNumber("ConveyorHMotor2Speed", 0.5);
 
         // Controlling inputs for Conveyor V motor
-        SmartDashboard.putNumber("ConveyorVMotorSpeed", 1);
+        SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
         SmartDashboard.putNumber("ConveyorVMotorTimeout", 5);
 
         // Controlling inputs for Intake Roller motor
@@ -160,8 +160,8 @@ public class TestingDashboard {
         SmartDashboard.putNumber("StartAutoWaitTime", 3);
 
         //Controlling shooter speeds
-        SmartDashboard.putNumber("TopShooterSpeed",0);
-        SmartDashboard.putNumber("BottomShooterSpeed",0);
+        SmartDashboard.putNumber("TopShooterSpeed",0.2);
+        SmartDashboard.putNumber("BottomShooterSpeed",0.2);
 
         // Control Turret speed
         SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);

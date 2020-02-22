@@ -167,7 +167,7 @@ public class RobotMap {
 	public static final int U_XBOX_CONTROLLER = 2;
 
 	//[B]all Intake
-	public static final int B_INTAKE_ROLLER = CAN_12;
+	public static final int B_INTAKE_ROLLER = CAN_5;
 	public static final int B_PCM_CAN = PCM_CAN;
 	public static final int B_PISTON_PORT2 = PCM_1;
 	public static final int B_PISTON_PORT3 = PCM_6;
@@ -175,7 +175,7 @@ public class RobotMap {
 	//[C]onveyer
 	public static final int C_HCONVEYOR_L = CAN_4;
 	public static final int C_HCONVEYOR_R = CAN_11;
-	public static final int C_VCONVEYOR = CAN_6;
+	public static final int C_VCONVEYOR = CAN_9;
 	public static final int C_INCOMING = DIO_0;
 	public static final int C_READYTOSHOOT = DIO_1;
 

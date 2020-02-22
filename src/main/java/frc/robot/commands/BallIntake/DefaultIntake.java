@@ -20,7 +20,6 @@ import frc.robot.subsystems.BallIntake;
 public class DefaultIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final BallIntake m_intake;
-  private DoubleSolenoid m_piston;
   private static OI oi;
 
   /**
@@ -32,8 +31,6 @@ public class DefaultIntake extends CommandBase {
     m_intake = intake;
     oi = OI.getInstance();
     addRequirements(m_intake);
-    m_piston = intake.getPiston();
-    
   }
 
   public static void registerWithTestingDashboard() {
@@ -45,7 +42,6 @@ public class DefaultIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

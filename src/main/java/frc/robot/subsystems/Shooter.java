@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
 public class Shooter extends SubsystemBase {
@@ -23,8 +23,8 @@ public class Shooter extends SubsystemBase {
    * Creates a new Shooter.
    */
   private Shooter() {
-    bottomShooter = new WPI_TalonSRX(2);
-    topShooter = new WPI_TalonSRX(13);
+    bottomShooter = new WPI_TalonSRX(RobotMap.SH_BOTTOM);
+    topShooter = new WPI_TalonSRX(RobotMap.SH_TOP);
   }
 
   public static Shooter getInstance() {
