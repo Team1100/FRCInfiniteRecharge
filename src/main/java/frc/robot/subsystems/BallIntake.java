@@ -11,24 +11,23 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+public class BallIntake extends SubsystemBase {
+  private static BallIntake m_ballIntake;
+
+  private VictorSPX m_intakeRoller;
+
   /**
    * Creates a new Ball Intake subsystem
    */
-public class BallIntake extends SubsystemBase {
-
-  public static BallIntake m_ballIntake;
-
-  VictorSPX m_intakeRoller;
-
   private BallIntake() {
     m_intakeRoller = new VictorSPX(RobotMap.B_INTAKE_ROLLER);
-    
   }
 
   public static BallIntake getInstance() {
@@ -39,15 +38,12 @@ public class BallIntake extends SubsystemBase {
     return m_ballIntake;
   }
 
-  public void spinIntakeRoller(double speed){
+  public void spinIntakeRoller(double speed) {
    m_intakeRoller.set(ControlMode.PercentOutput, speed);
   }
-
-
  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
   }
 }

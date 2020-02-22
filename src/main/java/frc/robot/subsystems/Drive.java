@@ -15,36 +15,39 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
+
 import com.kauailabs.navx.frc.AHRS;
 
 public class Drive extends SubsystemBase {
-  WPI_TalonSRX frontLeft;
-  WPI_TalonSRX frontRight;
-  VictorSPX backLeft;
-  VictorSPX backRight;
+  VictorSPX frontLeft;
+  VictorSPX frontRight;
+  WPI_TalonSRX backLeft;
+  WPI_TalonSRX backRight;
 
-  DifferentialDrive drivetrain;
+  private DifferentialDrive drivetrain;
 
   private AHRS ahrs;
   
-  public static Drive drive;
+  private static Drive drive;
 
   /**
    * Creates a new Drive subsystem
    */
   private Drive() {
-    frontLeft = new WPI_TalonSRX(RobotMap.D_FRONT_LEFT);
-    frontRight = new WPI_TalonSRX(RobotMap.D_FRONT_RIGHT);
-    backLeft = new VictorSPX(RobotMap.D_BACK_LEFT);
-    backRight = new VictorSPX(RobotMap.D_BACK_RIGHT);
+    frontLeft = new VictorSPX(RobotMap.D_FRONT_LEFT);
+    frontRight = new VictorSPX(RobotMap.D_FRONT_RIGHT);
+    backLeft = new WPI_TalonSRX(RobotMap.D_BACK_LEFT);
+    backRight = new WPI_TalonSRX(RobotMap.D_BACK_RIGHT);
     
-    backLeft.follow(frontLeft);
-    backLeft.setInverted(true);
-    backRight.follow(frontRight);
+    frontLeft.follow(backLeft);
+    frontRight.follow(backRight);
+    frontRight.setInverted(true);
 
-    drivetrain = new DifferentialDrive(frontLeft, frontRight);
+
+    drivetrain = new DifferentialDrive(backLeft, backRight);
 
     ahrs = new AHRS(RobotMap.D_NAVX);
   }
@@ -53,8 +56,8 @@ public class Drive extends SubsystemBase {
    * Used outside of the Drive subsystem to return an instance of Drive subsystem.
    * @return Returns instance of Drive subsystem formed from constructor.
    */
-  public static Drive getInstance(){
-    if (drive == null){
+  public static Drive getInstance() {
+    if (drive == null) {
       drive = new Drive();
       TestingDashboard.getInstance().registerSubsystem(drive, "Drive");
     }
@@ -73,8 +76,8 @@ public class Drive extends SubsystemBase {
     return ahrs.getRoll();
   }
 
-  public void tankDrive(double leftSpeed, double rightSpeed){
-    drivetrain.tankDrive(-leftSpeed, rightSpeed);
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drivetrain.tankDrive(leftSpeed, rightSpeed);
   }
 
   @Override
