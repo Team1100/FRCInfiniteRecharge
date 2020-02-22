@@ -77,7 +77,7 @@ public class Drive extends SubsystemBase {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
-    drivetrain.tankDrive(-leftSpeed, rightSpeed);
+    drivetrain.tankDrive(leftSpeed, rightSpeed);
   }
 
   @Override

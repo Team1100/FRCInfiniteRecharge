@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Auto.*;
 import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Drive.*;
@@ -92,6 +94,9 @@ public class RobotContainer {
     TurretStop.registerWithTestingDashboard();
     TurretLeft.registerWithTestingDashboard();
     TurretRight.registerWithTestingDashboard();
+    ShootAndCrossLineAuto.registerWithTestingDashboard();
+    BallIntakeDown.registerWithTestingDashboard();
+    BallIntakeUp.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
@@ -124,7 +129,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //TODO: Fill with autocommand
-    return null;
+    // TODO: This needs to be changed to collect the autonomous command
+    // from a chooser on ShuffleBoard
+    return (new ShootAndCrossLineAuto());
   }
 }

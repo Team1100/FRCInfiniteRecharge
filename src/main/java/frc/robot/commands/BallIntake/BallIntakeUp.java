@@ -5,51 +5,65 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+/* 
+ * Spins the intake roller until a ball has entered the ball intake. 
+ * Once the ball is inside the ball intake, the conveyor motor will run
+ * to move the ball towards the end of the conveyor.
+ */
+package frc.robot.commands.BallIntake;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.BallIntake;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Turret;
 
-public class TurretRight extends CommandBase {
-  Turret m_turret;
+public class BallIntakeUp extends CommandBase {
   /**
-   * Creates a new TurretRight.
+   * Creates a new IntakeBall.
    */
-  public TurretRight() {
+
+   BallIntake m_ballIntake;
+   DoubleSolenoid m_piston;
+   boolean m_finished = false;
+
+  public BallIntakeUp() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = Turret.getInstance();
-    addRequirements(m_turret);
+    addRequirements(BallIntake.getInstance());
+    m_ballIntake = BallIntake.getInstance();
+    m_piston = m_ballIntake.getPiston();
+
   }
 
   public static void registerWithTestingDashboard() {
-    Turret turret = Turret.getInstance();
-    TurretRight cmd = new TurretRight();
-    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
-  }
+    BallIntake ballIntake = BallIntake.getInstance();
+    BallIntakeUp cmd = new BallIntakeUp();
+    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
 
+  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_piston.set(DoubleSolenoid.Value.kForward);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("IncrementTurretMotorSpeed", 0.5);
-    m_turret.spinTurretMotor(speed);
+    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
+      m_piston.set(DoubleSolenoid.Value.kOff);
+      m_finished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_turret.spinTurretMotor(0);
+    m_piston.set(DoubleSolenoid.Value.kOff);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_finished;
   }
 }

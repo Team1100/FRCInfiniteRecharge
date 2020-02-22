@@ -43,10 +43,8 @@ public class OI {
     xbox = new XboxController(RobotMap.U_XBOX_CONTROLLER, 0.3);
 
     //Now Mapping Commands to XBox
-    xbox.getButtonLeftBumper().whenPressed(new TurretLeft());
-    xbox.getButtonLeftBumper().whenReleased(new TurretStop());
-    xbox.getButtonRightBumper().whenPressed(new TurretRight());
-    xbox.getButtonRightBumper().whenReleased(new TurretStop());
+    xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
+    xbox.getButtonRightBumper().whileHeld(new TurretRight());
 
   }
 

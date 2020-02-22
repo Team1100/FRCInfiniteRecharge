@@ -5,28 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Turret;
 
-public class TurretRight extends CommandBase {
-  Turret m_turret;
+public class IntakeBalls extends CommandBase {
   /**
-   * Creates a new TurretRight.
+   * Creates a new IntakeBalls.
    */
-  public TurretRight() {
+  public IntakeBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = Turret.getInstance();
-    addRequirements(m_turret);
-  }
-
-  public static void registerWithTestingDashboard() {
-    Turret turret = Turret.getInstance();
-    TurretRight cmd = new TurretRight();
-    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
@@ -37,14 +25,11 @@ public class TurretRight extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("IncrementTurretMotorSpeed", 0.5);
-    m_turret.spinTurretMotor(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_turret.spinTurretMotor(0);
   }
 
   // Returns true when the command should end.

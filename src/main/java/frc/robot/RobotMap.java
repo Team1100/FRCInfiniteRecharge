@@ -50,7 +50,7 @@ public class RobotMap {
 	private final static int PWM_MXP_9 = 19;
 
 	// List of PCM CAN IDs
-	private final static int PCM_CAN = 17;
+	private final static int PCM_CAN = 16;
 	private final static int PCM_CAN_2 = 18;
 
 	// List of Talon SRX CAN IDs
@@ -168,6 +168,9 @@ public class RobotMap {
 
 	//[B]all Intake
 	public static final int B_INTAKE_ROLLER = CAN_12;
+	public static final int B_PCM_CAN = PCM_CAN;
+	public static final int B_PISTON_PORT2 = PCM_1;
+	public static final int B_PISTON_PORT3 = PCM_6;
 
 	//[C]onveyer
 	public static final int C_HCONVEYOR_L = CAN_4;
@@ -178,9 +181,9 @@ public class RobotMap {
 
 	//[S]pinner
 	public static final int S_MOTOR = PWM_3;
-	public static final int S_PCM_CAN = 16;
-	public static final int S_PISTON_PORT0 = PCM_0;
-	public static final int S_PISTON_PORT1 = PCM_1;
+	public static final int S_PCM_CAN = PCM_CAN;
+	public static final int S_PISTON_PORT0 = PCM_4;
+	public static final int S_PISTON_PORT1 = PCM_5;
 	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;
 
 	//[T]urret
@@ -191,4 +194,7 @@ public class RobotMap {
 	//[SH]ooter
 	public static final int SH_TOP = CAN_13;
 	public static final int SH_BOTTOM = CAN_2;
+	public static final int SH_PCM_CAN = PCM_CAN;
+	public static final int SH_PISTON_PORT0 = PCM_0;
+	public static final int SH_PISTON_PORT1 = PCM_7;
 }
