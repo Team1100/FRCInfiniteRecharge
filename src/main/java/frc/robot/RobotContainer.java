@@ -97,6 +97,8 @@ public class RobotContainer {
     ShootAndCrossLineAuto.registerWithTestingDashboard();
     BallIntakeDown.registerWithTestingDashboard();
     BallIntakeUp.registerWithTestingDashboard();
+    ShooterUp.registerWithTestingDashboard();
+    ShooterDown.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
