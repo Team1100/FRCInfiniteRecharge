@@ -21,8 +21,6 @@ import frc.robot.TestingDashboard;
 public class Conveyor extends SubsystemBase {
   private static Conveyor m_conveyor;
 
-  private int m_numBallsStored;
-
   private VictorSPX m_HconveyerL;
   private VictorSPX m_HconveyerR;
   private VictorSPX m_Vconveyor;
@@ -37,7 +35,6 @@ public class Conveyor extends SubsystemBase {
    * Creates a new Conveyor.
    */
   private Conveyor() {
-    m_numBallsStored = 0;
 
     m_HconveyerL = new VictorSPX(RobotMap.C_HCONVEYOR_L);
     m_HconveyerR = new VictorSPX(RobotMap.C_HCONVEYOR_R);
@@ -86,14 +83,6 @@ public class Conveyor extends SubsystemBase {
 
   public boolean ballReadyToShoot() {
     return !m_ballReadyToShoot.get();
-  }
-
-  public void decrementBallsStored() {
-    m_numBallsStored -= 1;
-  }
-
-  public void incrementBallsStored() {
-    m_numBallsStored += 1;
   }
 
   @Override
