@@ -5,33 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class PIDTurret extends PIDCommand {
+public class PIDBottomShooter extends PIDCommand {
   /**
-   * Creates a new PIDTurret.
+   * Creates a new PIDShooter.
    */
-  public PIDTurret() {
+  public PIDBottomShooter() {
     super(
         // The controller that the command will use
-        new PIDController(0.01,0.0015, 0),
+        new PIDController(0.00125, 0.00045, 0.000027),
         // This should return the measurement
-        () -> Vision.getInstance().getYaw().getDouble(0.0),
+        () -> Shooter.getInstance().getRPM(Shooter.getInstance().getBottomEncoder()),
         // This should return the setpoint (can also be a constant)
-        () -> 0,
+        () -> SmartDashboard.getNumber("Bottom Setpoint", 0),
         // This uses the output
         output -> {
           // Use the output here
-          Turret.getInstance().spinTurretMotor(output);
+          Shooter.getInstance().setBottom(output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
@@ -40,16 +40,15 @@ public class PIDTurret extends PIDCommand {
   }
 
   public static void registerWithTestingDashboard() {
-    Turret turret = Turret.getInstance();
-    PIDTurret cmd = new PIDTurret();
-    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
+    Shooter shooter = Shooter.getInstance();
+    PIDBottomShooter cmd = new PIDBottomShooter();
+    TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //TODO: implement end condition with getController().atSetpoint();
     return false;
-    
+    //getController().atSetpoint();
   }
 }

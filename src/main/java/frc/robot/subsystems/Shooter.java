@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
@@ -19,7 +20,10 @@ public class Shooter extends SubsystemBase {
 
   private WPI_TalonSRX bottomShooter;
   private WPI_TalonSRX topShooter;
-  private static DoubleSolenoid m_piston;
+  private Encoder topEncoder, bottomEncoder;
+  private final double TOP_PPD = 2048;
+  private final double BOT_PPD = 2048;
+  private DoubleSolenoid m_piston;
 
   /**
    * Creates a new Shooter.
@@ -28,6 +32,8 @@ public class Shooter extends SubsystemBase {
 
     bottomShooter = new WPI_TalonSRX(RobotMap.SH_BOTTOM);
     topShooter = new WPI_TalonSRX(RobotMap.SH_TOP);
+    topEncoder = new Encoder(RobotMap.SH_TOP_ENCODER_A, RobotMap.SH_TOP_ENCODER_B);
+    bottomEncoder = new Encoder(RobotMap.SH_BOT_ENCODER_A, RobotMap.SH_BOT_ENCODER_B);
     m_piston = new DoubleSolenoid(RobotMap.SH_PCM_CAN, 
     RobotMap.SH_PISTON_PORT0, RobotMap.SH_PISTON_PORT1);
   }
@@ -46,6 +52,18 @@ public class Shooter extends SubsystemBase {
 
   public void setTop(double speed) {
     topShooter.set(speed);
+  }
+
+  public Encoder getBottomEncoder(){
+    return bottomEncoder;
+  }
+
+  public Encoder getTopEncoder(){
+    return topEncoder;
+  }
+
+  public double getRPM(Encoder encoder){
+    return encoder.getRate() * 60;
   }
 
   public DoubleSolenoid getPiston() {

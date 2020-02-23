@@ -197,4 +197,11 @@ public class RobotMap {
 	public static final int SH_PCM_CAN = PCM_CAN;
 	public static final int SH_PISTON_PORT0 = PCM_0;
 	public static final int SH_PISTON_PORT1 = PCM_7;
+
+	//Encoder mappings are placeholders, will replace on 2/23/20
+	public static final int SH_TOP_ENCODER_A = DIO_MXP_0;
+	public static final int SH_TOP_ENCODER_B = DIO_MXP_1;
+	public static final int SH_BOT_ENCODER_A = DIO_MXP_2;
+	public static final int SH_BOT_ENCODER_B = DIO_MXP_3;
+
 }
