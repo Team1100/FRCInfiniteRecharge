@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -78,6 +77,18 @@ public class Drive extends SubsystemBase {
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drivetrain.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  /**
+   * Controls the drivetrain with raw voltage values
+   *
+   * @param leftVoltage  voltage fed to left side
+   * @param rightVoltage voltage fed to right side
+   */
+  public void tankDriveVoltage(double leftVoltage, double rightVoltage){
+    backLeft.setVoltage(leftVoltage);
+    backRight.setVoltage(rightVoltage);
+    drivetrain.feed();
   }
 
   @Override
