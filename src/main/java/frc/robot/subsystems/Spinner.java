@@ -18,6 +18,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -97,6 +98,14 @@ public class Spinner extends SubsystemBase {
 
   public DoubleSolenoid getPiston() {
 		return m_piston;
+  }
+
+  public void extendSpinnerArm() {
+    m_piston.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void retractSpinnerArm() {
+    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
   
   @Override
