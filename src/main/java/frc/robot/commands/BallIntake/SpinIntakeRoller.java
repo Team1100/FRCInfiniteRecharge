@@ -14,22 +14,23 @@ import frc.robot.subsystems.BallIntake;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpinIntakeRoller extends CommandBase {
+   BallIntake m_ballIntake;
+   double m_speed;
+
   /**
    * Creates a new SpinIntakeRoller.
    */
-
-   BallIntake m_ballIntake;
-
-  public SpinIntakeRoller() {
+   public SpinIntakeRoller(double spinnerSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-
     addRequirements(BallIntake.getInstance());
     m_ballIntake = BallIntake.getInstance();
+    m_speed = spinnerSpeed;
   }
 
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
-    SpinIntakeRoller cmd = new SpinIntakeRoller();
+    double speed = SmartDashboard.getNumber("IntakeRollerSpeed", 0.5);
+    SpinIntakeRoller cmd = new SpinIntakeRoller(speed);
     TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
   }
 
@@ -41,10 +42,7 @@ public class SpinIntakeRoller extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed = SmartDashboard.getNumber("IntakeRollerSpeed",0.5);
-    m_ballIntake.spinIntakeRoller(speed);
-
+    m_ballIntake.spinIntakeRoller(m_speed);
   }
 
   // Called once the command ends or is interrupted.
