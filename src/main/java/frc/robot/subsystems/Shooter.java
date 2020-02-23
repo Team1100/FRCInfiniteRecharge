@@ -47,11 +47,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setBottom(double speed) {
-    bottomShooter.set(-speed);
+    bottomShooter.set(speed);
   }
 
   public void setTop(double speed) {
-    topShooter.set(speed);
+    topShooter.set(-speed);
   }
 
   public Encoder getBottomEncoder(){
