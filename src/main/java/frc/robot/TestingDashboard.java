@@ -131,10 +131,11 @@ public class TestingDashboard {
 
         // Controlling inputs for Conveyor H motor1
         SmartDashboard.putNumber("ConveyorHMotor1Speed", 0.5);
-        SmartDashboard.putNumber("ConveyorHMotorTimeout", 30);
 
         // Controlling inputs for Conveyor H motor2
         SmartDashboard.putNumber("ConveyorHMotor2Speed", 0.5);
+
+        SmartDashboard.putNumber("ConveyorHMotorTimeout", 30);
 
         // Controlling inputs for Conveyor V motor
         SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
