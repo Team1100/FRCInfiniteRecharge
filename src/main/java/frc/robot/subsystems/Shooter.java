@@ -70,6 +70,13 @@ public class Shooter extends SubsystemBase {
     return m_piston;
   }
 
+  public void raiseShooter() {
+    m_piston.set(DoubleSolenoid.Value.kForward);
+  }
+  public void lowerShooter() {
+    m_piston.set(DoubleSolenoid.Value.kReverse);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
