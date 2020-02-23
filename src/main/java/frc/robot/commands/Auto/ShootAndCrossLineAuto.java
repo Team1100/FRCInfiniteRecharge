@@ -26,8 +26,8 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     // 1. Wait a certain amount of time (controlled by StartAutoWaitTime in SmartDashboard)
     // 2. Move forward for a certain amount of time (controlled by DriveForwardTime in SmartDashboard)
     // TODO: Add the commands for shooting here
-    super(new Wait(),
-          new TimedForward());
+    super(new Wait(3),
+          new TimedForward(3, 0.5));
   }
 
   public static void registerWithTestingDashboard() {
