@@ -22,37 +22,40 @@ public class SpinConveyorHTimed extends CommandBase {
    Timer m_timer;
    Conveyor m_conveyor;
    double m_period;
+   double m_speed1, m_speed2;
 
-  public SpinConveyorHTimed() {
+  public SpinConveyorHTimed(double hSpeed1, double hSpeed2, double period) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
     m_conveyor = Conveyor.getInstance();
+    m_speed1 = hSpeed1;
+    m_speed2 = hSpeed2;
+    m_period = period;
 
   }
 
   public static void registerWithTestingDashboard() {
     Conveyor conveyor = Conveyor.getInstance();
-    SpinConveyorHTimed cmd = new SpinConveyorHTimed();
+    double speed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.5);
+    double speed2 = SmartDashboard.getNumber("ConveyorHMotor2Speed",0.5);
+    double period = SmartDashboard.getNumber("ConveyorHMotorTimeout", 5); // default of 5 seconds
+    SpinConveyorHTimed cmd = new SpinConveyorHTimed(speed1, speed2, period);
     TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_period = SmartDashboard.getNumber("ConveyorHMotorTimeout", 5); // default of 5 seconds
     m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    double speed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.5);
-    double speed2 = SmartDashboard.getNumber("ConveyorHMotor2Speed",0.5);
-    m_conveyor.spinHConveyorL(speed1);
-    m_conveyor.spinHConveyorR(speed2);
+    m_conveyor.spinHConveyorL(m_speed1);
+    m_conveyor.spinHConveyorR(m_speed2);
 
   }
 
