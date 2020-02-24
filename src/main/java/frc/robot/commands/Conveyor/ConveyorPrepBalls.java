@@ -23,10 +23,12 @@ public class ConveyorPrepBalls extends ParallelDeadlineGroup {
   public ConveyorPrepBalls() {
     // Add your commands in the super() call.  Add the deadline first.
     super(
-        new InstantCommand(),
+        new InstantCommand()
+        /*
         new BallReadyToShoot(),
         new ShooterUp(),
         new SpinBothConveyorsTimed(0.5, 0.5, 1, 20, 20)
+        */
     );
   }
 
@@ -38,3 +40,5 @@ public class ConveyorPrepBalls extends ParallelDeadlineGroup {
 
 
 }
+
+
