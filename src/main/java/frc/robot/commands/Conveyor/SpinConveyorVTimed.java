@@ -15,46 +15,51 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpinConveyorVTimed extends CommandBase {
+  Timer m_timer;
+  Conveyor m_conveyor;
+  double m_period;
+  double m_vSpeed;
+  private static final double VERTICAL_SPEED = 0.5;
+  private static final double PERIOD = 5;
+  private boolean m_parameterized = true;
+
   /**
-   * Creates a new SpinConveyor1Timed.
+   * Creates a new SpinConveyorVTimed.
    */
-
-   Timer m_timer;
-   Conveyor m_conveyor;
-   double m_period;
-   double m_vSpeed;
-
-  public SpinConveyorVTimed(double vSpeed, double period) {
+  public SpinConveyorVTimed(double vSpeed, double period, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
-    
     addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
     m_conveyor = Conveyor.getInstance();
+
     m_vSpeed = vSpeed;
     m_period = period;
+    m_parameterized = parameterized;
   }
 
   public static void registerWithTestingDashboard() {
-    Conveyor conveyor = Conveyor.getInstance();
+    double vSpeed = VERTICAL_SPEED;
+    double period = PERIOD;
 
-    double speed = SmartDashboard.getNumber("ConveyorVMotorSpeed",0.5);
-    double period = SmartDashboard.getNumber("ConveyorVMotorTimeout", 5); // default of 5 seconds
-    SpinConveyorVTimed cmd = new SpinConveyorVTimed(speed, period);
+    Conveyor conveyor = Conveyor.getInstance();
+    SpinConveyorVTimed cmd = new SpinConveyorVTimed(vSpeed, period, false);
     TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
     m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_conveyor.spinVConveyor(m_vSpeed);
-
+    double vSpeed = m_vSpeed;
+    if (!m_parameterized) {
+      vSpeed = SmartDashboard.getNumber("ConveyorVMotorSpeed", 0.5);
+    }
+    m_conveyor.spinVConveyor(vSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -66,7 +71,13 @@ public class SpinConveyorVTimed extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
-    return timerExpired;
+    if (!m_parameterized) {
+      double period = SmartDashboard.getNumber("ConveyorVMotorTimeout", 5); // default of 5 seconds
+      boolean timerExpired = m_timer.hasPeriodPassed(period);
+      return timerExpired;
+    } else {
+      boolean timerExpired = m_timer.hasPeriodPassed(m_period);
+      return timerExpired;
+    }
   }
 }

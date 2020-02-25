@@ -16,23 +16,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SpinIntakeRoller extends CommandBase {
    BallIntake m_ballIntake;
    public static final double DEF_ROLLER_SPEED = 0.5;
-   boolean m_parametrized = true;
+   boolean m_parameterized = true;
    double m_speed;
 
   /**
    * Creates a new SpinIntakeRoller.
    */
-   public SpinIntakeRoller(double spinnerSpeed, boolean parametrized) {
+   public SpinIntakeRoller(double spinnerSpeed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(BallIntake.getInstance());
     m_ballIntake = BallIntake.getInstance();
     m_speed = spinnerSpeed;
-    m_parametrized = parametrized;
+    m_parameterized = parameterized;
   }
 
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
-    double speed = SpinIntakeRoller.DEF_ROLLER_SPEED;
+    double speed = DEF_ROLLER_SPEED;
     SpinIntakeRoller cmd = new SpinIntakeRoller(speed, false);
     TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
   }
@@ -46,7 +46,7 @@ public class SpinIntakeRoller extends CommandBase {
   @Override
   public void execute() {
     double speed = m_speed;
-    if (!m_parametrized) {
+    if (!m_parameterized) {
       speed = SmartDashboard.getNumber("IntakeRollerSpeed", DEF_ROLLER_SPEED);
     }
     m_ballIntake.spinIntakeRoller(speed);
