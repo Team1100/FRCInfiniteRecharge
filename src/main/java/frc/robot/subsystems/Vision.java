@@ -7,18 +7,25 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
+  public static NetworkTable nt;
+  public NetworkTableEntry yaw, isValid;
   private static Vision vision;
 
   /**
    * Creates a new Vision.
    */
   private Vision() {
-
+    nt = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("HD Pro Webcam C920");
+    yaw = nt.getEntry("targetYaw");
+    isValid = nt.getEntry("isValid");
   }
 
   public static Vision getInstance() {
@@ -27,6 +34,14 @@ public class Vision extends SubsystemBase {
       TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
     }
     return vision;
+  }
+
+  public NetworkTableEntry getYaw(){
+    return yaw;
+  }
+
+  public NetworkTableEntry getIsValid(){
+    return isValid;
   }
 
   @Override

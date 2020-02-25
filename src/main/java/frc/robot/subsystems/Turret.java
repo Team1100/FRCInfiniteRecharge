@@ -17,7 +17,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Victor;
 
 public class Turret extends SubsystemBase {
   private VictorSPX m_turretMotor;
@@ -47,7 +46,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void spinTurretMotor(double speed) {
-    m_turretMotor.set(ControlMode.PercentOutput, speed);
+    m_turretMotor.set(ControlMode.PercentOutput, -speed);
   }
       
   public void periodic() {

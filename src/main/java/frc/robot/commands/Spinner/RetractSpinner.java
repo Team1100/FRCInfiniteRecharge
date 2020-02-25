@@ -11,6 +11,7 @@ package frc.robot.commands.Spinner;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.subsystems.Spinner;
 
 import frc.robot.TestingDashboard;
@@ -19,6 +20,7 @@ public class RetractSpinner extends CommandBase {
   Spinner m_spinner;
   boolean m_finished = false;
   DoubleSolenoid m_piston;
+  boolean isExtended = false;
   
   public RetractSpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,15 +38,19 @@ public class RetractSpinner extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kReverse);
-    m_finished = false;
+    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
+      isExtended = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (isExtended) {
+      m_spinner.retractSpinnerArm();
+    }
+    
     if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
-      m_piston.set(DoubleSolenoid.Value.kOff);
       m_finished = true;
     }
   }
@@ -52,7 +58,6 @@ public class RetractSpinner extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.

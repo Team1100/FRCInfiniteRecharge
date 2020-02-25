@@ -5,67 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-// Spins the conveyor motor until there is a ball ready to shoot.
 package frc.robot.commands.Conveyor;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Conveyor;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.TestingDashboard;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Shooter.ShooterUp;
+import frc.robot.subsystems.Conveyor;
 
-public class ConveyorPrepBalls extends CommandBase {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class ConveyorPrepBalls extends ParallelDeadlineGroup {
   /**
-   * Creates a new PrepareBallsToShoot.
+   * Creates a new ConveyorPrepBalls.
    */
-
-   Conveyor m_conveyor;
-   Timer m_timer;
-   private static final int m_period = 10;
-
   public ConveyorPrepBalls() {
-    // Use addRequirements() here to declare subsystem dependencies.
-
-    addRequirements(Conveyor.getInstance());
-    m_conveyor = Conveyor.getInstance();
-    m_timer = new Timer();
-    
+    // Add your commands in the super() call.  Add the deadline first.
+    super(
+        new InstantCommand()
+        /*
+        new BallReadyToShoot(),
+        new ShooterUp(),
+        new SpinBothConveyorsTimed(0.5, 0.5, 1, 20, 20)
+        */
+    );
   }
 
   public static void registerWithTestingDashboard() {
     Conveyor conveyor = Conveyor.getInstance();
     ConveyorPrepBalls cmd = new ConveyorPrepBalls();
-    TestingDashboard.getInstance().registerCommand(conveyor, "Basic", cmd);
+    TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_timer.start();
-  }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    double speed = SmartDashboard.getNumber("Conveyor1MotorSpeed",0.5);
-    if (m_conveyor.ballReadyToShoot() == false){
-      m_conveyor.spinHConveyors(speed);
-    }
-    if (m_conveyor.ballReadyToShoot() == true){
-      m_conveyor.spinHConveyors(0);
-    }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_conveyor.spinHConveyors(0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
-    return (timerExpired || (m_conveyor.ballReadyToShoot() == true));
-  }
 }
+
+

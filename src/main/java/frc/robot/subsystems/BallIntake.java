@@ -44,11 +44,19 @@ public class BallIntake extends SubsystemBase {
   }
 
   public void spinIntakeRoller(double speed) {
-   m_intakeRoller.set(ControlMode.PercentOutput, speed);
+    m_intakeRoller.set(ControlMode.PercentOutput, speed);
   }
 
   public DoubleSolenoid getPiston() {
     return m_piston;
+  }
+
+  public void lowerIntake(){
+    m_piston.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void raiseIntake(){
+    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
  
   @Override

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 
 /**
@@ -131,17 +132,18 @@ public class TestingDashboard {
 
         // Controlling inputs for Conveyor H motor1
         SmartDashboard.putNumber("ConveyorHMotor1Speed", 0.5);
-        SmartDashboard.putNumber("ConveyorHMotoryTimeout", 5);
 
         // Controlling inputs for Conveyor H motor2
         SmartDashboard.putNumber("ConveyorHMotor2Speed", 0.5);
 
+        SmartDashboard.putNumber("ConveyorHMotorTimeout", 30);
+
         // Controlling inputs for Conveyor V motor
-        SmartDashboard.putNumber("ConveyorVMotorSpeed", 1);
-        SmartDashboard.putNumber("ConveyorVMotoryTimeout", 5);
+        SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
+        SmartDashboard.putNumber("ConveyorVMotorTimeout", 30);
 
         // Controlling inputs for Intake Roller motor
-        SmartDashboard.putNumber("IntakeRollerSpeed", 0.5);
+        SmartDashboard.putNumber("IntakeRollerSpeed", 1);
 
         // Controlling time for spinner
         SmartDashboard.putNumber("SpinnerMotorPeriod",5);
@@ -160,11 +162,15 @@ public class TestingDashboard {
         SmartDashboard.putNumber("StartAutoWaitTime", 3);
 
         //Controlling shooter speeds
-        SmartDashboard.putNumber("TopShooterSpeed",0);
-        SmartDashboard.putNumber("BottomShooterSpeed",0);
+        SmartDashboard.putNumber("TopShooterSpeed",0.2);
+        SmartDashboard.putNumber("BottomShooterSpeed",0.2);
+        SmartDashboard.putNumber("Top Setpoint", 2000);
+        SmartDashboard.putNumber("Bottom Setpoint", 2000);
 
         // Control Turret speed
         SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);
+
+        
     }
  
     public void updateDebugTab() {

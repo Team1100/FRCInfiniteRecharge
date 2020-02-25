@@ -19,6 +19,7 @@ public class DeploySpinner extends CommandBase {
   Spinner m_spinner;
   boolean m_finished = false;
   DoubleSolenoid m_piston;
+  boolean isRetracted = false;
   
   public DeploySpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,15 +36,19 @@ public class DeploySpinner extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_piston.set(DoubleSolenoid.Value.kForward);
-    m_finished = false;
+    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
+      isRetracted = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (isRetracted) {
+      m_spinner.extendSpinnerArm();
+    }
+    
     if (m_piston.get() == DoubleSolenoid.Value.kForward) {
-      m_piston.set(DoubleSolenoid.Value.kOff);
       m_finished = true;
     }  
   }
@@ -51,7 +56,6 @@ public class DeploySpinner extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_piston.set(DoubleSolenoid.Value.kOff); 
   }
 
   // Returns true when the command should end.

@@ -5,39 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Auto;
+package frc.robot.commands.Conveyor;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Auto;
+import frc.robot.subsystems.Conveyor;
 
-public class Wait extends CommandBase {
-
-  Timer t;
-	double m_time;
-
+public class BallReadyToShoot extends CommandBase {
   /**
-   * Creates a new Wait.
+   * Creates a new BallReadyToShoot.
    */
-  public Wait(double waitTime) {
+  public BallReadyToShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
-    t = new Timer();
-    m_time = waitTime;
-  }
-
-  public static void registerWithTestingDashboard() {
-    Auto auto = Auto.getInstance();
-    double time = SmartDashboard.getNumber("StartAutoWaitTime", 3);
-    Wait cmd = new Wait(time);
-    TestingDashboard.getInstance().registerCommand(auto, "Basic", cmd);
+    addRequirements(Conveyor.getInstance());
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    t.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,6 +37,6 @@ public class Wait extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return t.get() > m_time;
+    return Conveyor.getInstance().ballReadyToShoot();
   }
 }

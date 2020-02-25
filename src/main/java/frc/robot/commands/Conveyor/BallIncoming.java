@@ -5,16 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Conveyor;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Conveyor;
 
-public class IntakeBalls extends CommandBase {
+public class BallIncoming extends CommandBase {
   /**
-   * Creates a new IntakeBalls.
+   * Creates a new BallIncoming.
    */
-  public IntakeBalls() {
+  public BallIncoming() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Conveyor.getInstance());
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +37,6 @@ public class IntakeBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Conveyor.getInstance().ballIncoming();
   }
 }

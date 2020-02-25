@@ -13,42 +13,44 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
-
 public class TimedForward extends CommandBase {
   Timer t;
   Drive drive;
-  double time;      
+  double m_time;
+  double m_speed;
+  
   /**
-   * Creates a new timedforward.
+   * Creates a new TimedForward.
    */
-  public TimedForward() {
+  public TimedForward(double driveTime, double driveSpeed) {
+    // Use addRequirements() here to declare subsystem dependencies.    
     addRequirements(Drive.getInstance());
     drive = Drive.getInstance();
     t = new Timer();
-    // Use addRequirements() here to declare subsystem dependencies.
+    m_time = driveTime;
+    m_speed = driveSpeed;
   }
+  
   public static void registerWithTestingDashboard() {
     Drive drive = Drive.getInstance();
-    TimedForward cmd = new TimedForward();
+    double time = SmartDashboard.getNumber("DriveForwardTime", 3);
+    double speed = SmartDashboard.getNumber("AutoDriveSpeed", 0.5);
+    TimedForward cmd = new TimedForward(time, speed);
     TestingDashboard.getInstance().registerCommand(drive, "Timed", cmd);
   }
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    time = SmartDashboard.getNumber("DriveForwardTime", 3);
     t.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed =  SmartDashboard .getNumber("AutoDriveSpeed", 0.5);
-    drive.tankDrive(speed, speed);
-
+    drive.tankDrive(m_speed, m_speed);
   }
   
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
@@ -58,6 +60,6 @@ public class TimedForward extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return t.get() > time; 
+    return t.get() > m_time; 
   }
 }
