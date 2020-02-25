@@ -170,6 +170,9 @@ public class TestingDashboard {
         // Control Turret speed
         SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);
 
+        // Control Climber Speed
+        SmartDashboard.putNumber("ClimberSpeed", 0.3);
+
         
     }
  
