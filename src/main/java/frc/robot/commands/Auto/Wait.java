@@ -15,7 +15,7 @@ import frc.robot.subsystems.Auto;
 
 public class Wait extends CommandBase {
 
-  Timer t;
+  Timer m_timer;
 	double m_time;
 
   /**
@@ -23,7 +23,7 @@ public class Wait extends CommandBase {
    */
   public Wait(double waitTime) {
     // Use addRequirements() here to declare subsystem dependencies.
-    t = new Timer();
+    m_timer = new Timer();
     m_time = waitTime;
   }
 
@@ -37,7 +37,7 @@ public class Wait extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    t.start();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,6 +53,6 @@ public class Wait extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return t.get() > m_time;
+    return m_timer.get() > m_time;
   }
 }

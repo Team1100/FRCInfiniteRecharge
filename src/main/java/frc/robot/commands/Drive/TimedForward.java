@@ -14,10 +14,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TimedForward extends CommandBase {
-  Timer t;
-  Drive drive;
-  double m_time;
-  double m_speed;
+  private Timer m_timer;
+  private Drive m_drive;
+  private double m_time;
+  private double m_speed;
   
   /**
    * Creates a new TimedForward.
@@ -25,8 +25,8 @@ public class TimedForward extends CommandBase {
   public TimedForward(double driveTime, double driveSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.    
     addRequirements(Drive.getInstance());
-    drive = Drive.getInstance();
-    t = new Timer();
+    m_drive = Drive.getInstance();
+    m_timer = new Timer();
     m_time = driveTime;
     m_speed = driveSpeed;
   }
@@ -42,24 +42,24 @@ public class TimedForward extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    t.start();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.tankDrive(m_speed, m_speed);
+    m_drive.tankDrive(m_speed, m_speed);
   }
   
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.tankDrive(0, 0);
+    m_drive.tankDrive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return t.get() > m_time; 
+    return m_timer.get() > m_time; 
   }
 }
