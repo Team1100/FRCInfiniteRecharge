@@ -19,7 +19,6 @@ public class ShooterUp extends CommandBase {
   Shooter m_shooter;
   DoubleSolenoid m_piston;
   boolean m_finished = false;
-  boolean isDown = false;
 
   public ShooterUp() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,17 +36,14 @@ public class ShooterUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
-      isDown = true;
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (isDown) {
-      m_shooter.raiseShooter();
-    }
+    
+    m_shooter.raiseShooter();
+    
 
     if (m_piston.get() == DoubleSolenoid.Value.kForward) {
       m_finished = true;

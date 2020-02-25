@@ -67,7 +67,7 @@ public class Conveyor extends SubsystemBase {
   }
 
   public void spinVConveyor(double speed) {
-    m_Vconveyor.set(ControlMode.PercentOutput, speed);
+    m_Vconveyor.set(ControlMode.PercentOutput, -speed);
   }
 
   public void spinAllConveyors(double hSpeedL, double hSpeedR, double vSpeed) {
