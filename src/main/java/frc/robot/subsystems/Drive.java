@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,12 +32,15 @@ public class Drive extends SubsystemBase {
   Encoder leftEncoder, rightEncoder;
 
   final double PULSE_PER_FOOT = 1300;
+  final double PULSE_PER_METER = 4265.1;
 
   private DifferentialDrive drivetrain;
 
   private AHRS ahrs;
   
   private static Drive drive;
+
+  private final DifferentialDriveOdometry m_odometry;
 
   /**
    * Creates a new Drive subsystem
@@ -61,6 +66,8 @@ public class Drive extends SubsystemBase {
     drivetrain = new DifferentialDrive(backLeft, backRight);
 
     ahrs = new AHRS(RobotMap.D_NAVX);
+
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getRoll()));
   }
 
   /**
@@ -75,15 +82,15 @@ public class Drive extends SubsystemBase {
     return drive;
   }
 
-  protected double getYaw() {
+  public double getYaw() {
     return ahrs.getYaw();
   }
 
-  protected double getPitch() {
+  public double getPitch() {
     return ahrs.getPitch();
   }
 
-  protected double getRoll() {
+  public double getRoll() {
     return ahrs.getRoll();
   }
 
@@ -117,6 +124,9 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Yaw",getYaw());
     SmartDashboard.putNumber("Pitch",getPitch());
     SmartDashboard.putNumber("Roll",getRoll());
+
+    m_odometry.update(Rotation2d.fromDegrees(getRoll()), leftEncoder.getDistance(),
+                      rightEncoder.getDistance());
   }
 
   @Override
