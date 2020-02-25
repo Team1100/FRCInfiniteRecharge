@@ -13,7 +13,8 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Turret;
 
 public class TurretRight extends CommandBase {
-  Turret m_turret;
+  private Turret m_turret;
+  
   /**
    * Creates a new TurretRight.
    */

@@ -11,7 +11,6 @@ package frc.robot.commands.Spinner;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.subsystems.Spinner;
 
 import frc.robot.TestingDashboard;

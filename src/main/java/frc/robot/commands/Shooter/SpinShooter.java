@@ -13,14 +13,17 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Shooter;
 
 public class SpinShooter extends CommandBase {
+  private Shooter m_shooter;
+  private double m_topSpeed;
+  private double m_botSpeed;
+  private static final double TOP_SHOOTER_SPEED = 0.2;
+  private static final double BOTTOM_SHOOTER_SPEED = 0.2;
+  private boolean m_parameterized = true;
+
   /**
    * Creates a new SpinShooter.
    */
-  Shooter m_shooter;
-  double m_topSpeed;
-  double m_botSpeed;
-
-  public SpinShooter(double topShooterSpeed, double bottomShooterSpeed) {
+  public SpinShooter(double topShooterSpeed, double bottomShooterSpeed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Shooter.getInstance());
     m_shooter = Shooter.getInstance();
@@ -29,10 +32,11 @@ public class SpinShooter extends CommandBase {
   }
 
   public static void registerWithTestingDashboard() {
+    double topSpeed = TOP_SHOOTER_SPEED;
+    double botSpeed = BOTTOM_SHOOTER_SPEED;
+
     Shooter shooter = Shooter.getInstance();
-    double topSpeed = SmartDashboard.getNumber("TopShooterSpeed", 0.2);
-    double botSpeed = SmartDashboard.getNumber("BottomShooterSpeed", 0.2);
-    SpinShooter cmd = new SpinShooter(topSpeed, botSpeed);
+    SpinShooter cmd = new SpinShooter(topSpeed, botSpeed, false);
     TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
 
@@ -44,8 +48,14 @@ public class SpinShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setTop(m_topSpeed);
-    m_shooter.setBottom(m_botSpeed);
+    double topSpeed = m_topSpeed;
+    double botSpeed = m_botSpeed;
+    if (!m_parameterized) {
+      topSpeed = SmartDashboard.getNumber("TopShooterSpeed", 0.2);
+      botSpeed = SmartDashboard.getNumber("BottomShooterSpeed", 0.2);
+    }
+    m_shooter.setTop(topSpeed);
+    m_shooter.setBottom(botSpeed);
   }
 
   // Called once the command ends or is interrupted.
