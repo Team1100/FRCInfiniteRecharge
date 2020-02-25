@@ -160,6 +160,12 @@ public class RobotMap {
 	public static final int D_BACK_LEFT = CAN_15;
 	public static final int D_BACK_RIGHT = CAN_0;
 	public static final Port D_NAVX = SPI.Port.kMXP;
+	public static final int D_LEFT_ENCODER_A = DIO_MXP_0;
+	public static final int D_LEFT_ENCODER_B = DIO_MXP_1;
+	public static final int D_RIGHT_ENCODER_A = DIO_MXP_2;
+	public static final int D_RIGHT_ENCODER_B = DIO_MXP_3;
+
+
 	
 	//[U]ser Input
 	public static final int U_JOYSTICK_LEFT = 0;
@@ -176,10 +182,10 @@ public class RobotMap {
 	public static final int C_HCONVEYOR_L = CAN_4;
 	public static final int C_HCONVEYOR_R = CAN_11;
 	public static final int C_VCONVEYOR = CAN_9;
-	public static final int C_INCOMING = DIO_0;
-	public static final int C_READYTOSHOOT = DIO_1;
+	public static final int C_INCOMING = DIO_6;
+	public static final int C_READYTOSHOOT = DIO_5;
 
-	//[S]pinner
+	//[S]pinner][\]
 	public static final int S_MOTOR = PWM_3;
 	public static final int S_PCM_CAN = PCM_CAN;
 	public static final int S_PISTON_PORT0 = PCM_4;
@@ -199,9 +205,9 @@ public class RobotMap {
 	public static final int SH_PISTON_PORT1 = PCM_7;
 
 	//Encoder mappings are placeholders, will replace on 2/23/20
-	public static final int SH_TOP_ENCODER_A = DIO_MXP_0;
-	public static final int SH_TOP_ENCODER_B = DIO_MXP_1;
-	public static final int SH_BOT_ENCODER_A = DIO_MXP_2;
-	public static final int SH_BOT_ENCODER_B = DIO_MXP_3;
+	public static final int SH_TOP_ENCODER_A = DIO_MXP_4;
+	public static final int SH_TOP_ENCODER_B = DIO_MXP_5;
+	public static final int SH_BOT_ENCODER_A = DIO_MXP_6;
+	public static final int SH_BOT_ENCODER_B = DIO_MXP_7;
 
 }
