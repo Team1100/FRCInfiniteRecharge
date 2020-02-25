@@ -35,7 +35,6 @@ public class Conveyor extends SubsystemBase {
    * Creates a new Conveyor.
    */
   private Conveyor() {
-
     m_HconveyerL = new VictorSPX(RobotMap.C_HCONVEYOR_L);
     m_HconveyerR = new VictorSPX(RobotMap.C_HCONVEYOR_R);
     m_Vconveyor = new VictorSPX(RobotMap.C_VCONVEYOR);
@@ -52,9 +51,9 @@ public class Conveyor extends SubsystemBase {
     return m_conveyor;
   }
 
-  public void spinHConveyors(double speed) {
-    spinHConveyorL(speed);
-    spinHConveyorR(speed);
+  public void spinHConveyors(double speedL, double speedR) {
+    spinHConveyorL(speedL);
+    spinHConveyorR(speedR);
   }
 
   public void spinHConveyorL(double speed) {
@@ -71,7 +70,7 @@ public class Conveyor extends SubsystemBase {
     m_Vconveyor.set(ControlMode.PercentOutput, speed);
   }
 
-  public void spinBothConveyors(double hSpeedL, double hSpeedR, double vSpeed) {
+  public void spinAllConveyors(double hSpeedL, double hSpeedR, double vSpeed) {
     spinHConveyorL(hSpeedL);
     spinHConveyorR(hSpeedR);
     spinVConveyor(vSpeed);

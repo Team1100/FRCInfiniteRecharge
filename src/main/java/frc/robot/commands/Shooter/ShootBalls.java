@@ -20,6 +20,6 @@ public class ShootBalls extends ParallelCommandGroup {
   public ShootBalls(double topRPM, double botRPM) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new SpinBothConveyorsTimed(0.5,0.5,1,5,5), new PIDBottomShooter(botRPM), new PIDTopShooter(topRPM));
+    super(new SpinBothConveyorsTimed(0.5, 0.5, 1, 5, 5, true), new PIDBottomShooter(botRPM), new PIDTopShooter(topRPM));
   }
 }
