@@ -8,6 +8,7 @@
 package frc.robot;
 
 import frc.robot.commands.BallIntake.*;
+import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Turret.*;
@@ -48,13 +49,14 @@ public class OI {
     //Now Mapping Commands to XBox
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
-    xbox.getButtonB().whenPressed(new SpinBothConveyorsTimed(0.5, 0.5, 1, 5, 5, true));
-    xbox.getButtonY().whileHeld(new SpinShooter(0.5, 0.5));
+    xbox.getButtonB().whenPressed(new SpinBothConveyorsTimed(0.75, 0.5, 1, 0.15, 0.15, true));
+    xbox.getButtonY().whileHeld(new SpinShooter(1,1));
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
     xbox.getDPad().getUp().whenPressed(new ShooterUp());
     xbox.getDPad().getDown().whenPressed(new ShooterDown());
-
+    xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
+    xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
 
   }
 

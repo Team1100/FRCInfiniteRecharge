@@ -5,60 +5,67 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.BallIntake;
+package frc.robot.commands.Climb;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
-import frc.robot.subsystems.BallIntake;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Climber;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class BallIntakeDown extends CommandBase {
+
+public class Climb extends CommandBase {
   /**
-   * Creates a new BallIntakeDown.
+   * Creates a new Climb.
    */
+  Climber m_climber;
+  boolean m_parametrized = true;
+  double m_speed;
 
-   BallIntake m_ballIntake;
-   DoubleSolenoid m_piston;
-   boolean m_finished = false;
-   boolean isUp = true;
-   
-  public BallIntakeDown() {
+
+
+  public Climb(double speed, boolean parametrized) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
-    m_piston = m_ballIntake.getPiston();
+    addRequirements(Climber.getInstance()); 
+    m_climber = Climber.getInstance();
+    m_parametrized = parametrized;
+    m_speed = speed;
   }
 
+  
   public static void registerWithTestingDashboard() {
-    BallIntake ballIntake = BallIntake.getInstance();
-    BallIntakeDown cmd = new BallIntakeDown();
-    TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
+    Climber climber = Climber.getInstance();
+    double speed = SmartDashboard.getNumber("ClimberSpeed", 0.3);
+    Climb cmd = new Climb(speed, false);
+    TestingDashboard.getInstance().registerCommand(climber, "Basic", cmd); 
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() { 
-    m_ballIntake.lowerIntake();
-    
-
-    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
-      m_finished = true;
+  public void execute() {
+    double speed = m_speed;
+    if(!m_parametrized) {
+      speed = SmartDashboard.getNumber("ClimberSpeed", 0.3);
     }
+    m_climber.setLeft(speed);
+    m_climber.setRight(-speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_climber.setRight(0);
+    m_climber.setLeft(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_finished;
+    return false;
   }
 }

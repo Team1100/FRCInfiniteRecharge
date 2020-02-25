@@ -7,18 +7,24 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
 public class Climber extends SubsystemBase {
+  
   private static Climber climber;
+  private VictorSPX rightMotor;
+  private VictorSPX leftMotor;
 
   /**
    * Creates a new Climber.
    */
   private Climber() {
-
+    rightMotor = new VictorSPX(RobotMap.CL_MOTOR_LEFT);
+    leftMotor = new  VictorSPX(RobotMap.CL_MOTOR_RIGHT);
   }
 
   public static Climber getInstance() {
@@ -28,6 +34,16 @@ public class Climber extends SubsystemBase {
     }
     return climber;
   }
+
+  public void setRight(double speed) {
+    rightMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setLeft(double speed) {
+    leftMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+
 
   @Override
   public void periodic() {
