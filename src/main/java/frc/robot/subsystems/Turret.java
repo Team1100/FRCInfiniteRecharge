@@ -46,7 +46,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void spinTurretMotor(double speed) {
-    m_turretMotor.set(ControlMode.PercentOutput, speed);
+    m_turretMotor.set(ControlMode.PercentOutput, -speed);
   }
       
   public void periodic() {

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 
 /**
@@ -131,10 +132,11 @@ public class TestingDashboard {
 
         // Controlling inputs for Conveyor H motor1
         SmartDashboard.putNumber("ConveyorHMotor1Speed", 0.5);
-        SmartDashboard.putNumber("ConveyorHMotorTimeout", 30);
 
         // Controlling inputs for Conveyor H motor2
         SmartDashboard.putNumber("ConveyorHMotor2Speed", 0.5);
+
+        SmartDashboard.putNumber("ConveyorHMotorTimeout", 30);
 
         // Controlling inputs for Conveyor V motor
         SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
@@ -167,6 +169,8 @@ public class TestingDashboard {
 
         // Control Turret speed
         SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);
+
+        
     }
  
     public void updateDebugTab() {

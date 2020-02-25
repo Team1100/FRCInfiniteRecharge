@@ -47,11 +47,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setBottom(double speed) {
-    bottomShooter.set(-speed);
+    bottomShooter.set(speed);
   }
 
   public void setTop(double speed) {
-    topShooter.set(speed);
+    topShooter.set(-speed);
   }
 
   public Encoder getBottomEncoder(){
@@ -68,6 +68,13 @@ public class Shooter extends SubsystemBase {
 
   public DoubleSolenoid getPiston() {
     return m_piston;
+  }
+
+  public void raiseShooter() {
+    m_piston.set(DoubleSolenoid.Value.kForward);
+  }
+  public void lowerShooter() {
+    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   @Override

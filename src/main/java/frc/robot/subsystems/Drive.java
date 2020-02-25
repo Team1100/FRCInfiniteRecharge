@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +27,10 @@ public class Drive extends SubsystemBase {
   WPI_TalonSRX backLeft;
   WPI_TalonSRX backRight;
 
+  Encoder leftEncoder, rightEncoder;
+
+  final double PULSE_PER_FOOT = 1300;
+
   private DifferentialDrive drivetrain;
 
   private AHRS ahrs;
@@ -40,7 +45,14 @@ public class Drive extends SubsystemBase {
     frontRight = new VictorSPX(RobotMap.D_FRONT_RIGHT);
     backLeft = new WPI_TalonSRX(RobotMap.D_BACK_LEFT);
     backRight = new WPI_TalonSRX(RobotMap.D_BACK_RIGHT);
+
+    leftEncoder = new Encoder(RobotMap.D_LEFT_ENCODER_A, RobotMap.D_LEFT_ENCODER_B);
+    rightEncoder = new Encoder(RobotMap.D_RIGHT_ENCODER_A, RobotMap.D_RIGHT_ENCODER_B);
+    leftEncoder.setDistancePerPulse(1/PULSE_PER_FOOT);
+    rightEncoder.setDistancePerPulse(1/PULSE_PER_FOOT);
+
     
+
     frontLeft.follow(backLeft);
     frontRight.follow(backRight);
     frontRight.setInverted(true);
@@ -73,6 +85,14 @@ public class Drive extends SubsystemBase {
 
   protected double getRoll() {
     return ahrs.getRoll();
+  }
+
+  public Encoder getLeftEncoder(){
+    return leftEncoder;
+  }
+
+  public Encoder getRightEncoder(){
+    return rightEncoder;
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
