@@ -55,8 +55,8 @@ public class OI {
     xbox.getButtonA().whenPressed(new BallIntakeDown());
     xbox.getDPad().getUp().whenPressed(new ShooterUp());
     xbox.getDPad().getDown().whenPressed(new ShooterDown());
-    xbox.getDPad().getLeft().whenPressed(new Climb(0.3, true));
-    xbox.getDPad().getRight().whenPressed(new Climb(-0.3, true));
+    xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
+    xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
 
   }
 
