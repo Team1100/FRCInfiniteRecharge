@@ -13,29 +13,28 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Shooter;
 
 public class SpinShooter extends CommandBase {
-  private Shooter m_shooter;
-  private double m_topSpeed;
-  private double m_botSpeed;
-  private static final double TOP_SHOOTER_SPEED = 0.2;
-  private static final double BOTTOM_SHOOTER_SPEED = 0.2;
-  private boolean m_parameterized = true;
-
   /**
    * Creates a new SpinShooter.
    */
+  Shooter m_shooter;
+  double m_topSpeed;
+  double m_botSpeed;
+  boolean m_parameterized = true;
+  public static final double DEF_SPEED = 0.5;
+
   public SpinShooter(double topShooterSpeed, double bottomShooterSpeed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Shooter.getInstance());
     m_shooter = Shooter.getInstance();
     m_topSpeed = topShooterSpeed;
     m_botSpeed = bottomShooterSpeed;
+    m_parameterized = parameterized;
   }
 
   public static void registerWithTestingDashboard() {
-    double topSpeed = TOP_SHOOTER_SPEED;
-    double botSpeed = BOTTOM_SHOOTER_SPEED;
-
     Shooter shooter = Shooter.getInstance();
+    double topSpeed = DEF_SPEED;
+    double botSpeed = DEF_SPEED;
     SpinShooter cmd = new SpinShooter(topSpeed, botSpeed, false);
     TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
@@ -51,8 +50,8 @@ public class SpinShooter extends CommandBase {
     double topSpeed = m_topSpeed;
     double botSpeed = m_botSpeed;
     if (!m_parameterized) {
-      topSpeed = SmartDashboard.getNumber("TopShooterSpeed", 0.2);
-      botSpeed = SmartDashboard.getNumber("BottomShooterSpeed", 0.2);
+      topSpeed = SmartDashboard.getNumber("TopShooterSpeed", 0.5);
+      botSpeed = SmartDashboard.getNumber("BottomShooterSpeed", 0.5);
     }
     m_shooter.setTop(topSpeed);
     m_shooter.setBottom(botSpeed);
