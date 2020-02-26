@@ -19,20 +19,23 @@ public class SpinShooter extends CommandBase {
   Shooter m_shooter;
   double m_topSpeed;
   double m_botSpeed;
+  boolean m_parameterized = true;
+  public static final double DEF_SPEED = 0.5;
 
-  public SpinShooter(double topShooterSpeed, double bottomShooterSpeed) {
+  public SpinShooter(double topShooterSpeed, double bottomShooterSpeed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Shooter.getInstance());
     m_shooter = Shooter.getInstance();
     m_topSpeed = topShooterSpeed;
     m_botSpeed = bottomShooterSpeed;
+    m_parameterized = parameterized;
   }
 
   public static void registerWithTestingDashboard() {
     Shooter shooter = Shooter.getInstance();
-    double topSpeed = SmartDashboard.getNumber("TopShooterSpeed", 0.2);
-    double botSpeed = SmartDashboard.getNumber("BottomShooterSpeed", 0.2);
-    SpinShooter cmd = new SpinShooter(topSpeed, botSpeed);
+    double topSpeed = DEF_SPEED;
+    double botSpeed = DEF_SPEED;
+    SpinShooter cmd = new SpinShooter(topSpeed, botSpeed, false);
     TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }
 
@@ -44,8 +47,14 @@ public class SpinShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setTop(m_topSpeed);
-    m_shooter.setBottom(m_botSpeed);
+    double topSpeed = m_topSpeed;
+    double botSpeed = m_botSpeed;
+    if (!m_parameterized) {
+      topSpeed = SmartDashboard.getNumber("TopShooterSpeed", 0.5);
+      botSpeed = SmartDashboard.getNumber("BottomShooterSpeed", 0.5);
+    }
+    m_shooter.setTop(topSpeed);
+    m_shooter.setBottom(botSpeed);
   }
 
   // Called once the command ends or is interrupted.

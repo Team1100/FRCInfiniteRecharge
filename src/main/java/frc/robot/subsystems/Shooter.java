@@ -54,6 +54,14 @@ public class Shooter extends SubsystemBase {
     topShooter.set(-speed);
   }
 
+  public void setBottomVoltage(double voltage) {
+    bottomShooter.setVoltage(voltage);
+  }
+
+  public void setTopVoltage(double voltage) {
+    topShooter.setVoltage(-voltage);
+  }
+  
   public Encoder getBottomEncoder(){
     return bottomEncoder;
   }
