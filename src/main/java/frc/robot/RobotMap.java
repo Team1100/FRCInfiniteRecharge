@@ -198,8 +198,8 @@ public class RobotMap {
 
 	//[T]urret
 	public static final int T_MOTOR = CAN_3;
-	public static final int T_LEFT_STOP = DIO_MXP_2;
-	public static final int T_RIGHT_STOP = DIO_MXP_3;
+	public static final int T_LEFT_STOP = DIO_MXP_4;
+	public static final int T_RIGHT_STOP = DIO_MXP_5;
 
 	//[SH]ooter
 	public static final int SH_TOP = CAN_13;
@@ -207,9 +207,9 @@ public class RobotMap {
 	public static final int SH_PCM_CAN = PCM_CAN;
 	public static final int SH_PISTON_PORT0 = PCM_0;
 	public static final int SH_PISTON_PORT1 = PCM_7;
-	public static final int SH_TOP_ENCODER_A = DIO_0;
-	public static final int SH_TOP_ENCODER_B = DIO_1;
-	public static final int SH_BOT_ENCODER_A = DIO_2;
-	public static final int SH_BOT_ENCODER_B = DIO_3;
+	public static final int SH_TOP_ENCODER_A = DIO_2;
+	public static final int SH_TOP_ENCODER_B = DIO_3;
+	public static final int SH_BOT_ENCODER_A = DIO_0;
+	public static final int SH_BOT_ENCODER_B = DIO_1;
 
 }
