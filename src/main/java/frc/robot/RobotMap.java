@@ -174,6 +174,7 @@ public class RobotMap {
 	public static final int U_JOYSTICK_LEFT = 0;
 	public static final int U_JOYSTICK_RIGHT = 1;
 	public static final int U_XBOX_CONTROLLER = 2;
+	public static final int U_BUTTON_BOX = 3;
 
 	//[B]all Intake
 	public static final int B_INTAKE_ROLLER = CAN_5;
@@ -197,8 +198,8 @@ public class RobotMap {
 
 	//[T]urret
 	public static final int T_MOTOR = CAN_3;
-	public static final int T_LEFT_STOP = DIO_2;
-	public static final int T_RIGHT_STOP = DIO_3;
+	public static final int T_LEFT_STOP = DIO_MXP_2;
+	public static final int T_RIGHT_STOP = DIO_MXP_3;
 
 	//[SH]ooter
 	public static final int SH_TOP = CAN_13;
@@ -206,11 +207,9 @@ public class RobotMap {
 	public static final int SH_PCM_CAN = PCM_CAN;
 	public static final int SH_PISTON_PORT0 = PCM_0;
 	public static final int SH_PISTON_PORT1 = PCM_7;
-
-	//Encoder mappings are placeholders, wi	ll replace on 2/23/20
-	public static final int SH_TOP_ENCODER_A = DIO_MXP_4;
-	public static final int SH_TOP_ENCODER_B = DIO_MXP_5;
-	public static final int SH_BOT_ENCODER_A = DIO_MXP_6;
-	public static final int SH_BOT_ENCODER_B = DIO_MXP_7;
+	public static final int SH_TOP_ENCODER_A = DIO_0;
+	public static final int SH_TOP_ENCODER_B = DIO_1;
+	public static final int SH_BOT_ENCODER_A = DIO_2;
+	public static final int SH_BOT_ENCODER_B = DIO_3;
 
 }

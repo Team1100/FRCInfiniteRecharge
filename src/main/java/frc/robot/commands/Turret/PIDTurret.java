@@ -23,7 +23,7 @@ public class PIDTurret extends PIDCommand {
   public PIDTurret() {
     super(
         // The controller that the command will use
-        new PIDController(0.0115,0.002, 0),
+        new PIDController(0.0115,0.003, 0),
         // This should return the measurement
         () -> Vision.getInstance().getYaw().getDouble(0.0),
         // This should return the setpoint (can also be a constant)
