@@ -13,6 +13,7 @@ import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
+import frc.robot.input.ButtonBox;
 import frc.robot.input.XboxController;
 
 /**
@@ -25,7 +26,7 @@ public class OI {
   public static AttackThree leftStick;
   public static AttackThree rightStick;
   private static XboxController xbox;
-  private static XboxController xbox_climb;
+  private static ButtonBox buttonBox;
 
    /**
    * Used outside of the OI class to return an instance of the class.
@@ -43,8 +44,10 @@ public class OI {
     //TODO:Tune deadband
     leftStick = new AttackThree(RobotMap.U_JOYSTICK_LEFT, 0.01);
     rightStick = new AttackThree(RobotMap.U_JOYSTICK_RIGHT, 0.01);
-
     xbox = new XboxController(RobotMap.U_XBOX_CONTROLLER, 0.3);
+    buttonBox = new ButtonBox(RobotMap.U_BUTTON_BOX);
+
+
 
     //Now Mapping Commands to XBox
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
@@ -84,9 +87,5 @@ public class OI {
   public XboxController getXbox() {
       return xbox;
   }
-
-  public XboxController getXboxClimb() {
-    return xbox_climb;
-}
 
 }
