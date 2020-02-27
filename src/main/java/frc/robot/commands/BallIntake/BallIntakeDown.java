@@ -44,11 +44,8 @@ public class BallIntakeDown extends CommandBase {
   @Override
   public void execute() { 
     m_ballIntake.lowerIntake();
+    m_finished = true;
     
-
-    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
-      m_finished = true;
-    }
   }
 
   // Called once the command ends or is interrupted.

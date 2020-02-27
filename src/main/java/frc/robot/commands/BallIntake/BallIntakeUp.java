@@ -51,9 +51,7 @@ public class BallIntakeUp extends CommandBase {
   public void execute() {
     m_ballIntake.raiseIntake();
     
-    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
-      m_finished = true;
-    }
+    m_finished = true;
   }
 
   // Called once the command ends or is interrupted.

@@ -49,8 +49,9 @@ public class OI {
     //Now Mapping Commands to XBox
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
-    xbox.getButtonB().whenPressed(new SpinBothConveyorsTimed(0.75, 0.5, 1, 0.15, 0.15, true));
-    xbox.getButtonY().whileHeld(new SpinShooter(1, 1, true));
+    xbox.getButtonB().whenHeld(new FeedBalls());
+    xbox.getButtonY().whileHeld(new SpinShooter(1, 1, false));
+    xbox.getButtonBack().whileHeld(new PIDTurret());
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
     xbox.getDPad().getUp().whenPressed(new ShooterUp());
