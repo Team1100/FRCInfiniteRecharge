@@ -44,6 +44,12 @@ public class Vision extends SubsystemBase {
     return isValid;
   }
 
+  public int[] calculateRPM(){
+    int intArray[];
+    intArray = new int[]{0,0};
+    return intArray;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
