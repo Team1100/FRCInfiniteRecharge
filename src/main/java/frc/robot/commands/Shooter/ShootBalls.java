@@ -9,6 +9,7 @@ package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.Conveyor.FeedBalls;
+import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,9 +18,9 @@ public class ShootBalls extends ParallelCommandGroup {
   /**
    * Creates a new ShootBalls.
    */
-  public ShootBalls(int topSetpoint, int botSetpoint) {
+  public ShootBalls(int[] setpoints) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new FeedBalls(), new PIDTopShooter(topSetpoint), new PIDBottomShooter(botSetpoint));
+    super(new FeedBalls(), new PIDTopShooter(setpoints[0]), new PIDBottomShooter(setpoints[1]));
   }
 }

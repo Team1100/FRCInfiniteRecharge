@@ -11,10 +11,12 @@ import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Shooter.*;
+import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
 import frc.robot.input.ButtonBox;
 import frc.robot.input.XboxController;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -61,6 +63,20 @@ public class OI {
     xbox.getDPad().getDown().whenPressed(new ShooterDown());
     xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
     xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
+
+
+    buttonBox.getFineFocus().whenPressed(new PIDTurret());
+    buttonBox.getFire().whenPressed(new ShootBalls(Vision.getInstance().calculateRPM()));
+    buttonBox.getIntakeIn().whenPressed(new BallIntakeUp());
+    buttonBox.getIntakeOut().whenPressed(new BallIntakeDown());
+    buttonBox.getHopper().whenHeld(new SpinIntakeRoller(1,true));
+    buttonBox.getCPDeploy().whenPressed(new DeploySpinner());
+    buttonBox.getCPSpin().whenPressed(new SpinSpinner3Times());
+    buttonBox.getCPYellow().whenPressed(new SpinSpinnerToColor("Yellow", true));
+    buttonBox.getCPGreen().whenPressed(new SpinSpinnerToColor("Green", true));
+    buttonBox.getCPRed().whenPressed(new SpinSpinnerToColor("Red", true));
+    buttonBox.getCPBlue().whenPressed(new SpinSpinnerToColor("Blue", true));
+    buttonBox.getClimb().whenPressed(new Climb(0.5, true));
 
   }
 
