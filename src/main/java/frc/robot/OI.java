@@ -55,7 +55,7 @@ public class OI {
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
     xbox.getButtonB().whenHeld(new FeedBalls());
-    xbox.getButtonY().whileHeld(new SpinShooter(1, 1, false));
+    xbox.getButtonY().whileHeld(new ShootBalls(Vision.getInstance().calculateRPM()));
     xbox.getButtonBack().whileHeld(new PIDTurret());
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());

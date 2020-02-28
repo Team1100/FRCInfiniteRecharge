@@ -242,6 +242,28 @@
               "_source0": "network_table:///SmartDashboard/ClimberSpeed",
               "_title": "ClimberSpeed"
             }
+          },
+          "12,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Top Shooter Dist",
+              "_title": "Top Shooter Dist"
+            }
+          },
+          "11,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Bot Shooter Dist",
+              "_title": "Bot Shooter Dist"
+            }
           }
         }
       }
@@ -667,9 +689,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 0.0,
-    "y": 0.0,
-    "width": 1920.0,
-    "height": 1080.0
+    "x": -8.0,
+    "y": -8.0,
+    "width": 1936.0,
+    "height": 1096.0
   }
 }

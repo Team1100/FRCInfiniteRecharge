@@ -23,7 +23,7 @@ public class PIDBottomShooter extends PIDCommand {
   public PIDBottomShooter(double setpoint) {
     super(
         // The controller that the command will use
-        new PIDController(0.00125, 0.00045, 0.000027),
+        new PIDController(0.00125, 0.00045, 0),
         // This should return the measurement
         () -> Shooter.getInstance().getRPM(Shooter.getInstance().getBottomEncoder()),
         // This should return the setpoint (can also be a constant)
