@@ -49,7 +49,7 @@ public class PIDTurret extends PIDCommand {
   @Override
   public boolean isFinished() {
     //TODO: implement end condition with getController().atSetpoint();
-    return false;
+    return getController().atSetpoint();
     
   }
 }
