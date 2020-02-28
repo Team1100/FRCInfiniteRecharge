@@ -7,6 +7,7 @@
 
 package frc.robot.commands.Conveyor;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Conveyor;
@@ -19,6 +20,7 @@ public class FeedBalls extends CommandBase {
   private Boolean lastTopState;
   private Boolean isFinished = false;
   private int STATE = 1;
+  private Timer t;
 
   /**
    * Creates a new ShootBalls.
@@ -26,6 +28,7 @@ public class FeedBalls extends CommandBase {
   public FeedBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
+    t = new Timer();
   }
 
   public static void registerWithTestingDashboard() {
@@ -50,6 +53,8 @@ public class FeedBalls extends CommandBase {
     //Load Ball into bottom of v conveyor
     switch(STATE){
       case 1:
+        t.stop();
+        t.reset();
         counter = 0;
         m_conveyor.spinAllConveyors(0.7, 0.5, 0.5);
         if(m_conveyor.ballIncoming()){
@@ -59,6 +64,7 @@ public class FeedBalls extends CommandBase {
         lastTopState = m_conveyor.ballReadyToShoot();
         break;
       case 2:
+        t.start();
         m_conveyor.spinVConveyor(1);
         if(m_conveyor.ballReadyToShoot() != lastTopState){
           counter += 1;
@@ -82,6 +88,6 @@ public class FeedBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    return isFinished || t.hasElapsed(2.5);
   }
 }
