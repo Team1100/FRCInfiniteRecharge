@@ -64,7 +64,7 @@ public class OI {
     xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
     xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
 
-
+    buttonBox.getWideFocus().whenPressed(new PIDTurret());
     buttonBox.getFineFocus().whenPressed(new PIDTurret());
     buttonBox.getFire().whenPressed(new ShootBalls(Vision.getInstance().calculateRPM()));
     buttonBox.getIntakeIn().whenPressed(new BallIntakeUp());
