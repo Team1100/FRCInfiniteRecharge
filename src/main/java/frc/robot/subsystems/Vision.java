@@ -16,8 +16,9 @@ import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
   public static NetworkTable nt;
-  public NetworkTableEntry yaw, isValid;
+  public NetworkTableEntry yaw, isValid, targetPose;
   private static Vision vision;
+  private double[] defaultDoubleArray = {-1,-1};
 
   /**
    * Creates a new Vision.
@@ -26,6 +27,7 @@ public class Vision extends SubsystemBase {
     nt = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("HD Pro Webcam C920");
     yaw = nt.getEntry("targetYaw");
     isValid = nt.getEntry("isValid");
+    targetPose = nt.getEntry("targetPose");
   }
 
   public static Vision getInstance() {
@@ -42,6 +44,26 @@ public class Vision extends SubsystemBase {
 
   public NetworkTableEntry getIsValid(){
     return isValid;
+  }
+
+  public NetworkTableEntry getTargetPose(){
+    return targetPose;
+  }
+
+  public double[] getTargetPoseArray(){
+    return targetPose.getDoubleArray(defaultDoubleArray);
+  }
+
+  public double getX(){
+    return getTargetPoseArray()[0];
+  }
+
+  public double getY(){
+    return getTargetPoseArray()[1];
+  }
+
+  public double getDistance(){
+    return Math.sqrt(Math.pow(getX(),2) + Math.pow(getY(),2));
   }
 
   public int[] calculateRPM(){
