@@ -133,7 +133,6 @@ public class RobotMap {
 	private static final int PCM_5 = 5;
 	private static final int PCM_6 = 6;
 	private static final int PCM_7 = 7;
-	private static final int PCM_8 = 8;
 
 	//List of all PDP ports
 	private static final int PDP_0 = 0;
@@ -168,7 +167,9 @@ public class RobotMap {
 	//[CL]imber
 	public static final int CL_MOTOR_LEFT = CAN_6;
 	public static final int CL_MOTOR_RIGHT = CAN_7;
-
+	public static final int CL_PCM_CAN = PCM_CAN;
+	public static final int CL_PISTON_PORT2 = PCM_2;
+	public static final int CL_PISTON_PORT5 = PCM_5;
 	
 	//[U]ser Input
 	public static final int U_JOYSTICK_LEFT = 0;
@@ -192,8 +193,8 @@ public class RobotMap {
 	//[S]pinner][\]
 	public static final int S_MOTOR = PWM_3;
 	public static final int S_PCM_CAN = PCM_CAN;
-	public static final int S_PISTON_PORT0 = PCM_4;
-	public static final int S_PISTON_PORT1 = PCM_5;
+	public static final int S_PISTON_PORT0 = PCM_3;
+	public static final int S_PISTON_PORT1 = PCM_4;
 	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;
 
 	//[T]urret
