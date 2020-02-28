@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
@@ -34,6 +35,10 @@ public class Shooter extends SubsystemBase {
     topShooter = new WPI_TalonSRX(RobotMap.SH_TOP);
     topEncoder = new Encoder(RobotMap.SH_TOP_ENCODER_A, RobotMap.SH_TOP_ENCODER_B);
     bottomEncoder = new Encoder(RobotMap.SH_BOT_ENCODER_A, RobotMap.SH_BOT_ENCODER_B);
+    topEncoder.setDistancePerPulse(1/TOP_PPD);
+    bottomEncoder.setDistancePerPulse(1/BOT_PPD);
+    topEncoder.setReverseDirection(true);
+    bottomEncoder.setReverseDirection(true);
     m_piston = new DoubleSolenoid(RobotMap.SH_PCM_CAN, 
     RobotMap.SH_PISTON_PORT0, RobotMap.SH_PISTON_PORT1);
   }
@@ -71,7 +76,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getRPM(Encoder encoder){
-    return encoder.getRate() * 60;
+    return encoder.getRate()*60;
   }
 
   public DoubleSolenoid getPiston() {
@@ -88,5 +93,10 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Top Shooter Dist", topEncoder.getDistance());
+    SmartDashboard.putNumber("Bot Shooter Dist", bottomEncoder.getDistance());
+    SmartDashboard.putNumber("Top Shooter Encoder", getRPM(topEncoder));
+    SmartDashboard.putNumber("Bot Shooter Encoder", getRPM(bottomEncoder));
+
   }
 }

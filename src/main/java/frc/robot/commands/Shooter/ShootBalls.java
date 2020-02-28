@@ -21,6 +21,6 @@ public class ShootBalls extends ParallelCommandGroup {
   public ShootBalls(int[] setpoints) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new FeedBalls(), new PIDTopShooter(setpoints[0]), new PIDBottomShooter(setpoints[1]));
+    super(new FeedBalls(), new PIDTopShooter(5000), new PIDBottomShooter(5000));
   }
 }
