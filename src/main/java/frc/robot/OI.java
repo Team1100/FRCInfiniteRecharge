@@ -55,7 +55,7 @@ public class OI {
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
     xbox.getButtonB().whenHeld(new FeedBalls());
-    xbox.getButtonY().whileHeld(new ShootBalls(Vision.getInstance().calculateRPM()));
+    xbox.getButtonY().whileHeld(new ShootBallsProcedure(Vision.getInstance().calculateRPM()));
     xbox.getButtonBack().whileHeld(new PIDTurret());
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
@@ -64,12 +64,14 @@ public class OI {
     xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
     xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
 
-    buttonBox.getWideFocus().whenPressed(new PIDTurret());
-    buttonBox.getFineFocus().whenPressed(new PIDTurret());
-    buttonBox.getFire().whenPressed(new ShootBalls(Vision.getInstance().calculateRPM()));
+    buttonBox.getWideFocus().whenHeld(new PIDTurretProcedure());
+    buttonBox.getFineFocus().whenHeld(new PIDTurretProcedure());
+    buttonBox.getFire().whenHeld(new ShootBallsProcedure(Vision.getInstance().calculateRPM()));
+    buttonBox.getFire().whenReleased(new ShooterDown());
     buttonBox.getIntakeIn().whenPressed(new BallIntakeUp());
     buttonBox.getIntakeOut().whenPressed(new BallIntakeDown());
     buttonBox.getHopper().whenHeld(new SpinIntakeRoller(1,true));
+    /*
     buttonBox.getCPDeploy().whenPressed(new DeploySpinner());
     buttonBox.getCPSpin().whenPressed(new SpinSpinner3Times());
     buttonBox.getCPYellow().whenPressed(new SpinSpinnerToColor("Yellow", true));
@@ -77,6 +79,7 @@ public class OI {
     buttonBox.getCPRed().whenPressed(new SpinSpinnerToColor("Red", true));
     buttonBox.getCPBlue().whenPressed(new SpinSpinnerToColor("Blue", true));
     buttonBox.getClimb().whenPressed(new Climb(0.5, true));
+    */
 
   }
 

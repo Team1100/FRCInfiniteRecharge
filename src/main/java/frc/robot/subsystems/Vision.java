@@ -19,7 +19,6 @@ public class Vision extends SubsystemBase {
   public NetworkTableEntry yaw, isValid, targetPose;
   private static Vision vision;
   private double[] defaultDoubleArray = {-1,-1};
-
   /**
    * Creates a new Vision.
    */
@@ -54,22 +53,25 @@ public class Vision extends SubsystemBase {
     return targetPose.getDoubleArray(defaultDoubleArray);
   }
 
-  public double getX(){
-    return getTargetPoseArray()[0];
+  public double getXFeet(){
+    return (getTargetPoseArray()[0] * 3.28084);
   }
 
-  public double getY(){
-    return getTargetPoseArray()[1];
+  public double getYFeet(){
+    return (getTargetPoseArray()[1] * 3.28084);
   }
 
   public double getDistance(){
-    return Math.sqrt(Math.pow(getX(),2) + Math.pow(getY(),2));
+    return Math.sqrt(Math.pow(getXFeet(),2) + Math.pow(getYFeet(),2));
   }
 
-  public int[] calculateRPM(){
-    int intArray[];
-    intArray = new int[]{0,0};
-    return intArray;
+  public double[] calculateRPM(){
+    double dist = getDistance();
+    double topVal = 82.759*(dist) + 2931.0345;
+    double botVal = -68.966*(dist) + 6224.138;
+    double[] doubleArray = new double[]{topVal, botVal};
+
+    return doubleArray;
   }
 
   @Override
