@@ -50,15 +50,13 @@ public class Climb extends CommandBase {
     if(!m_parameterized) {
       speed = SmartDashboard.getNumber("ClimberSpeed", 0.3);
     }
-    m_climber.setLeft(speed);
-    m_climber.setRight(-speed);
+    m_climber.climb(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.setRight(0);
-    m_climber.setLeft(0);
+    m_climber.climb(0);
   }
 
   // Returns true when the command should end.

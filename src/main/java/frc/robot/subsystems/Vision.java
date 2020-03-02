@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.TestingDashboard;
@@ -18,7 +19,7 @@ public class Vision extends SubsystemBase {
   public static NetworkTable nt;
   public NetworkTableEntry yaw, isValid, targetPose;
   private static Vision vision;
-  private double[] defaultDoubleArray = {-1,-1};
+  private double[] defaultDoubleArray = {4500,5500};
   /**
    * Creates a new Vision.
    */
@@ -70,12 +71,13 @@ public class Vision extends SubsystemBase {
     double topVal = 82.759*(dist) + 2931.0345;
     double botVal = -68.966*(dist) + 6224.138;
     double[] doubleArray = new double[]{topVal, botVal};
-
-    return doubleArray;
+    //return doubleArray;
+    return defaultDoubleArray;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumberArray("pose", getTargetPoseArray());
   }
 }

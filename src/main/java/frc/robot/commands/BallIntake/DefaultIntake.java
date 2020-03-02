@@ -48,7 +48,9 @@ public class DefaultIntake extends CommandBase {
   @Override
   public void execute() {
     //Drives the ball intake with the right trigger.
-    double speed = oi.getXbox().getAxis(XboxAxis.kRightTrigger);
+    double speedRight = oi.getXbox().getAxis(XboxAxis.kRightTrigger);
+    double speedLeft = oi.getXbox().getAxis(XboxAxis.kLeftTrigger);
+    double speed = (speedRight > speedLeft) ? speedRight : -speedLeft;
     m_intake.spinIntakeRoller(speed);
   }
 

@@ -108,6 +108,9 @@ public class RobotContainer {
     FeedBalls.registerWithTestingDashboard();
     ClimberUp.registerWithTestingDashboard();
     ClimberDown.registerWithTestingDashboard();
+    Release.registerWithTestingDashboard();
+    TurnToLimit.registerWithTestingDashboard();
+    PIDTurnToCenter.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();

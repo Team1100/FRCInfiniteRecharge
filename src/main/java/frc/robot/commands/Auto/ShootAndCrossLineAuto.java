@@ -7,11 +7,14 @@
 
 package frc.robot.commands.Auto;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.TestingDashboard;
+import frc.robot.commands.BallIntake.BallIntakeDown;
 import frc.robot.commands.Drive.TimedForward;
 import frc.robot.commands.Shooter.ShootBalls;
 import frc.robot.commands.Shooter.ShootBallsProcedure;
+import frc.robot.commands.Shooter.ShooterUp;
 import frc.robot.subsystems.Auto;
 import frc.robot.subsystems.Vision;
 
@@ -29,8 +32,10 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     // 1. Wait a certain amount of time (controlled by StartAutoWaitTime in SmartDashboard)
     // 2. Move forward for a certain amount of time (controlled by DriveForwardTime in SmartDashboard)
     // TODO: Add the commands for shooting here
-    super(new Wait(3),
-          new ShootBallsProcedure(Vision.getInstance().calculateRPM()),
+    super(new BallIntakeDown(),
+          new Wait(1),
+          new ShootBallsAuto(3800, 5500),
+          new ShooterUp(),
           new TimedForward(3, 0.5));
   }
 

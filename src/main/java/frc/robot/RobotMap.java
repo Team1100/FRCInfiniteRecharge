@@ -166,7 +166,7 @@ public class RobotMap {
 
 	//[CL]imber
 	public static final int CL_MOTOR_LEFT = CAN_6;
-	public static final int CL_MOTOR_RIGHT = CAN_7;
+	public static final int CL_MOTOR_RIGHT = CAN_10;
 	public static final int CL_PCM_CAN = PCM_CAN;
 	public static final int CL_PISTON_PORT2 = PCM_2;
 	public static final int CL_PISTON_PORT5 = PCM_5;
@@ -199,8 +199,9 @@ public class RobotMap {
 
 	//[T]urret
 	public static final int T_MOTOR = CAN_3;
-	public static final int T_LEFT_STOP = DIO_MXP_4;
-	public static final int T_RIGHT_STOP = DIO_MXP_5;
+	public static final int T_ENCODER_A = DIO_MXP_4;
+	public static final int T_ENCODER_B = DIO_MXP_5;
+	public static final int T_LIMIT = DIO_4;
 
 	//[SH]ooter
 	public static final int SH_TOP = CAN_13;

@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.Auto.ShootBallsAuto;
 import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
@@ -55,7 +56,7 @@ public class OI {
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
     xbox.getButtonB().whenHeld(new FeedBalls());
-    xbox.getButtonY().whileHeld(new ShootBallsProcedure(Vision.getInstance().calculateRPM()));
+    xbox.getButtonY().whileHeld(new ShootBallsAuto(5500, 4500));
     xbox.getButtonBack().whileHeld(new PIDTurret());
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
@@ -78,8 +79,10 @@ public class OI {
     buttonBox.getCPGreen().whenPressed(new SpinSpinnerToColor("Green", true));
     buttonBox.getCPRed().whenPressed(new SpinSpinnerToColor("Red", true));
     buttonBox.getCPBlue().whenPressed(new SpinSpinnerToColor("Blue", true));
-    buttonBox.getClimb().whenPressed(new Climb(0.5, true));
     */
+    buttonBox.getClimberDeploy().whenPressed(new ClimberUp());
+    buttonBox.getClimb().whenHeld(new Climb(0.5, true));    
+    buttonBox.getClimb().whenReleased(new ClimberDown());
 
   }
 

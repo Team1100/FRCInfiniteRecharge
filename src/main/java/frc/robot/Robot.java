@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.CameraServerCvJNI;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +25,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private CameraServer cs;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -33,6 +36,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = RobotContainer.getInstance();
+    cs = CameraServer.getInstance();
+    cs.startAutomaticCapture("Front Camera", 0).setResolution(180, 120);
+    
   }
 
   /**
