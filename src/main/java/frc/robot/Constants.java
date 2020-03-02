@@ -24,6 +24,8 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 0.271;
     public static final double kaVoltSecondsSquaredPerMeter = 0.0154;
 
+    public static final double kPDriveVel = 8.5;
+
     public static final double kTrackwidthMeters = 0.6858;
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
@@ -35,6 +37,8 @@ public final class Constants {
      // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
      public static final double kRamseteB = 2;
      public static final double kRamseteZeta = 0.7;
+
+     public static final boolean kGyroReversed = false;
     
 
 

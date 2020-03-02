@@ -12,12 +12,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
@@ -82,26 +84,7 @@ public class Drive extends SubsystemBase {
     return drive;
   }
 
-  public double getYaw() {
-    return ahrs.getYaw();
-  }
-
-  public double getPitch() {
-    return ahrs.getPitch();
-  }
-
-  public double getRoll() {
-    return ahrs.getRoll();
-  }
-
-  public Encoder getLeftEncoder(){
-    return leftEncoder;
-  }
-
-  public Encoder getRightEncoder(){
-    return rightEncoder;
-  }
-
+  //Drive Methods
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drivetrain.tankDrive(leftSpeed, rightSpeed);
   }
@@ -117,6 +100,74 @@ public class Drive extends SubsystemBase {
     backRight.setVoltage(rightVoltage);
     drivetrain.feed();
   }
+
+  public void arcadeDrive(double fwd, double rot) {
+    drive.arcadeDrive(fwd, rot);
+  }
+
+  public void setMaxOutput(double maxOutput) {
+    drive.setMaxOutput(maxOutput);
+  }
+
+  //Sensor Methods
+
+  //AHRS Methods
+  public double getYaw() {
+    return ahrs.getYaw();
+  }
+
+  public double getPitch() {
+    return ahrs.getPitch();
+  }
+
+  public double getRoll() {
+    return ahrs.getRoll();
+  }
+
+  public void zeroHeading() {
+    ahrs.reset();
+  }
+
+  public double getHeading() {
+    return Math.IEEEremainder(ahrs.getAngle(), 360) * (Constants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  public double getTurnRate() {
+    return ahrs.getRate() * (Constants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+  //Encoder Methods
+  public Encoder getLeftEncoder(){
+    return leftEncoder;
+  }
+
+  public Encoder getRightEncoder(){
+    return rightEncoder;
+  }
+
+  public void resetEncoders() {
+    leftEncoder.reset();
+    rightEncoder.reset();
+  }
+
+  public double getAverageEncoderDistance() {
+    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+  }
+
+  //Kinematics Methods
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  }
+
 
   @Override
   public void periodic() {
