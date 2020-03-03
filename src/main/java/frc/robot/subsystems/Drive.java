@@ -95,7 +95,7 @@ public class Drive extends SubsystemBase {
    * @param leftVoltage  voltage fed to left side
    * @param rightVoltage voltage fed to right side
    */
-  public void tankDriveVoltage(double leftVoltage, double rightVoltage){
+  public void tankDriveVolts(double leftVoltage, double rightVoltage){
     backLeft.setVoltage(leftVoltage);
     backRight.setVoltage(rightVoltage);
     drivetrain.feed();
