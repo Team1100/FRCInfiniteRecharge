@@ -4,5 +4,5 @@
   "maxAcceleration": 4.0,
   "wheelBase": 2.25,
   "gameName": "Infinite Recharge",
-  "outputDir": ""
+  "outputDir": ".."
 }

@@ -182,7 +182,7 @@ public class RobotContainer {
             .addConstraint(autoVoltageConstraint);
 
     
-    // An example trajectory to follow.  All units in meters.
+    // An default trajectory to follow.  All units in meters. Should be overwritten.
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
@@ -198,7 +198,7 @@ public class RobotContainer {
         
     );
     
-    String trajectoryJSON = "paths/YourPath.wpilib.json";
+    String trajectoryJSON = "paths/ShootToTrench.wpilib.json";
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
