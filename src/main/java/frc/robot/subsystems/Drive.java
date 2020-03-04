@@ -173,11 +173,13 @@ public class Drive extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Yaw",getYaw());
-    SmartDashboard.putNumber("Pitch",getPitch());
-    SmartDashboard.putNumber("Roll",getRoll());
-
-    m_odometry.update(Rotation2d.fromDegrees(getRoll()), leftEncoder.getDistance(),
+    m_odometry.update(Rotation2d.fromDegrees(getHeading()), leftEncoder.getDistance(),
                       rightEncoder.getDistance());
+    SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("Left Dist", Drive.getInstance().getLeftEncoder().getDistance());
+    SmartDashboard.putNumber("Right Dist", Drive.getInstance().getRightEncoder().getDistance());
+    SmartDashboard.putNumber("Left Rate", Drive.getInstance().getLeftEncoder().getRate());
+    SmartDashboard.putNumber("Right Rate", Drive.getInstance().getRightEncoder().getRate());
   }
 
   @Override

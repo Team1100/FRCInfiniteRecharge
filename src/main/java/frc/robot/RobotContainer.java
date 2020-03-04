@@ -174,7 +174,7 @@ public class RobotContainer {
                                        Constants.kvVoltSecondsPerMeter,
                                        Constants.kaVoltSecondsSquaredPerMeter),
             Constants.kDriveKinematics,
-            10);
+            8);
 
     // Create config for trajectory
     TrajectoryConfig config =
@@ -202,13 +202,16 @@ public class RobotContainer {
         
     );
     
-    String trajectoryJSON = "paths/ShootToTrench.wpilib.json";
+    
+    String trajectoryJSON = "paths/Forward.wpilib.json";
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      DriverStation.reportError("Opened File Yay", false);
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
+    
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,

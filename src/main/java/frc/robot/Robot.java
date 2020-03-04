@@ -74,6 +74,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Drive.getInstance().zeroHeading();
+    Drive.getInstance().resetEncoders();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -98,6 +100,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    Drive.getInstance().zeroHeading();
+    Drive.getInstance().resetEncoders();
   }
 
   /**
@@ -105,8 +110,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Left Encoder", Drive.getInstance().getLeftEncoder().getDistance());
-    SmartDashboard.putNumber("Right Encoder", Drive.getInstance().getRightEncoder().getDistance());
 
   }
 
