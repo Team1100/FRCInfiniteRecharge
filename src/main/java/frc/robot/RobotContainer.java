@@ -36,6 +36,7 @@ import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
 import frc.robot.subsystems.*;
+import io.github.oblarg.oblog.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
@@ -94,6 +95,9 @@ public class RobotContainer {
 
     //OI Device instantiation
     OI.getInstance();
+
+    //Configure OBlog
+    Logger.configureLoggingAndConfig(this, false);
 
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();
