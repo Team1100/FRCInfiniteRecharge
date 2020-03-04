@@ -76,7 +76,6 @@ public class FeedBalls extends CommandBase {
         }
         break;
     }
-
   }
 
   // Called once the command ends or is interrupted.
