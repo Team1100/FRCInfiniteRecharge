@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -55,8 +56,8 @@ public class Drive extends SubsystemBase {
 
     leftEncoder = new Encoder(RobotMap.D_LEFT_ENCODER_A, RobotMap.D_LEFT_ENCODER_B);
     rightEncoder = new Encoder(RobotMap.D_RIGHT_ENCODER_A, RobotMap.D_RIGHT_ENCODER_B);
-    leftEncoder.setDistancePerPulse(1/PULSE_PER_FOOT);
-    rightEncoder.setDistancePerPulse(1/PULSE_PER_FOOT);
+    leftEncoder.setDistancePerPulse(1/PULSE_PER_METER);
+    rightEncoder.setDistancePerPulse(1/PULSE_PER_METER);
 
     
 
