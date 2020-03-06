@@ -173,17 +173,16 @@ public class RobotContainer {
             new SimpleMotorFeedforward(Constants.ksVolts,
                                        Constants.kvVoltSecondsPerMeter,
                                        Constants.kaVoltSecondsSquaredPerMeter),
-            Constants.kDriveKinematics,
+            Drive.getInstance().getKinematics(),
             8);
 
     // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond,
-                             Constants.kMaxAccelerationMetersPerSecondSquared)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(Constants.kDriveKinematics)
-            // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint);
+    TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, Constants.kMaxAccelerationMetersPerSecondSquared);
+                             
+    // Add kinematics to ensure max speed is actually obeyed
+    config.setKinematics(Drive.getInstance().getKinematics());
+    // Apply the voltage constraint
+    config.addConstraint(autoVoltageConstraint);
 
     
     // An default trajectory to follow.  All units in meters. Should be overwritten.
@@ -217,19 +216,19 @@ public class RobotContainer {
         trajectory,
         drive::getPose,
         new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.ksVolts,
-                                   Constants.kvVoltSecondsPerMeter,
-                                   Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
+        drive.getFeedforward(),
+        drive.getKinematics(),
         drive::getWheelSpeeds,
-        new PIDController(Constants.kPDriveVel, 0, 0),
-        new PIDController(Constants.kPDriveVel, 0, 0),
+        drive.getLeftPidController(),
+        drive.getRightPidController(),
         // RamseteCommand passes volts to the callback
         drive::tankDriveVolts,
         drive
     );
 
+    return ramseteCommand;
+
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
+    //return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
   }
 }

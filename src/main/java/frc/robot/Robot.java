@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Drive.getInstance().zeroHeading();
-    Drive.getInstance().resetEncoders();
+    Drive.getInstance().resetOdometry(Drive.getInstance().getPose());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
     }
 
     Drive.getInstance().zeroHeading();
-    Drive.getInstance().resetEncoders();
+    Drive.getInstance().resetOdometry(Drive.getInstance().getPose());
   }
 
   /**

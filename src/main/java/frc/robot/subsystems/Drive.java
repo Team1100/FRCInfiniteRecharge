@@ -12,9 +12,12 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,7 +46,15 @@ public class Drive extends SubsystemBase {
   
   private static Drive drive;
 
-  private final DifferentialDriveOdometry m_odometry;
+  private DifferentialDriveKinematics m_kinematics; 
+  private DifferentialDriveOdometry m_odometry;
+  private SimpleMotorFeedforward m_feedforward;
+
+  private PIDController leftPidController = new PIDController(Constants.kPDriveVel, 0, 0);
+  private PIDController rightPidController = new PIDController(Constants.kPDriveVel, 0, 0);
+
+  
+  private Pose2d pose;
 
   /**
    * Creates a new Drive subsystem
@@ -70,7 +81,9 @@ public class Drive extends SubsystemBase {
 
     ahrs = new AHRS(RobotMap.D_NAVX);
 
+    m_kinematics = new DifferentialDriveKinematics(Constants.kTrackwidthMeters);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getRoll()));
+    m_feedforward = new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter);
   }
 
   /**
@@ -129,12 +142,8 @@ public class Drive extends SubsystemBase {
     ahrs.reset();
   }
 
-  public double getHeading() {
-    return Math.IEEEremainder(ahrs.getAngle(), 360) * (Constants.kGyroReversed ? -1.0 : 1.0);
-  }
-
-  public double getTurnRate() {
-    return ahrs.getRate() * (Constants.kGyroReversed ? -1.0 : 1.0);
+  public Rotation2d getHeading() {
+    return Rotation2d.fromDegrees(-ahrs.getYaw());
   }
 
   //Encoder Methods
@@ -146,18 +155,10 @@ public class Drive extends SubsystemBase {
     return rightEncoder;
   }
 
-  public void resetEncoders() {
-    leftEncoder.reset();
-    rightEncoder.reset();
-  }
-
-  public double getAverageEncoderDistance() {
-    return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
-  }
-
   //Kinematics Methods
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    //return m_odometry.getPoseMeters();
+    return pose;
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -165,18 +166,51 @@ public class Drive extends SubsystemBase {
   }
 
   public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    m_odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+    leftEncoder.reset();
+    rightEncoder.reset();
+    m_odometry.resetPosition(pose, getHeading());
+  }
+
+  /**
+   * @return the odometry
+   */
+  public DifferentialDriveOdometry getOdometry() {
+    return m_odometry;
+  }
+
+  /**
+   * @return the kinematics
+   */
+  public DifferentialDriveKinematics getKinematics() {
+    return m_kinematics;
+  }
+
+  public SimpleMotorFeedforward getFeedforward(){
+    return m_feedforward;
+  }
+
+  /**
+   * @return the leftPidController
+   */
+  public PIDController getLeftPidController() {
+    return leftPidController;
+  }
+
+  /**
+   * @return the rightPidController
+   */
+  public PIDController getRightPidController() {
+    return rightPidController;
   }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    pose = m_odometry.update(getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
+
     SmartDashboard.putNumber("Yaw",getYaw());
-    m_odometry.update(Rotation2d.fromDegrees(getHeading()), leftEncoder.getDistance(),
-                      rightEncoder.getDistance());
-    SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putString("Heading", getHeading().toString());
     SmartDashboard.putNumber("Left Dist", Drive.getInstance().getLeftEncoder().getDistance());
     SmartDashboard.putNumber("Right Dist", Drive.getInstance().getRightEncoder().getDistance());
     SmartDashboard.putNumber("Left Rate", Drive.getInstance().getLeftEncoder().getRate());
