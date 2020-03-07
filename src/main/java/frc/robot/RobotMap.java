@@ -133,7 +133,6 @@ public class RobotMap {
 	private static final int PCM_5 = 5;
 	private static final int PCM_6 = 6;
 	private static final int PCM_7 = 7;
-	private static final int PCM_8 = 8;
 
 	//List of all PDP ports
 	private static final int PDP_0 = 0;
@@ -165,12 +164,18 @@ public class RobotMap {
 	public static final int D_RIGHT_ENCODER_A = DIO_MXP_2;
 	public static final int D_RIGHT_ENCODER_B = DIO_MXP_3;
 
-
+	//[CL]imber
+	public static final int CL_MOTOR_LEFT = CAN_6;
+	public static final int CL_MOTOR_RIGHT = CAN_10;
+	public static final int CL_PCM_CAN = PCM_CAN;
+	public static final int CL_PISTON_PORT2 = PCM_2;
+	public static final int CL_PISTON_PORT5 = PCM_5;
 	
 	//[U]ser Input
 	public static final int U_JOYSTICK_LEFT = 0;
 	public static final int U_JOYSTICK_RIGHT = 1;
 	public static final int U_XBOX_CONTROLLER = 2;
+	public static final int U_BUTTON_BOX = 3;
 
 	//[B]all Intake
 	public static final int B_INTAKE_ROLLER = CAN_5;
@@ -188,14 +193,15 @@ public class RobotMap {
 	//[S]pinner][\]
 	public static final int S_MOTOR = PWM_3;
 	public static final int S_PCM_CAN = PCM_CAN;
-	public static final int S_PISTON_PORT0 = PCM_4;
-	public static final int S_PISTON_PORT1 = PCM_5;
+	public static final int S_PISTON_PORT0 = PCM_3;
+	public static final int S_PISTON_PORT1 = PCM_4;
 	public static final I2C.Port S_COLOR_SENSOR = I2C.Port.kOnboard;
 
 	//[T]urret
 	public static final int T_MOTOR = CAN_3;
-	public static final int T_LEFT_STOP = DIO_2;
-	public static final int T_RIGHT_STOP = DIO_3;
+	public static final int T_ENCODER_A = DIO_MXP_4;
+	public static final int T_ENCODER_B = DIO_MXP_5;
+	public static final int T_LIMIT = DIO_4;
 
 	//[SH]ooter
 	public static final int SH_TOP = CAN_13;
@@ -203,11 +209,9 @@ public class RobotMap {
 	public static final int SH_PCM_CAN = PCM_CAN;
 	public static final int SH_PISTON_PORT0 = PCM_0;
 	public static final int SH_PISTON_PORT1 = PCM_7;
-
-	//Encoder mappings are placeholders, will replace on 2/23/20
-	public static final int SH_TOP_ENCODER_A = DIO_MXP_4;
-	public static final int SH_TOP_ENCODER_B = DIO_MXP_5;
-	public static final int SH_BOT_ENCODER_A = DIO_MXP_6;
-	public static final int SH_BOT_ENCODER_B = DIO_MXP_7;
+	public static final int SH_TOP_ENCODER_A = DIO_2;
+	public static final int SH_TOP_ENCODER_B = DIO_3;
+	public static final int SH_BOT_ENCODER_A = DIO_0;
+	public static final int SH_BOT_ENCODER_B = DIO_1;
 
 }

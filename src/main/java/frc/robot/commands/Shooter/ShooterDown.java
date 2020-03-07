@@ -37,17 +37,15 @@ public class ShooterDown extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (m_piston.get() == DoubleSolenoid.Value.kForward) {
-      isUp = true;
-    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (isUp) {
-      m_shooter.lowerShooter();
-    }
+   
+    m_shooter.lowerShooter();
+    
     
     if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
       m_finished = true;

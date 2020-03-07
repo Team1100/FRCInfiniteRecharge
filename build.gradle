@@ -52,6 +52,8 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
+    implementation "com.github.Oblarg.Oblog:lib:3.1.2"
+
     testImplementation 'junit:junit:4.12'
 
     // Enable simulation gui support. Must check the box in vscode to enable support
@@ -65,4 +67,8 @@ dependencies {
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
+
+repositories {
+  maven { url 'https://jitpack.io' }
 }

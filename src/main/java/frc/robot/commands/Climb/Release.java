@@ -5,50 +5,58 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Climb;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
 import frc.robot.TestingDashboard;
-import frc.robot.input.XboxController.XboxAxis;
-import frc.robot.subsystems.Turret;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Climber;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DefaultTurret extends CommandBase {
+
+public class Release extends CommandBase {
+  Climber m_climber;
+  boolean m_parameterized = true;
+  double m_speed;
+
   /**
-   * Creates a new DefaultTurret.
+   * Creates a new Climb.
    */
-  Turret m_turret;
-  private static OI oi;
-
-  public DefaultTurret(Turret turret) {
+  public Release(double speed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Turret.getInstance());
-    oi = OI.getInstance();
-    m_turret = Turret.getInstance();
+    addRequirements(Climber.getInstance()); 
+    m_climber = Climber.getInstance();
+    m_parameterized = parameterized;
+    m_speed = speed;
   }
 
+  
   public static void registerWithTestingDashboard() {
-    Turret turret = Turret.getInstance();
-    DefaultTurret cmd = new DefaultTurret(turret);
-    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
+    Climber climber = Climber.getInstance();
+    double speed = SmartDashboard.getNumber("ClimberSpeed", 0.3);
+    Release cmd = new Release(speed, false);
+    TestingDashboard.getInstance().registerCommand(climber, "Basic", cmd); 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Drives the Turret with the x-axis of the right Xbox joystick.
-    double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
-    m_turret.spinTurretMotor(-0.5*speed);
+    double speed = m_speed;
+    if(!m_parameterized) {
+      speed = SmartDashboard.getNumber("ClimberSpeed", 0.3);
+    }
+    m_climber.release(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_climber.climb(0);
   }
 
   // Returns true when the command should end.

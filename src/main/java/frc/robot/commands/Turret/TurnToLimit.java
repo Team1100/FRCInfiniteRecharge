@@ -8,52 +8,47 @@
 package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
 import frc.robot.TestingDashboard;
-import frc.robot.input.XboxController.XboxAxis;
 import frc.robot.subsystems.Turret;
 
-public class DefaultTurret extends CommandBase {
+public class TurnToLimit extends CommandBase {
   /**
-   * Creates a new DefaultTurret.
+   * Creates a new TurnToLimit.
    */
   Turret m_turret;
-  private static OI oi;
-
-  public DefaultTurret(Turret turret) {
+  public TurnToLimit() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Turret.getInstance());
-    oi = OI.getInstance();
-    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
     Turret turret = Turret.getInstance();
-    DefaultTurret cmd = new DefaultTurret(turret);
+    TurnToLimit cmd = new TurnToLimit();
     TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_turret = Turret.getInstance();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Drives the Turret with the x-axis of the right Xbox joystick.
-    double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
-    m_turret.spinTurretMotor(-0.5*speed);
+    m_turret.spinTurretMotor(0.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_turret.spinTurretMotor(0);
+  
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_turret.getTurretLimit();
   }
 }

@@ -7,24 +7,20 @@
 
 package frc.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.Conveyor.FeedBalls;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Auto.Wait;
 import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootBalls extends ParallelCommandGroup {
+public class ShootBallsProcedure extends SequentialCommandGroup {
   /**
-   * Creates a new ShootBalls.
+   * Creates a new ShootBallsProcedure.
    */
-  public ShootBalls(double[] doubleArray) {
+  public ShootBallsProcedure(double[] doubleArray) {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
-    super(new FeedBalls(), 
-    new PIDTopShooter(doubleArray[0]), 
-    new PIDBottomShooter(doubleArray[1]));
+    // super(new FooCommand(), new BarCommand());
+    super(new ShooterUp(), new Wait(1.5), new ShootBalls(doubleArray));
   }
-
-  
 }

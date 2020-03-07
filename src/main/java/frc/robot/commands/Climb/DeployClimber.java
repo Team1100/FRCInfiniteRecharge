@@ -5,26 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Shooter;
+package frc.robot.commands.Climb;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.Conveyor.FeedBalls;
-import frc.robot.subsystems.Vision;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootBalls extends ParallelCommandGroup {
+public class DeployClimber extends SequentialCommandGroup {
   /**
-   * Creates a new ShootBalls.
+   * Creates a new DeployClimber.
    */
-  public ShootBalls(double[] doubleArray) {
+  public DeployClimber() {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
-    super(new FeedBalls(), 
-    new PIDTopShooter(doubleArray[0]), 
-    new PIDBottomShooter(doubleArray[1]));
+    // super(new FooCommand(), new BarCommand());
+    super(new ClimberUp());
   }
-
-  
 }

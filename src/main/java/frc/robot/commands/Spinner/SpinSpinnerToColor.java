@@ -22,22 +22,29 @@ public class SpinSpinnerToColor extends CommandBase {
   String m_currentColor;
   double m_period;
   boolean m_timePassed;
+  boolean m_parameterized;
+  String m_color;
+  double m_speed;
   Timer m_timer;
   /**
    * Creates a new SpinSpinnerToColor.
    */
-  public SpinSpinnerToColor() {
+  public SpinSpinnerToColor(String color, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
     m_spinner = Spinner.getInstance();
     m_detected_blue = false;
     m_direction = 1;
+    m_parameterized = parameterized;
+    m_color = color;
+    m_speed = 0.2;
+    m_period = 5;
     m_timer = new Timer();
   }
   
   public static void registerWithTestingDashboard() {
     Spinner spinner = Spinner.getInstance();
-    SpinSpinnerToColor cmd = new SpinSpinnerToColor();
+    SpinSpinnerToColor cmd = new SpinSpinnerToColor("Yellow", false);
     TestingDashboard.getInstance().registerCommand(spinner, "Timed", cmd);
   }
 
@@ -54,10 +61,14 @@ public class SpinSpinnerToColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout",5.0);
-    double speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);
-    String color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
+    if(m_parameterized == false){
+      m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout",5.0);
+      m_speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);
+      m_color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
+    }
+    
     String m_actualColor = m_spinner.getColor();
+    
     if (!m_actualColor.equals(m_currentColor)) {
       m_currentColor = m_actualColor;
       m_timer.reset();
@@ -65,11 +76,11 @@ public class SpinSpinnerToColor extends CommandBase {
     }
     if (m_spinner.getColor().equals("Blue")) {
       m_detected_blue = true;
-      if (!color.equals("Yellow")) {
+      if (!m_color.equals("Yellow")) {
         m_direction = -1;
       }
     }
-    m_spinner.spin((m_direction*speed));
+    m_spinner.spin((m_direction*m_speed));
   }
 
   // Called once the command ends or is interrupted.
@@ -82,7 +93,9 @@ public class SpinSpinnerToColor extends CommandBase {
   @Override
   public boolean isFinished() {
     m_timePassed = m_timer.hasPeriodPassed(m_period);
-    String color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
-    return ((m_spinner.getColor().equals(color) && m_detected_blue) || m_timePassed);
+    if(m_parameterized == false){
+      m_color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
+    }
+    return ((m_spinner.getColor().equals(m_color) && m_detected_blue) || m_timePassed);
   }
 }

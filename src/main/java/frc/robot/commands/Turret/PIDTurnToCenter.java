@@ -11,47 +11,42 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class PIDTurret extends PIDCommand {
+public class PIDTurnToCenter extends PIDCommand {
   /**
-   * Creates a new PIDTurret.
+   * Creates a new PIDTurnToCenter.
    */
-  public PIDTurret() {
+  public PIDTurnToCenter() {
     super(
         // The controller that the command will use
-        new PIDController(0.0105,0.003, 0),
+        new PIDController(0.015, 0, 0),
         // This should return the measurement
-        () -> Vision.getInstance().getYaw().getDouble(0.0),
+        () -> Turret.getInstance().getEncoder().getDistance(),
         // This should return the setpoint (can also be a constant)
-        () -> 0,
+        () -> -90,
         // This uses the output
         output -> {
           // Use the output here
-
-          
           Turret.getInstance().spinTurretMotor(output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(5);
-    getController().disableContinuousInput();
+    addRequirements(Turret.getInstance());
+    getController().setTolerance(3);
   }
 
   public static void registerWithTestingDashboard() {
     Turret turret = Turret.getInstance();
-    PIDTurret cmd = new PIDTurret();
+    PIDTurnToCenter cmd = new PIDTurnToCenter();
     TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //TODO: implement end condition with getController().atSetpoint();
-    return false;
-    
+    return getController().atSetpoint();
   }
 }

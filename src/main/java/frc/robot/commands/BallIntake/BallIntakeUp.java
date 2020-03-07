@@ -15,7 +15,6 @@ package frc.robot.commands.BallIntake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallIntake;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.TestingDashboard;
 
 public class BallIntakeUp extends CommandBase {
@@ -45,21 +44,14 @@ public class BallIntakeUp extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(m_piston.get() == DoubleSolenoid.Value.kForward){
-      isDown = true;
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(isDown){
-      m_ballIntake.raiseIntake();
-    }
-
-    if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
-      m_finished = true;
-    }
+    m_ballIntake.raiseIntake();
+    
+    m_finished = true;
   }
 
   // Called once the command ends or is interrupted.

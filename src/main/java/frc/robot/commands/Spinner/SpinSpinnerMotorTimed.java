@@ -19,19 +19,24 @@ public class SpinSpinnerMotorTimed extends CommandBase {
   Timer m_timer;
   double m_period;
   Spinner m_spinner;
+  double m_speed;
   /**
    * Creates a new SpinSpinnerMotorTimed.
    */
-  public SpinSpinnerMotorTimed() {
+  public SpinSpinnerMotorTimed(double spinnerTime, double spinnerSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
     m_timer = new Timer();
     m_spinner = Spinner.getInstance();
+    m_period = spinnerTime;
+    m_speed = spinnerSpeed;
   }
 
   public static void registerWithTestingDashboard() {
     Spinner spinner = Spinner.getInstance();
-    SpinSpinnerMotorTimed cmd = new SpinSpinnerMotorTimed();
+    double period = SmartDashboard.getNumber("SpinneMotorPeriod", 5);
+    double speed = SmartDashboard.getNumber("SpinnerMotorSpeed", 0.2);  
+    SpinSpinnerMotorTimed cmd = new SpinSpinnerMotorTimed(period, speed);
     TestingDashboard.getInstance().registerCommand(spinner, "Timed", cmd);
   }
 
@@ -39,14 +44,12 @@ public class SpinSpinnerMotorTimed extends CommandBase {
   @Override
   public void initialize() {
     m_timer.start();
-    m_period = SmartDashboard.getNumber("SpinnerMotorPeriod", 5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);
-    m_spinner.spin(speed);
+    m_spinner.spin(m_speed);
   }
 
   // Called once the command ends or is interrupted.

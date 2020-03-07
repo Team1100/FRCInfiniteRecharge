@@ -10,15 +10,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
   public static NetworkTable nt;
-  public NetworkTableEntry yaw, isValid;
+  public NetworkTableEntry yaw, isValid, targetPose;
   private static Vision vision;
-
+  private double[] defaultDoubleArray = {4500,5500};
   /**
    * Creates a new Vision.
    */
@@ -26,6 +27,7 @@ public class Vision extends SubsystemBase {
     nt = NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("HD Pro Webcam C920");
     yaw = nt.getEntry("targetYaw");
     isValid = nt.getEntry("isValid");
+    targetPose = nt.getEntry("targetPose");
   }
 
   public static Vision getInstance() {
@@ -44,8 +46,38 @@ public class Vision extends SubsystemBase {
     return isValid;
   }
 
+  public NetworkTableEntry getTargetPose(){
+    return targetPose;
+  }
+
+  public double[] getTargetPoseArray(){
+    return targetPose.getDoubleArray(defaultDoubleArray);
+  }
+
+  public double getXFeet(){
+    return (getTargetPoseArray()[0] * 3.28084);
+  }
+
+  public double getYFeet(){
+    return (getTargetPoseArray()[1] * 3.28084);
+  }
+
+  public double getDistance(){
+    return Math.sqrt(Math.pow(getXFeet(),2) + Math.pow(getYFeet(),2));
+  }
+
+  public double[] calculateRPM(){
+    double dist = getDistance();
+    double topVal = 82.759*(dist) + 2931.0345;
+    double botVal = -68.966*(dist) + 6224.138;
+    double[] doubleArray = new double[]{topVal, botVal};
+    //return doubleArray;
+    return defaultDoubleArray;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumberArray("pose", getTargetPoseArray());
   }
 }

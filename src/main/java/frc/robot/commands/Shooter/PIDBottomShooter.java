@@ -17,13 +17,14 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class PIDBottomShooter extends PIDCommand {
+  Shooter shooter = Shooter.getInstance();
   /**
    * Creates a new PIDShooter.
    */
   public PIDBottomShooter(double setpoint) {
     super(
         // The controller that the command will use
-        new PIDController(0.00125, 0.00045, 0.000027),
+        new PIDController(Shooter.getInstance().getkP(), Shooter.getInstance().getkI(), Shooter.getInstance().getkD()),
         // This should return the measurement
         () -> Shooter.getInstance().getRPM(Shooter.getInstance().getBottomEncoder()),
         // This should return the setpoint (can also be a constant)

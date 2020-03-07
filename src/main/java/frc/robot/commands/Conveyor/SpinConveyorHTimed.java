@@ -15,33 +15,37 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpinConveyorHTimed extends CommandBase {
+  Timer m_timer;
+  Conveyor m_conveyor;
+  double m_period;
+  double m_hSpeedL, m_hSpeedR;
+  private static final double HORIZONTAL_SPEED_L = 0.5;
+  private static final double HORIZONTAL_SPEED_R = 0.5;
+  private static final double PERIOD = 5;
+  private boolean m_parameterized = true;
+
   /**
-   * Creates a new SpinConveyor1Timed.
+   * Creates a new SpinConveyorHTimed.
    */
-
-   Timer m_timer;
-   Conveyor m_conveyor;
-   double m_period;
-   double m_speed1, m_speed2;
-
-  public SpinConveyorHTimed(double hSpeed1, double hSpeed2, double period) {
+  public SpinConveyorHTimed(double horizontalSpeedL, double horizontalSpeedR, double period, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
-    
     addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
     m_conveyor = Conveyor.getInstance();
-    m_speed1 = hSpeed1;
-    m_speed2 = hSpeed2;
-    m_period = period;
 
+    m_hSpeedL = horizontalSpeedL;
+    m_hSpeedR = horizontalSpeedR;
+    m_period = period;
+    m_parameterized = parameterized;
   }
 
   public static void registerWithTestingDashboard() {
+    double hSpeedL = HORIZONTAL_SPEED_L;
+    double hSpeedR = HORIZONTAL_SPEED_R;
+    double period = PERIOD;
+
     Conveyor conveyor = Conveyor.getInstance();
-    double speed1 = SmartDashboard.getNumber("ConveyorHMotor1Speed",0.5);
-    double speed2 = SmartDashboard.getNumber("ConveyorHMotor2Speed",0.5);
-    double period = SmartDashboard.getNumber("ConveyorHMotorTimeout", 5); // default of 5 seconds
-    SpinConveyorHTimed cmd = new SpinConveyorHTimed(speed1, speed2, period);
+    SpinConveyorHTimed cmd = new SpinConveyorHTimed(hSpeedL, hSpeedR, period, false);
     TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);
   }
 
@@ -54,21 +58,31 @@ public class SpinConveyorHTimed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_conveyor.spinHConveyorL(m_speed1);
-    m_conveyor.spinHConveyorR(m_speed2);
-
+    double hSpeedL = m_hSpeedL;
+    double hSpeedR = m_hSpeedR;
+    if (!m_parameterized) {
+      hSpeedL = SmartDashboard.getNumber("ConveyorHMotor1Speed", 0.5);
+      hSpeedR = SmartDashboard.getNumber("ConveyorHMotor2Speed", 0.5);
+    }
+    m_conveyor.spinHConveyors(hSpeedL, hSpeedR);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_conveyor.spinHConveyors(0);
+    m_conveyor.spinHConveyors(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean timerExpired = m_timer.hasPeriodPassed(m_period);
-    return timerExpired;
+    if (!m_parameterized) {
+      double period = SmartDashboard.getNumber("ConveyorHMotorTimeout", 5); // default of 5 seconds
+      boolean timerExpired = m_timer.hasPeriodPassed(period);
+      return timerExpired;
+    } else {
+      boolean timerExpired = m_timer.hasPeriodPassed(m_period);
+      return timerExpired;
+    }
   }
 }

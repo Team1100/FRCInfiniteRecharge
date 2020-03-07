@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Turret extends SubsystemBase {
   private VictorSPX m_turretMotor;
@@ -25,16 +26,15 @@ public class Turret extends SubsystemBase {
   
   private Encoder m_turretEncoder;
 
-  private DigitalInput m_leftStop;
-  private DigitalInput m_rightStop;
+  private DigitalInput m_turretLimit;
 
   /**
    * Creates a new Turret.
    */
   private Turret() {
     m_turretMotor = new VictorSPX(RobotMap.T_MOTOR);
-    m_leftStop = new DigitalInput(RobotMap.T_LEFT_STOP);
-    m_rightStop = new DigitalInput(RobotMap.T_RIGHT_STOP);
+    m_turretLimit = new DigitalInput(RobotMap.T_LIMIT);
+    m_turretEncoder = new Encoder(RobotMap.T_ENCODER_A, RobotMap.T_ENCODER_B);
   }
 
   public static Turret getInstance() {
@@ -46,10 +46,27 @@ public class Turret extends SubsystemBase {
   }
 
   public void spinTurretMotor(double speed) {
+    if(speed > 0 && getTurretLimit()){
+      speed = 0;
+    }
     m_turretMotor.set(ControlMode.PercentOutput, -speed);
+  }
+
+  public boolean getTurretLimit(){
+    return !m_turretLimit.get();
+  }
+
+  public Encoder getEncoder(){
+    return m_turretEncoder;
   }
       
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("TurretLimit", getTurretLimit());
+    SmartDashboard.putNumber("TurretEnc", getEncoder().getDistance());
+
+    if(getTurretLimit()){
+      m_turretEncoder.reset();
+    }
   }
 }

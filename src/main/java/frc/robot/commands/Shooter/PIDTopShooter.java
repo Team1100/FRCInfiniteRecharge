@@ -24,7 +24,7 @@ public class PIDTopShooter extends PIDCommand {
   public PIDTopShooter(double setpoint) {
     super(
         // The controller that the command will use
-        new PIDController(0.00125, 0.00045, 0.000027),
+        new PIDController(Shooter.getInstance().getkP(), Shooter.getInstance().getkI(), Shooter.getInstance().getkD()),
         // This should return the measurement
         () -> Shooter.getInstance().getRPM(Shooter.getInstance().getTopEncoder()),
         // This should return the setpoint (can also be a constant)
@@ -42,7 +42,7 @@ public class PIDTopShooter extends PIDCommand {
 
   public static void registerWithTestingDashboard() {
     Shooter shooter = Shooter.getInstance();
-    double setpoint = SmartDashboard.getNumber("Top Setpoint", 0);
+    double setpoint = SmartDashboard.getNumber("Top Setpoint", 2000);
     PIDTopShooter cmd = new PIDTopShooter(setpoint);
     TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }

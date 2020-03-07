@@ -5,55 +5,51 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Turret;
+package frc.robot.commands.Auto;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.OI;
-import frc.robot.TestingDashboard;
-import frc.robot.input.XboxController.XboxAxis;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Drive;
 
-public class DefaultTurret extends CommandBase {
+public class DriveDistance extends CommandBase {
+  double m_speed;
+  double m_distance;
+
+  Encoder left, right;
   /**
-   * Creates a new DefaultTurret.
+   * Creates a new DriveDistance.
    */
-  Turret m_turret;
-  private static OI oi;
-
-  public DefaultTurret(Turret turret) {
+  public DriveDistance(double distance, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Turret.getInstance());
-    oi = OI.getInstance();
-    m_turret = Turret.getInstance();
-  }
-
-  public static void registerWithTestingDashboard() {
-    Turret turret = Turret.getInstance();
-    DefaultTurret cmd = new DefaultTurret(turret);
-    TestingDashboard.getInstance().registerCommand(turret, "Basic", cmd);
+    addRequirements(Drive.getInstance());
+    m_speed = speed;
+    m_distance = distance;
+    left = Drive.getInstance().getLeftEncoder();
+    right = Drive.getInstance().getRightEncoder();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    left.reset();
+    right.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Drives the Turret with the x-axis of the right Xbox joystick.
-    double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
-    m_turret.spinTurretMotor(-0.5*speed);
+    Drive.getInstance().tankDrive(m_speed, m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Drive.getInstance().tankDrive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return left.getDistance() >= m_distance || right.getDistance() >= m_distance;
   }
 }
