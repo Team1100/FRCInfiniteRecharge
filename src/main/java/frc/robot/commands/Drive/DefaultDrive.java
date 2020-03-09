@@ -9,6 +9,7 @@ package frc.robot.commands.Drive;
 
 import frc.robot.OI;
 import frc.robot.TestingDashboard;
+import frc.robot.input.AttackThree;
 import frc.robot.input.AttackThree.AttackThreeAxis;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,6 +22,7 @@ public class DefaultDrive extends CommandBase {
   private final Drive m_drive;
   private final AttackThreeAxis yAxis = AttackThreeAxis.kY;
   private static OI oi;
+  private int counter;
 
   /**
    * Creates a new DefaultDrive.
@@ -30,6 +32,7 @@ public class DefaultDrive extends CommandBase {
   public DefaultDrive(Drive drive) {
     m_drive = drive;
     oi = OI.getInstance();
+    counter = 0;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
   }
@@ -50,9 +53,15 @@ public class DefaultDrive extends CommandBase {
   public void execute() {
     // NOTE: Forward on the left and right sticks is negative
     //       Backwards is positive, hence the inversion below
-    double leftStick = - oi.getLeftStick().getAxis(yAxis);
-    double rightStick = - oi.getRightStick().getAxis(yAxis);
-    m_drive.tankDrive(leftStick, rightStick);
+    AttackThree leftJoystick = oi.getLeftStick();
+    AttackThree rightJoystick = oi.getLeftStick();
+    if (rightJoystick.getRawButtonPressed(2)) {
+      counter++;
+      if (counter % 2 == 0)
+        m_drive.tankDrive(-leftJoystick.getAxis(yAxis), -rightJoystick.getAxis(yAxis));
+      else
+        m_drive.tankDrive(leftJoystick.getAxis(yAxis), rightJoystick.getAxis(yAxis));
+    }
   }
 
   // Called once the command ends or is interrupted. (Unused)
