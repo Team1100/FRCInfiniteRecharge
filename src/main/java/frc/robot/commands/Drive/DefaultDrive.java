@@ -54,14 +54,22 @@ public class DefaultDrive extends CommandBase {
     // NOTE: Forward on the left and right sticks is negative
     //       Backwards is positive, hence the inversion below
     AttackThree leftJoystick = oi.getLeftStick();
-    AttackThree rightJoystick = oi.getLeftStick();
+    AttackThree rightJoystick = oi.getRightStick();
+    double leftJoystickSpeed = -leftJoystick.getAxis(yAxis);
+    double rightJoystickSpeed = -rightJoystick.getAxis(yAxis);
     if (rightJoystick.getRawButtonPressed(2)) {
       counter++;
-      if (counter % 2 == 0)
-        m_drive.tankDrive(-leftJoystick.getAxis(yAxis), -rightJoystick.getAxis(yAxis));
-      else
-        m_drive.tankDrive(leftJoystick.getAxis(yAxis), rightJoystick.getAxis(yAxis));
     }
+
+    if (counter % 2 == 1) {
+      leftJoystickSpeed = rightJoystick.getAxis(yAxis);
+      rightJoystickSpeed = leftJoystick.getAxis(yAxis);
+    }
+    else {
+      leftJoystickSpeed = -leftJoystick.getAxis(yAxis);
+      rightJoystickSpeed = -rightJoystick.getAxis(yAxis);
+    }
+    m_drive.tankDrive(leftJoystickSpeed, rightJoystickSpeed);
   }
 
   // Called once the command ends or is interrupted. (Unused)
