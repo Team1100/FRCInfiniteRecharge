@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.cscore.CameraServerCvJNI;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -38,6 +40,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = RobotContainer.getInstance();
     cs = CameraServer.getInstance();
+    Drive.getInstance().zeroHeading();
+
     //cs.startAutomaticCapture("Front Camera", 0).setResolution(180, 120);  
   }
 
@@ -55,7 +59,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    Logger.updateEntries();
+    //Logger.updateEntries();
   }
 
   /**
@@ -74,8 +78,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    Drive.getInstance().zeroHeading();
-    Drive.getInstance().resetOdometry(Drive.getInstance().getPose());
+    //Drive.getInstance().resetOdometry(Drive.getInstance().getPose());
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -101,7 +104,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    Drive.getInstance().zeroHeading();
     Drive.getInstance().resetOdometry(Drive.getInstance().getPose());
   }
 

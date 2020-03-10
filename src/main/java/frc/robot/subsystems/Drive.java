@@ -54,7 +54,7 @@ public class Drive extends SubsystemBase {
   private PIDController rightPidController = new PIDController(Constants.kPDriveVel, 0, 0);
 
   
-  private Pose2d pose;
+  //private Pose2d pose;
 
   /**
    * Creates a new Drive subsystem
@@ -67,8 +67,8 @@ public class Drive extends SubsystemBase {
 
     leftEncoder = new Encoder(RobotMap.D_LEFT_ENCODER_A, RobotMap.D_LEFT_ENCODER_B);
     rightEncoder = new Encoder(RobotMap.D_RIGHT_ENCODER_A, RobotMap.D_RIGHT_ENCODER_B);
-    leftEncoder.setDistancePerPulse(1/PULSE_PER_METER);
-    rightEncoder.setDistancePerPulse(1/PULSE_PER_METER);
+    leftEncoder.setDistancePerPulse(0.0002338);
+    rightEncoder.setDistancePerPulse(0.0002338);
 
     
 
@@ -157,8 +157,8 @@ public class Drive extends SubsystemBase {
 
   //Kinematics Methods
   public Pose2d getPose() {
-    //return m_odometry.getPoseMeters();
-    return pose;
+    return m_odometry.getPoseMeters();
+    //return pose;
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -168,7 +168,8 @@ public class Drive extends SubsystemBase {
   public void resetOdometry(Pose2d pose) {
     leftEncoder.reset();
     rightEncoder.reset();
-    m_odometry.resetPosition(pose, getHeading());
+    //m_odometry.resetPosition(pose, getHeading());
+    m_odometry.resetPosition(m_odometry.getPoseMeters(), getHeading());
   }
 
   /**
@@ -207,14 +208,16 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    pose = m_odometry.update(getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
-
-    SmartDashboard.putNumber("Yaw",getYaw());
+    m_odometry.update(getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
     SmartDashboard.putString("Heading", getHeading().toString());
+
+    /*
+    SmartDashboard.putNumber("Yaw",getYaw());
     SmartDashboard.putNumber("Left Dist", Drive.getInstance().getLeftEncoder().getDistance());
     SmartDashboard.putNumber("Right Dist", Drive.getInstance().getRightEncoder().getDistance());
     SmartDashboard.putNumber("Left Rate", Drive.getInstance().getLeftEncoder().getRate());
     SmartDashboard.putNumber("Right Rate", Drive.getInstance().getRightEncoder().getRate());
+    */
   }
 
   @Override

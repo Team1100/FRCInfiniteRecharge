@@ -21,11 +21,13 @@ import edu.wpi.first.wpilibj.util.Units;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final double ksVolts = 0.715;
-    public static final double kvVoltSecondsPerMeter = 0.271;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.0154;
+    public static final double ksVolts = 2.41;
+    public static final double kvVoltSecondsPerMeter = 0.347;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.000404;
 
-    public static final double kPDriveVel = 8.5;
+    //public static final double kPDriveVel = 8.5;
+    public static final double kPDriveVel = 0.68;
+
 
     public static final double kTrackwidthMeters = Units.inchesToMeters(27);
 
