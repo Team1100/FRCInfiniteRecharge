@@ -134,6 +134,7 @@ public class RobotContainer {
     Release.registerWithTestingDashboard();
     TurnToLimit.registerWithTestingDashboard();
     PIDTurnToCenter.registerWithTestingDashboard();
+    SpitBalls.registerWithTestingDashboard();
     */
 
     // Create Testing Dashboard
@@ -192,7 +193,6 @@ public class RobotContainer {
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        
         List.of(
             new Translation2d(1, 0),
             new Translation2d(2, 0)
@@ -214,8 +214,6 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
     */
-    
-    
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,
