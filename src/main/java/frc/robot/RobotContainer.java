@@ -133,6 +133,7 @@ public class RobotContainer {
     Release.registerWithTestingDashboard();
     TurnToLimit.registerWithTestingDashboard();
     PIDTurnToCenter.registerWithTestingDashboard();
+    SpitBalls.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
