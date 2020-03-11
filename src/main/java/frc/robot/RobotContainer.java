@@ -100,7 +100,6 @@ public class RobotContainer {
     Logger.configureLoggingAndConfig(this, false);
 
     // Register commands with TestingDashboard commands
-    /*
     DefaultDrive.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
     DefaultTurret.registerWithTestingDashboard();
@@ -134,7 +133,6 @@ public class RobotContainer {
     Release.registerWithTestingDashboard();
     TurnToLimit.registerWithTestingDashboard();
     PIDTurnToCenter.registerWithTestingDashboard();
-    */
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
@@ -192,10 +190,9 @@ public class RobotContainer {
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        
         List.of(
-            new Translation2d(1, 0),
-            new Translation2d(2, 0)
+            new Translation2d(1, 1),
+            new Translation2d(2, -1)
         ),
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3, 0, new Rotation2d(0)),
@@ -204,7 +201,7 @@ public class RobotContainer {
         
     );
     
-    /*
+    
     String trajectoryJSON = "paths/Forward.wpilib.json";
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -213,8 +210,6 @@ public class RobotContainer {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
-    */
-    
     
 
     RamseteCommand ramseteCommand = new RamseteCommand(
