@@ -100,6 +100,7 @@ public class RobotContainer {
     Logger.configureLoggingAndConfig(this, false);
 
     // Register commands with TestingDashboard commands
+    /*
     DefaultDrive.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
     DefaultTurret.registerWithTestingDashboard();
@@ -134,6 +135,7 @@ public class RobotContainer {
     TurnToLimit.registerWithTestingDashboard();
     PIDTurnToCenter.registerWithTestingDashboard();
     SpitBalls.registerWithTestingDashboard();
+    */
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
@@ -202,7 +204,7 @@ public class RobotContainer {
         
     );
     
-    
+    /*
     String trajectoryJSON = "paths/Forward.wpilib.json";
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -211,7 +213,7 @@ public class RobotContainer {
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
-    
+    */
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,
