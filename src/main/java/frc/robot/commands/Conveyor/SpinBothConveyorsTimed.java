@@ -40,6 +40,7 @@ public class SpinBothConveyorsTimed extends CommandBase {
     m_vSpeed = verticalSpeed;
     m_hPeriod = horizontalPeriod;
     m_vPeriod = verticalPeriod;
+    m_parameterized = parameterized;
   }
 
   public static void registerWithTestingDashboard() {

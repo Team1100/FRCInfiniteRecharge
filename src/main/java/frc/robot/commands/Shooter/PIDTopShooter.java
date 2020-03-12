@@ -50,6 +50,7 @@ public class PIDTopShooter extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //getController().setSetpoint(SmartDashboard.getNumber("Top Setpoint", 2000));
     return false;
     //getController().atSetpoint();
   }

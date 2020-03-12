@@ -15,6 +15,7 @@ import frc.robot.TestingDashboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +26,7 @@ public class Turret extends SubsystemBase {
   private static Turret m_turret;
   
   private Encoder m_turretEncoder;
+  private AnalogInput m_analogPosition;
 
   private DigitalInput m_turretLimit;
 
@@ -35,6 +37,7 @@ public class Turret extends SubsystemBase {
     m_turretMotor = new VictorSPX(RobotMap.T_MOTOR);
     m_turretLimit = new DigitalInput(RobotMap.T_LIMIT);
     m_turretEncoder = new Encoder(RobotMap.T_ENCODER_A, RobotMap.T_ENCODER_B);
+    m_analogPosition = new AnalogInput(RobotMap.T_ANALOG_POTENTIOMETER);
   }
 
   public static Turret getInstance() {
@@ -64,6 +67,7 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("TurretLimit", getTurretLimit());
     SmartDashboard.putNumber("TurretEnc", getEncoder().getDistance());
+    SmartDashboard.putNumber("Turret Pot", m_analogPosition.getVoltage());
 
     if(getTurretLimit()){
       m_turretEncoder.reset();

@@ -100,7 +100,6 @@ public class RobotContainer {
     Logger.configureLoggingAndConfig(this, false);
 
     // Register commands with TestingDashboard commands
-    /*
     DefaultDrive.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
     DefaultTurret.registerWithTestingDashboard();
@@ -135,7 +134,6 @@ public class RobotContainer {
     TurnToLimit.registerWithTestingDashboard();
     PIDTurnToCenter.registerWithTestingDashboard();
     SpitBalls.registerWithTestingDashboard();
-    */
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
