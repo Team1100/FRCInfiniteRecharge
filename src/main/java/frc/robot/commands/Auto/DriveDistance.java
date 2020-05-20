@@ -12,16 +12,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 
 public class DriveDistance extends CommandBase {
-  double m_speed;
-  double m_distance;
+  private Drive m_drive;
+  private double m_speed;
+  private double m_distance;
+  private Encoder left, right;
 
-  Encoder left, right;
   /**
    * Creates a new DriveDistance.
    */
   public DriveDistance(double distance, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Drive.getInstance());
+    m_drive = Drive.getInstance();
     m_speed = speed;
     m_distance = distance;
     left = Drive.getInstance().getLeftEncoder();
@@ -38,13 +40,13 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Drive.getInstance().tankDrive(m_speed, m_speed);
+    m_drive.tankDrive(m_speed, m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Drive.getInstance().tankDrive(0, 0);
+    m_drive.tankDrive(0, 0);
   }
 
   // Returns true when the command should end.

@@ -11,12 +11,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Conveyor;
 
 public class BallReadyToShoot extends CommandBase {
+  private Conveyor m_conveyor;
+  
   /**
    * Creates a new BallReadyToShoot.
    */
   public BallReadyToShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
+    m_conveyor = Conveyor.getInstance();
   }
 
   // Called when the command is initially scheduled.
@@ -37,6 +40,6 @@ public class BallReadyToShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Conveyor.getInstance().ballReadyToShoot();
+    return m_conveyor.ballReadyToShoot();
   }
 }

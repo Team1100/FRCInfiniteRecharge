@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -20,16 +19,11 @@ import frc.robot.TestingDashboard;
 
 public class Conveyor extends SubsystemBase {
   private static Conveyor m_conveyor;
-
   private VictorSPX m_HconveyerL;
   private VictorSPX m_HconveyerR;
   private VictorSPX m_Vconveyor;
-
   private DigitalInput m_ballIncoming;
   private DigitalInput m_ballReadyToShoot;
-
-  private Encoder m_conveyor1Encoder;
-  private Encoder m_conveyor2Encoder;
   
   /**
    * Creates a new Conveyor.
@@ -38,7 +32,6 @@ public class Conveyor extends SubsystemBase {
     m_HconveyerL = new VictorSPX(RobotMap.C_HCONVEYOR_L);
     m_HconveyerR = new VictorSPX(RobotMap.C_HCONVEYOR_R);
     m_Vconveyor = new VictorSPX(RobotMap.C_VCONVEYOR);
-
     m_ballIncoming = new DigitalInput(RobotMap.C_INCOMING);
     m_ballReadyToShoot = new DigitalInput(RobotMap.C_READYTOSHOOT);
   }

@@ -7,7 +7,6 @@
 
 package frc.robot.commands.BallIntake;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.TestingDashboard;
@@ -19,17 +18,17 @@ import frc.robot.subsystems.BallIntake;
  */
 public class DefaultIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final BallIntake m_intake;
   private static OI oi;
+  private final BallIntake m_intake;
 
   /**
    * Creates a new DefaultIntake.
-   * @param BallIntake the subsystem used by this command.
+   * @param intake the subsystem used by this command.
    */
   public DefaultIntake(BallIntake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_intake = intake;
     oi = OI.getInstance();
+    m_intake = intake;
     addRequirements(m_intake);
   }
 
@@ -60,7 +59,7 @@ public class DefaultIntake extends CommandBase {
   }
 
   // Returns true when the command should end.
-  //Default command so will never finish running
+  // Default command so will never finish running.
   @Override
   public boolean isFinished() {
     return false;

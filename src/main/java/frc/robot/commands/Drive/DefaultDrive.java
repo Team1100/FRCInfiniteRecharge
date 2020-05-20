@@ -7,12 +7,12 @@
 
 package frc.robot.commands.Drive;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
 import frc.robot.TestingDashboard;
 import frc.robot.input.AttackThree;
 import frc.robot.input.AttackThree.AttackThreeAxis;
 import frc.robot.subsystems.Drive;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * A Default Drive commmand that passes joystick input to a TankDrive drivetrain.
@@ -27,7 +27,7 @@ public class DefaultDrive extends CommandBase {
   /**
    * Creates a new DefaultDrive.
    *
-   * @param Drive The subsystem used by this command.
+   * @param drive the subsystem used by this command.
    */
   public DefaultDrive(Drive drive) {
     m_drive = drive;
@@ -57,10 +57,11 @@ public class DefaultDrive extends CommandBase {
     AttackThree rightJoystick = oi.getRightStick();
     double leftJoystickSpeed = -leftJoystick.getAxis(yAxis);
     double rightJoystickSpeed = -rightJoystick.getAxis(yAxis);
+    
+    // Reverses the direction of the drive train upon pressing 2 on the right joystick
     if (rightJoystick.getRawButtonPressed(2)) {
       counter++;
     }
-
     if (counter % 2 == 1) {
       leftJoystickSpeed = rightJoystick.getAxis(yAxis);
       rightJoystickSpeed = leftJoystick.getAxis(yAxis);
@@ -78,7 +79,7 @@ public class DefaultDrive extends CommandBase {
   }
 
   // Returns true when the command should end.
-  //Default Command so will never finish running.
+  // Default command so will never finish running.
   @Override
   public boolean isFinished() {
     return false;

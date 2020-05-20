@@ -18,9 +18,8 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class PIDTopShooter extends PIDCommand {
   /**
-   * Creates a new PIDShooter.
+   * Creates a new PIDTopShooter.
    */
-  double m_setpoint;
   public PIDTopShooter(double setpoint) {
     super(
         // The controller that the command will use

@@ -6,40 +6,40 @@
 /*----------------------------------------------------------------------------*/
 
 //This command spins the control panel to a certain color.
-
 package frc.robot.commands.Spinner;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
-import edu.wpi.first.wpilibj.Timer;
 
 public class SpinSpinnerToColor extends CommandBase {
-  Spinner m_spinner;
-  boolean m_detected_blue;
-  int m_direction;
-  String m_currentColor;
-  double m_period;
-  boolean m_timePassed;
-  boolean m_parameterized;
-  String m_color;
-  double m_speed;
-  Timer m_timer;
+  private Timer m_timer;
+  private Spinner m_spinner;
+  private boolean m_detected_blue;
+  private int m_direction;
+  private String m_color;
+  private double m_speed;
+  private double m_period;
+  private String m_currentColor;
+  private boolean m_timePassed;
+  private boolean m_parameterized;
+
   /**
    * Creates a new SpinSpinnerToColor.
    */
   public SpinSpinnerToColor(String color, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
+    m_timer = new Timer();
     m_spinner = Spinner.getInstance();
     m_detected_blue = false;
     m_direction = 1;
-    m_parameterized = parameterized;
     m_color = color;
     m_speed = 0.2;
     m_period = 5;
-    m_timer = new Timer();
+    m_parameterized = parameterized;
   }
   
   public static void registerWithTestingDashboard() {
@@ -52,7 +52,6 @@ public class SpinSpinnerToColor extends CommandBase {
   @Override
   public void initialize() {
     m_timer.start();
-
     m_detected_blue = false;
     m_direction = 1;
     m_currentColor = m_spinner.getColor();
@@ -61,14 +60,12 @@ public class SpinSpinnerToColor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_parameterized == false){
-      m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout",5.0);
-      m_speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);
+    String m_actualColor = m_spinner.getColor();
+    if (m_parameterized == false) {
+      m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout", 5.0);
+      m_speed = SmartDashboard.getNumber("SpinnerMotorSpeed", 0.2);
       m_color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
     }
-    
-    String m_actualColor = m_spinner.getColor();
-    
     if (!m_actualColor.equals(m_currentColor)) {
       m_currentColor = m_actualColor;
       m_timer.reset();
@@ -80,7 +77,7 @@ public class SpinSpinnerToColor extends CommandBase {
         m_direction = -1;
       }
     }
-    m_spinner.spin((m_direction*m_speed));
+    m_spinner.spin((m_direction * m_speed));
   }
 
   // Called once the command ends or is interrupted.
@@ -93,7 +90,7 @@ public class SpinSpinnerToColor extends CommandBase {
   @Override
   public boolean isFinished() {
     m_timePassed = m_timer.hasPeriodPassed(m_period);
-    if(m_parameterized == false){
+    if (m_parameterized == false) {
       m_color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
     }
     return ((m_spinner.getColor().equals(m_color) && m_detected_blue) || m_timePassed);

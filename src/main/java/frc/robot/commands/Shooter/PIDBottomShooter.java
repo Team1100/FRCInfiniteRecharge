@@ -17,9 +17,8 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class PIDBottomShooter extends PIDCommand {
-  Shooter shooter = Shooter.getInstance();
   /**
-   * Creates a new PIDShooter.
+   * Creates a new PIDBottomShooter.
    */
   public PIDBottomShooter(double setpoint) {
     super(

@@ -7,9 +7,10 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -23,19 +24,18 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
-import com.kauailabs.navx.frc.AHRS;
-
 public class Drive extends SubsystemBase {
-  VictorSPX frontLeft;
-  VictorSPX frontRight;
-  WPI_TalonSRX backLeft;
-  WPI_TalonSRX backRight;
+  private VictorSPX frontLeft;
+  private VictorSPX frontRight;
+  private WPI_TalonSRX backLeft;
+  private WPI_TalonSRX backRight;
 
-  Encoder leftEncoder, rightEncoder;
+  private Encoder leftEncoder, rightEncoder;
 
   final double PULSE_PER_FOOT = 1300;
   final double PULSE_PER_METER = 4265.1;
@@ -53,11 +53,10 @@ public class Drive extends SubsystemBase {
   private PIDController leftPidController = new PIDController(Constants.kPDriveVel, 0, 0);
   private PIDController rightPidController = new PIDController(Constants.kPDriveVel, 0, 0);
 
-  
   //private Pose2d pose;
 
   /**
-   * Creates a new Drive subsystem
+   * Creates a new Drive.
    */
   private Drive() {
     frontLeft = new VictorSPX(RobotMap.D_FRONT_LEFT);
@@ -70,16 +69,13 @@ public class Drive extends SubsystemBase {
     leftEncoder.setDistancePerPulse(0.0002338);
     rightEncoder.setDistancePerPulse(0.0002338);
 
-    
-
     frontLeft.follow(backLeft);
     frontRight.follow(backRight);
     frontRight.setInverted(true);
 
+    ahrs = new AHRS(RobotMap.D_NAVX);
 
     drivetrain = new DifferentialDrive(backLeft, backRight);
-
-    ahrs = new AHRS(RobotMap.D_NAVX);
 
     m_kinematics = new DifferentialDriveKinematics(Constants.kTrackwidthMeters);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getRoll()));
@@ -98,7 +94,7 @@ public class Drive extends SubsystemBase {
     return drive;
   }
 
-  //Drive Methods
+  // Drive Methods
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drivetrain.tankDrive(leftSpeed, rightSpeed);
   }
@@ -109,7 +105,7 @@ public class Drive extends SubsystemBase {
    * @param leftVoltage  voltage fed to left side
    * @param rightVoltage voltage fed to right side
    */
-  public void tankDriveVolts(double leftVoltage, double rightVoltage){
+  public void tankDriveVolts(double leftVoltage, double rightVoltage) {
     backLeft.setVoltage(leftVoltage);
     backRight.setVoltage(rightVoltage);
     drivetrain.feed();
@@ -147,11 +143,11 @@ public class Drive extends SubsystemBase {
   }
 
   //Encoder Methods
-  public Encoder getLeftEncoder(){
+  public Encoder getLeftEncoder() {
     return leftEncoder;
   }
 
-  public Encoder getRightEncoder(){
+  public Encoder getRightEncoder() {
     return rightEncoder;
   }
 
@@ -186,7 +182,7 @@ public class Drive extends SubsystemBase {
     return m_kinematics;
   }
 
-  public SimpleMotorFeedforward getFeedforward(){
+  public SimpleMotorFeedforward getFeedforward() {
     return m_feedforward;
   }
 

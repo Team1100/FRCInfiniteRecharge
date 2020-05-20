@@ -8,17 +8,17 @@
 // Spins the conveyor motor for a specified amount of time.
 package frc.robot.commands.Conveyor;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Conveyor;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SpinConveyorVTimed extends CommandBase {
-  Timer m_timer;
-  Conveyor m_conveyor;
-  double m_period;
-  double m_vSpeed;
+  private Timer m_timer;
+  private Conveyor m_conveyor;
+  private double m_vSpeed;
+  private double m_period;
   private static final double VERTICAL_SPEED = 0.5;
   private static final double PERIOD = 5;
   private boolean m_parameterized = true;
@@ -31,7 +31,6 @@ public class SpinConveyorVTimed extends CommandBase {
     addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
     m_conveyor = Conveyor.getInstance();
-
     m_vSpeed = vSpeed;
     m_period = period;
     m_parameterized = parameterized;
@@ -40,7 +39,6 @@ public class SpinConveyorVTimed extends CommandBase {
   public static void registerWithTestingDashboard() {
     double vSpeed = VERTICAL_SPEED;
     double period = PERIOD;
-
     Conveyor conveyor = Conveyor.getInstance();
     SpinConveyorVTimed cmd = new SpinConveyorVTimed(vSpeed, period, false);
     TestingDashboard.getInstance().registerCommand(conveyor, "Timed", cmd);

@@ -13,13 +13,13 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterUp extends CommandBase {
+  private Shooter m_shooter;
+  private DoubleSolenoid m_piston;
+  private boolean m_finished = false;
+
   /**
    * Creates a new ShooterUp.
    */
-  Shooter m_shooter;
-  DoubleSolenoid m_piston;
-  boolean m_finished = false;
-
   public ShooterUp() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Shooter.getInstance());
@@ -41,10 +41,7 @@ public class ShooterUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
     m_shooter.raiseShooter();
-    
-
     if (m_piston.get() == DoubleSolenoid.Value.kForward) {
       m_finished = true;
     }

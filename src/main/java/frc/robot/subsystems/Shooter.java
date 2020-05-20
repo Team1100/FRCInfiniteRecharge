@@ -13,13 +13,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
+
 import io.github.oblarg.oblog.annotations.Config;
 
 public class Shooter extends SubsystemBase {
   private static Shooter shooter;
-
   private WPI_TalonSRX bottomShooter;
   private WPI_TalonSRX topShooter;
   private Encoder topEncoder, bottomEncoder;
@@ -42,8 +43,7 @@ public class Shooter extends SubsystemBase {
     topEncoder.setReverseDirection(true);
     bottomEncoder.setReverseDirection(true);
 
-    m_piston = new DoubleSolenoid(RobotMap.SH_PCM_CAN, 
-    RobotMap.SH_PISTON_PORT0, RobotMap.SH_PISTON_PORT1);
+    m_piston = new DoubleSolenoid(RobotMap.SH_PCM_CAN, RobotMap.SH_PISTON_PORT0, RobotMap.SH_PISTON_PORT1);
 
     kP = 0.00125;
     kI = 0.00045;
@@ -74,16 +74,16 @@ public class Shooter extends SubsystemBase {
     topShooter.setVoltage(-voltage);
   }
   
-  public Encoder getBottomEncoder(){
+  public Encoder getBottomEncoder() {
     return bottomEncoder;
   }
 
-  public Encoder getTopEncoder(){
+  public Encoder getTopEncoder() {
     return topEncoder;
   }
 
-  public double getRPM(Encoder encoder){
-    return encoder.getRate()*60;
+  public double getRPM(Encoder encoder) {
+    return encoder.getRate() * 60;
   }
 
   public DoubleSolenoid getPiston() {
@@ -93,6 +93,7 @@ public class Shooter extends SubsystemBase {
   public void raiseShooter() {
     m_piston.set(DoubleSolenoid.Value.kForward);
   }
+
   public void lowerShooter() {
     m_piston.set(DoubleSolenoid.Value.kReverse);
   }
@@ -124,8 +125,6 @@ public class Shooter extends SubsystemBase {
     this.kD = kD;
   }
 
-  
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -133,6 +132,5 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Bot Shooter Dist", bottomEncoder.getDistance());
     SmartDashboard.putNumber("Top Shooter Encoder", getRPM(topEncoder));
     SmartDashboard.putNumber("Bot Shooter Encoder", getRPM(bottomEncoder));
-
   }
 }

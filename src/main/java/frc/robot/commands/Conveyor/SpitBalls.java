@@ -15,7 +15,7 @@ public class SpitBalls extends CommandBase {
   private Conveyor m_conveyor;
 
   /**
-   * Creates a new ShootBalls.
+   * Creates a new SpitBalls.
    */
   public SpitBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,7 +38,7 @@ public class SpitBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Load Ball into bottom of v conveyor
+    // Load Ball into bottom of v conveyor
     m_conveyor.spinAllConveyors(-0.7, -0.5, -0.5);
   }
 

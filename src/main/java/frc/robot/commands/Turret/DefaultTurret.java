@@ -14,17 +14,17 @@ import frc.robot.input.XboxController.XboxAxis;
 import frc.robot.subsystems.Turret;
 
 public class DefaultTurret extends CommandBase {
+  private Turret m_turret;
+  private static OI oi;
+
   /**
    * Creates a new DefaultTurret.
    */
-  Turret m_turret;
-  private static OI oi;
-
   public DefaultTurret(Turret turret) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Turret.getInstance());
-    oi = OI.getInstance();
     m_turret = Turret.getInstance();
+    oi = OI.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
@@ -43,7 +43,7 @@ public class DefaultTurret extends CommandBase {
   public void execute() {
     // Drives the Turret with the x-axis of the right Xbox joystick.
     double speed = oi.getXbox().getAxis(XboxAxis.kXRight);
-    m_turret.spinTurretMotor(-0.5*speed);
+    m_turret.spinTurretMotor(-0.5 * speed);
   }
 
   // Called once the command ends or is interrupted.

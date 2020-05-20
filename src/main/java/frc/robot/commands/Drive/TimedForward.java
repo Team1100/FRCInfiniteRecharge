@@ -7,11 +7,11 @@
 
 package frc.robot.commands.Drive;
 
-import frc.robot.TestingDashboard;
-import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.TestingDashboard;
+import frc.robot.subsystems.Drive;
 
 public class TimedForward extends CommandBase {
   private Timer m_timer;
@@ -25,8 +25,8 @@ public class TimedForward extends CommandBase {
   public TimedForward(double driveTime, double driveSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.    
     addRequirements(Drive.getInstance());
-    m_drive = Drive.getInstance();
     m_timer = new Timer();
+    m_drive = Drive.getInstance();
     m_time = driveTime;
     m_speed = driveSpeed;
   }

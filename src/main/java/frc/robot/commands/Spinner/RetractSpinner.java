@@ -9,18 +9,20 @@
 
 package frc.robot.commands.Spinner;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
 
-import frc.robot.TestingDashboard;
-
 public class RetractSpinner extends CommandBase {
-  Spinner m_spinner;
-  boolean m_finished = false;
-  DoubleSolenoid m_piston;
-  boolean isExtended = false;
+  private Spinner m_spinner;
+  private DoubleSolenoid m_piston;
+  private boolean isExtended = false;
+  private boolean m_finished = false;
   
+  /**
+   * Creates a new RetractSpinner.
+   */
   public RetractSpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
@@ -48,7 +50,6 @@ public class RetractSpinner extends CommandBase {
     if (isExtended) {
       m_spinner.retractSpinnerArm();
     }
-    
     if (m_piston.get() == DoubleSolenoid.Value.kReverse) {
       m_finished = true;
     }

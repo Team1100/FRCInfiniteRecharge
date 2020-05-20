@@ -20,6 +20,6 @@ public class ShootBallsAutoProcedure extends SequentialCommandGroup {
   public ShootBallsAutoProcedure() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShooterUp(), new Wait(1.5), new ShootBallsAuto(4500,5500));
+    super(new ShooterUp(), new Wait(1.5), new ShootBallsAuto(4500, 5500));
   }
 }

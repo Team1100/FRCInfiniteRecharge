@@ -1,7 +1,6 @@
 package frc.robot.input;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -9,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * can be accessed through the functions written here.
  */
 public class ButtonBox extends Joystick {
-
 	private JoystickButton WideFocus;
 	private JoystickButton FineFocus;
 	private JoystickButton Fire;
@@ -26,7 +24,6 @@ public class ButtonBox extends Joystick {
 	private JoystickButton Climb;
 	private JoystickButton ClimberLeft;
 	private JoystickButton ClimberRight;
-
 
 	/**
 	 * Initializes a ButtonBox Controller on a specific channel, mapping the buttons. The
@@ -54,89 +51,147 @@ public class ButtonBox extends Joystick {
 		ClimberRight = new JoystickButton(this, 13);
 	}
 
-
 	/**
-	 * Public Button Getters
-	 * @return ButtonBox button
+	 * Gets the Wide Focus button from the ButtonBox
+	 * 
+	 * @return Wide Focus button
 	 */
-	
 	public JoystickButton getWideFocus() {
 		return this.WideFocus;
 	}
 
-
+	/**
+	 * Gets the Fine Focus button from the ButtonBox
+	 * 
+	 * @return Fine Focus button
+	 */
 	public JoystickButton getFineFocus() {
 		return this.FineFocus;
 	}
 
-
+	/**
+	 * Gets the Fire button from the ButtonBox
+	 * 
+	 * @return Fire button
+	 */
 	public JoystickButton getFire() {
 		return this.Fire;
 	}
 
-
+	/**
+	 * Gets the Intake In button from the ButtonBox
+	 * 
+	 * @return Intake In Button
+	 */
 	public JoystickButton getIntakeIn() {
 		return this.IntakeIn;
 	}
 
-
+	/**
+	 * Gets the Intake Out button from the ButtonBox
+	 * 
+	 * @return Intake Out Button
+	 */
 	public JoystickButton getIntakeOut() {
 		return this.IntakeOut;
 	}
 
-
+	/**
+	 * Gets the Hopper button from the ButtonBox
+	 * 
+	 * @return Hopper button
+	 */
 	public JoystickButton getHopper() {
 		return this.Hopper;
 	}
 
-
+	/**
+	 * Gets the Color Panel Deploy button from the ButtonBox
+	 * 
+	 * @return Color Panel Deploy button
+	 */
 	public JoystickButton getCPDeploy() {
 		return this.CPDeploy;
 	}
 
-
+	/**
+	 * Gets the Color Panel Spin button from the ButtonBox
+	 * 
+	 * @return Color Panel Spin button
+	 */
 	public JoystickButton getCPSpin() {
 		return this.CPSpin;
 	}
 
-
+	/**
+	 * Gets the Color Panel Yellow button from the ButtonBox
+	 * 
+	 * @return Color Panel Yellow button
+	 */
 	public JoystickButton getCPYellow() {
 		return this.CPYellow;
 	}
 
-
+	/**
+	 * Gets the Color Panel Green button from the ButtonBox
+	 * 
+	 * @return Color Panel Green button
+	 */
 	public JoystickButton getCPGreen() {
 		return this.CPGreen;
 	}
 
-
+	/**
+	 * Gets the Color Panel Red button from the ButtonBox
+	 * 
+	 * @return Color Panel Red button
+	 */
 	public JoystickButton getCPRed() {
 		return this.CPRed;
 	}
 
-
+	/**
+	 * Gets the Color Panel Blue button from the ButtonBox
+	 * 
+	 * @return Color Panel Blue button
+	 */
 	public JoystickButton getCPBlue() {
 		return this.CPBlue;
 	}
 
-
+	/**
+	 * Gets the Climber Deploy button from the ButtonBox
+	 * 
+	 * @return Climber Deploy button
+	 */
 	public JoystickButton getClimberDeploy() {
 		return this.ClimberDeploy;
 	}
 
-
+	/**
+	 * Gets the Climb button from the ButtonBox
+	 * 
+	 * @return Climb button
+	 */
 	public JoystickButton getClimb() {
 		return this.Climb;
 	}
 
-
+	/**
+	 * Gets the Climber Left button from the ButtonBox
+	 * 
+	 * @return Climber Left button
+	 */
 	public JoystickButton getClimberLeft() {
 		return this.ClimberLeft;
 	}
 
-
+	/**
+	 * Gets the Climber Right button from the ButtonBox
+	 * 
+	 * @return Climber Right button
+	 */
 	public JoystickButton getClimberRight() {
 		return this.ClimberRight;
 	}
-
 }

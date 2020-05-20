@@ -12,13 +12,15 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Turret;
 
 public class TurnToLimit extends CommandBase {
+  private Turret m_turret;
+  
   /**
    * Creates a new TurnToLimit.
    */
-  Turret m_turret;
   public TurnToLimit() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Turret.getInstance());
+    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
@@ -30,7 +32,6 @@ public class TurnToLimit extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_turret = Turret.getInstance();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,7 +44,6 @@ public class TurnToLimit extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_turret.spinTurretMotor(0);
-  
   }
 
   // Returns true when the command should end.

@@ -16,10 +16,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
+  private static Vision vision;
   public static NetworkTable nt;
   public NetworkTableEntry yaw, isValid, targetPose;
-  private static Vision vision;
-  private double[] defaultDoubleArray = {4500,5500};
+  private double[] defaultDoubleArray = {4500, 5500};
+
   /**
    * Creates a new Vision.
    */
@@ -38,39 +39,39 @@ public class Vision extends SubsystemBase {
     return vision;
   }
 
-  public NetworkTableEntry getYaw(){
+  public NetworkTableEntry getYaw() {
     return yaw;
   }
 
-  public NetworkTableEntry getIsValid(){
+  public NetworkTableEntry getIsValid() {
     return isValid;
   }
 
-  public NetworkTableEntry getTargetPose(){
+  public NetworkTableEntry getTargetPose() {
     return targetPose;
   }
 
-  public double[] getTargetPoseArray(){
+  public double[] getTargetPoseArray() {
     return targetPose.getDoubleArray(defaultDoubleArray);
   }
 
-  public double getXFeet(){
+  public double getXFeet() {
     return (getTargetPoseArray()[0] * 3.28084);
   }
 
-  public double getYFeet(){
+  public double getYFeet() {
     return (getTargetPoseArray()[1] * 3.28084);
   }
 
-  public double getDistance(){
-    return Math.sqrt(Math.pow(getXFeet(),2) + Math.pow(getYFeet(),2));
+  public double getDistance() {
+    return Math.sqrt(Math.pow(getXFeet(), 2) + Math.pow(getYFeet(), 2));
   }
 
-  public double[] calculateRPM(){
-    double dist = getDistance();
-    double topVal = 82.759*(dist) + 2931.0345;
-    double botVal = -68.966*(dist) + 6224.138;
-    double[] doubleArray = new double[]{topVal, botVal};
+  public double[] calculateRPM() {
+    //double dist = getDistance();
+    //double topVal = 82.759 * (dist) + 2931.0345;
+    //double botVal = -68.966 * (dist) + 6224.138;
+    //double[] doubleArray = new double[]{topVal, botVal};
     //return doubleArray;
     return defaultDoubleArray;
   }

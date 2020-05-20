@@ -17,9 +17,9 @@ public class PIDTurretProcedure extends ParallelCommandGroup {
   /**
    * Creates a new PIDTurretProcedure.
    */
-  public PIDTurretProcedure(){
+  public PIDTurretProcedure() {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();\
+    // super(new FooCommand(), new BarCommand());super();
     super(new ShooterUp(), new PIDTurret());
   }
 }

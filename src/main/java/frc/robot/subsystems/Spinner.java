@@ -18,9 +18,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.TestingDashboard;
@@ -29,11 +27,9 @@ import frc.robot.RobotMap;
 public class Spinner extends SubsystemBase {
   private static Spinner spinner; 
 
-  private VictorSP m_motor;
-
-  private Compressor m_compressor;
-
   private DoubleSolenoid m_piston;
+
+  private VictorSP m_motor;
 
   private ColorSensorV3 m_colorSensor;
 

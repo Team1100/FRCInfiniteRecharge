@@ -11,24 +11,23 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Conveyor;
-import frc.robot.subsystems.Shooter;
 
 public class FeedBalls extends CommandBase {
-  private Conveyor m_conveyor = Conveyor.getInstance();
-  private Boolean topToggled = false; 
+  private Timer m_timer;
+  private Conveyor m_conveyor;
   private int counter = 0;
-  private Boolean lastTopState;
-  private Boolean isFinished = false;
   private int STATE = 1;
-  private Timer t;
+  private boolean lastTopState;
+  private boolean isFinished = false;
 
   /**
-   * Creates a new ShootBalls.
+   * Creates a new FeedBalls.
    */
   public FeedBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
-    t = new Timer();
+    m_timer = new Timer();
+    m_conveyor = Conveyor.getInstance();
   }
 
   public static void registerWithTestingDashboard() {
@@ -41,37 +40,35 @@ public class FeedBalls extends CommandBase {
   @Override
   public void initialize() {
     m_conveyor.spinAllConveyors(0, 0, 0);
-    topToggled = false;
     counter = 0;
-    lastTopState = false;
     STATE = 1;
+    lastTopState = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Load Ball into bottom of v conveyor
-    switch(STATE){
+    // Load Ball into bottom of v conveyor
+    switch (STATE) {
       case 1:
-        t.stop();
-        t.reset();
+        m_timer.stop();
+        m_timer.reset();
         counter = 0;
         m_conveyor.spinAllConveyors(0.7, 0.5, 0.5);
-        if(m_conveyor.ballIncoming()){
+        if (m_conveyor.ballIncoming()) {
           STATE = 2;
           m_conveyor.spinAllConveyors(0, 0, 0);
         }
         lastTopState = m_conveyor.ballReadyToShoot();
         break;
       case 2:
-        t.start();
+        m_timer.start();
         m_conveyor.spinVConveyor(1);
-        if(m_conveyor.ballReadyToShoot() != lastTopState){
+        if (m_conveyor.ballReadyToShoot() != lastTopState) {
           counter += 1;
           lastTopState = m_conveyor.ballReadyToShoot();
         }
-
-        if(counter == 2){
+        if (counter == 2) {
           STATE = 1;
         }
         break;
@@ -87,6 +84,6 @@ public class FeedBalls extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished || t.hasElapsed(2.5);
+    return isFinished || m_timer.hasElapsed(2.5);
   }
 }

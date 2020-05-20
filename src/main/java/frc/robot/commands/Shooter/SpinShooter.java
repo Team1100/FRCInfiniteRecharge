@@ -13,15 +13,15 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Shooter;
 
 public class SpinShooter extends CommandBase {
+  private Shooter m_shooter;
+  private double m_topSpeed;
+  private double m_botSpeed;
+  private static final double DEF_SPEED = 0.5;
+  private boolean m_parameterized = true;
+
   /**
    * Creates a new SpinShooter.
    */
-  Shooter m_shooter;
-  double m_topSpeed;
-  double m_botSpeed;
-  boolean m_parameterized = true;
-  public static final double DEF_SPEED = 0.5;
-
   public SpinShooter(double topShooterSpeed, double bottomShooterSpeed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Shooter.getInstance());

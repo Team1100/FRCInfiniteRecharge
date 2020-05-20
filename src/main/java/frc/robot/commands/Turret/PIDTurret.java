@@ -31,8 +31,6 @@ public class PIDTurret extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-
-          
           Turret.getInstance().spinTurretMotor(output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
@@ -52,6 +50,5 @@ public class PIDTurret extends PIDCommand {
   public boolean isFinished() {
     //TODO: implement end condition with getController().atSetpoint();
     return false;
-    
   }
 }
