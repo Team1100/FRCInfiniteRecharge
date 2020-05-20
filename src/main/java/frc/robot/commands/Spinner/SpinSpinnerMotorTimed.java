@@ -16,10 +16,11 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
 
 public class SpinSpinnerMotorTimed extends CommandBase {
-  Timer m_timer;
-  double m_period;
-  Spinner m_spinner;
-  double m_speed;
+  private Timer m_timer;
+  private Spinner m_spinner;
+  private double m_speed;
+  private double m_period;
+  
   /**
    * Creates a new SpinSpinnerMotorTimed.
    */
@@ -28,8 +29,8 @@ public class SpinSpinnerMotorTimed extends CommandBase {
     addRequirements(Spinner.getInstance());
     m_timer = new Timer();
     m_spinner = Spinner.getInstance();
-    m_period = spinnerTime;
     m_speed = spinnerSpeed;
+    m_period = spinnerTime;
   }
 
   public static void registerWithTestingDashboard() {

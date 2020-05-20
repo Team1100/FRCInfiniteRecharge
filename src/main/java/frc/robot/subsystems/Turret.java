@@ -7,25 +7,21 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.RobotMap;
-import frc.robot.TestingDashboard;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.RobotMap;
+import frc.robot.TestingDashboard;
 
 public class Turret extends SubsystemBase {
-  private VictorSPX m_turretMotor;
-  
   private static Turret m_turret;
-  
+  private VictorSPX m_turretMotor;
   private Encoder m_turretEncoder;
-
   private DigitalInput m_turretLimit;
 
   /**
@@ -46,17 +42,17 @@ public class Turret extends SubsystemBase {
   }
 
   public void spinTurretMotor(double speed) {
-    if(speed > 0 && getTurretLimit()){
+    if (speed > 0 && getTurretLimit()) {
       speed = 0;
     }
     m_turretMotor.set(ControlMode.PercentOutput, -speed);
   }
 
-  public boolean getTurretLimit(){
+  public boolean getTurretLimit() {
     return !m_turretLimit.get();
   }
 
-  public Encoder getEncoder(){
+  public Encoder getEncoder() {
     return m_turretEncoder;
   }
       
@@ -64,8 +60,8 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("TurretLimit", getTurretLimit());
     SmartDashboard.putNumber("TurretEnc", getEncoder().getDistance());
-
-    if(getTurretLimit()){
+    
+    if (getTurretLimit()) {
       m_turretEncoder.reset();
     }
   }

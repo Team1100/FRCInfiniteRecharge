@@ -7,39 +7,33 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import frc.robot.commands.Auto.*;
-import frc.robot.commands.BallIntake.*;
-import frc.robot.commands.Climb.*;
-import frc.robot.commands.Conveyor.*;
-import frc.robot.commands.Drive.*;
-import frc.robot.commands.Shooter.*;
-import frc.robot.commands.Spinner.*;
-import frc.robot.commands.Turret.*;
-import frc.robot.subsystems.*;
-import io.github.oblarg.oblog.Logger;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
+//import frc.robot.commands.Auto.*;
+import frc.robot.commands.BallIntake.*;
+//import frc.robot.commands.Climb.*;
+//import frc.robot.commands.Conveyor.*;
+import frc.robot.commands.Drive.*;
+//import frc.robot.commands.Shooter.*;
+//import frc.robot.commands.Spinner.*;
+import frc.robot.commands.Turret.*;
+import frc.robot.subsystems.*;
+
+import io.github.oblarg.oblog.Logger;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -52,13 +46,13 @@ public class RobotContainer {
   
   //Subsystems
   private final Drive drive;
-  private final Climber climber;
+  //private final Climber climber;
   private final BallIntake ballIntake;
-  private final Conveyor conveyor;
-  private final Shooter shooter;
-  private final Spinner spinner;
+  //private final Conveyor conveyor;
+  //private final Shooter shooter;
+  //private final Spinner spinner;
   private final Turret turret;
-  private final Vision vision;
+  //private final Vision vision;
 
   //Commands
   private final DefaultDrive defaultdrive;
@@ -75,15 +69,15 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    //Subsystem instantiation
+    // Subsystem instantiation
     drive = Drive.getInstance();
-    climber = Climber.getInstance();
+    //climber = Climber.getInstance();
     ballIntake = BallIntake.getInstance();
-    conveyor = Conveyor.getInstance();
-    shooter = Shooter.getInstance();
-    spinner = Spinner.getInstance();
+    //conveyor = Conveyor.getInstance();
+    //shooter = Shooter.getInstance();
+    //spinner = Spinner.getInstance();
     turret = Turret.getInstance();
-    vision = Vision.getInstance();
+    //vision = Vision.getInstance();
 
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
@@ -145,8 +139,8 @@ public class RobotContainer {
    * <a href="https://en.wikipedia.org/wiki/Singleton_pattern">Singleton Method</a> to return one instance of a class
    * @return New instance of RobotContainer class
    */
-  public static RobotContainer getInstance(){
-   if(robotContainer == null){
+  public static RobotContainer getInstance() {
+   if (robotContainer == null) {
      robotContainer = new RobotContainer();
    } 
    return robotContainer;
@@ -159,7 +153,6 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
   }
 
   /**

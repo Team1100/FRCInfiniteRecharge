@@ -33,8 +33,8 @@ public class PIDTurnToCenter extends PIDCommand {
           Turret.getInstance().spinTurretMotor(output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
-    // Configure additional PID options by calling `getController` here.
     addRequirements(Turret.getInstance());
+    // Configure additional PID options by calling `getController` here.
     getController().setTolerance(3);
   }
 

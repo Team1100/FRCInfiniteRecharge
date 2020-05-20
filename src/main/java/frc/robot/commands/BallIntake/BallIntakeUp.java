@@ -13,34 +13,28 @@
 package frc.robot.commands.BallIntake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.BallIntake;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.TestingDashboard;
+import frc.robot.subsystems.BallIntake;
 
 public class BallIntakeUp extends CommandBase {
+  private BallIntake m_ballIntake;
+  private boolean m_finished = false;
+
   /**
-   * Creates a new IntakeBall.
+   * Creates a new BallIntakeUp.
    */
-
-   BallIntake m_ballIntake;
-   DoubleSolenoid m_piston;
-   boolean m_finished = false;
-   boolean isDown = false;
-
-  public BallIntakeUp() {
+   public BallIntakeUp() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(BallIntake.getInstance());
     m_ballIntake = BallIntake.getInstance();
-    m_piston = m_ballIntake.getPiston();
-
   }
 
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
     BallIntakeUp cmd = new BallIntakeUp();
     TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
-
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -50,7 +44,6 @@ public class BallIntakeUp extends CommandBase {
   @Override
   public void execute() {
     m_ballIntake.raiseIntake();
-    
     m_finished = true;
   }
 

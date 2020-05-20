@@ -9,18 +9,20 @@
 
 package frc.robot.commands.Spinner;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;  
-import frc.robot.subsystems.Spinner;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
+import frc.robot.subsystems.Spinner;
 
 public class DeploySpinner extends CommandBase {
-  Spinner m_spinner;
-  boolean m_finished = false;
-  DoubleSolenoid m_piston;
-  boolean isRetracted = false;
+  private Spinner m_spinner;
+  private DoubleSolenoid m_piston;
+  private boolean isRetracted = false;
+  private boolean m_finished = false;
   
+  /**
+   * Creates a new DeploySpinner.
+   */
   public DeploySpinner() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
@@ -33,6 +35,7 @@ public class DeploySpinner extends CommandBase {
     DeploySpinner cmd = new DeploySpinner();
     TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -47,7 +50,6 @@ public class DeploySpinner extends CommandBase {
     if (isRetracted) {
       m_spinner.extendSpinnerArm();
     }
-    
     if (m_piston.get() == DoubleSolenoid.Value.kForward) {
       m_finished = true;
     }  

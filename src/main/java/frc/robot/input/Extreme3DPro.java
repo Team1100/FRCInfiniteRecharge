@@ -21,7 +21,7 @@ public class Extreme3DPro extends Joystick{
 		buttons = new JoystickButton[11];
 		
 		for (int i = 0; i < 11; i++) {
-			buttons[i] = new JoystickButton(this,i+1);
+			buttons[i] = new JoystickButton(this, i + 1);
 		}
 
 		this.deadbandXY = deadbandXY;
@@ -47,8 +47,8 @@ public class Extreme3DPro extends Joystick{
 	public double getAxis(AxisType axis) {
 		double val = -super.getRawAxis(axis.value);
 		double deadband = deadbandXY;
-		if(axis.equals(AxisType.kZ)){
-			deadband=deadbandZ;
+		if (axis.equals(AxisType.kZ)) {
+			deadband = deadbandZ;
 		}
 		if (Math.abs(val) <= deadband) {
 			val = 0.0;

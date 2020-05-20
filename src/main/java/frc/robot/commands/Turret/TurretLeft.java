@@ -20,8 +20,8 @@ public class TurretLeft extends CommandBase {
    */
   public TurretLeft() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_turret = Turret.getInstance();
     addRequirements(m_turret);
+    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {

@@ -11,14 +11,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.TestingDashboard;
 
 public class Auto extends SubsystemBase {
-
   public static Auto auto;
 
   /**
    * Creates a new Auto.
    */
-  public Auto() {
-
+  private Auto() {
   }
 
   @Override
@@ -26,12 +24,11 @@ public class Auto extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public static Auto getInstance(){
-    if (auto == null){
+  public static Auto getInstance() {
+    if (auto == null) {
       auto = new Auto();
       TestingDashboard.getInstance().registerSubsystem(auto, "Auto");
     }
     return auto;
   }
-
 }

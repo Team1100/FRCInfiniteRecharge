@@ -9,32 +9,32 @@
 
 package frc.robot.commands.Spinner;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
-import edu.wpi.first.wpilibj.Timer;
 
 public class SpinSpinner3Times extends CommandBase {
+  private static final int NUM_ROTATIONS = 3;
+  private static final int NUM_COLORS_PER_ROTATION = 2;
+  private Timer m_timer;
+  private Spinner m_spinner;
+  private int m_counter;
+  private String m_startColor;
+  private String m_currentColor;
+  private double m_period;
+  private boolean m_timePassed;
+
   /**
    * Creates a new SpinSpinner3Times.
    */
-  static final int NUM_ROTATIONS = 3;
-  static final int NUM_COLORS_PER_ROTATION = 2;
-  Spinner m_spinner;
-  String m_startColor;
-  String m_currentColor;
-  int m_counter;
-  Timer m_timer;
-  double m_period;
-  boolean m_timePassed;
-
   public SpinSpinner3Times() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Spinner.getInstance());
+    m_timer = new Timer();
     m_spinner = Spinner.getInstance();
     m_counter = 0;
-    m_timer = new Timer();
   }
 
   public static void registerWithTestingDashboard() {
@@ -42,11 +42,11 @@ public class SpinSpinner3Times extends CommandBase {
     SpinSpinner3Times cmd = new SpinSpinner3Times();
     TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_timer.start();
-
     m_startColor = "Blue";
     m_currentColor = m_startColor;
     m_counter = 0;
@@ -64,7 +64,6 @@ public class SpinSpinner3Times extends CommandBase {
       m_timer.start();
       if (m_currentColor.equals(m_startColor)) {
         m_counter += 1;
-
       }
     }
     m_spinner.spin(speed);
@@ -81,7 +80,7 @@ public class SpinSpinner3Times extends CommandBase {
   @Override
   public boolean isFinished() {
     m_timePassed = m_timer.hasPeriodPassed(m_period);
-    int target_count = NUM_ROTATIONS*NUM_COLORS_PER_ROTATION + 1;  
+    int target_count = NUM_ROTATIONS * NUM_COLORS_PER_ROTATION + 1;
     return ((m_counter == target_count) || (m_currentColor.equals("Unknown")) || (m_timePassed == true));
   }
 }

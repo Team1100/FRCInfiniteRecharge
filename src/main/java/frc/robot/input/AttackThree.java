@@ -4,9 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class AttackThree extends Joystick {
-
 	public static boolean leftIsLeft = true;
-
 	public static boolean isInTesting = false;
 
 	/*
@@ -55,7 +53,6 @@ public class AttackThree extends Joystick {
 	}
 
 	public enum AttackThreeAxis {
-		
 		/**
 		 * x axis
 		 */

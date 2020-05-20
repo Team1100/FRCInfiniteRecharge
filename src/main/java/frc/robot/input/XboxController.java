@@ -69,8 +69,7 @@ public class XboxController extends Joystick {
 		 * This is the constructor of the enumeration. The keys provided to the
 		 * constructor are used to access the value of each axis in getAxis().
 		 * 
-		 * @param key
-		 *            the magical number assigned by the Driver Station
+		 * @param key the magical number assigned by the Driver Station
 		 */
 		private XboxAxis(int key) {
 			this.key = key;
@@ -78,29 +77,30 @@ public class XboxController extends Joystick {
 	}
 	
 	/**
-     * Relation of direction and number for .getPOV() used
-     * in the DirectionalPad class.
+   * Relation of direction and number for .getPOV() used
+   * in the DirectionalPad class.
+   */
+  private static enum Direction {
+    kUp(0),
+    kUpRight(45),
+    kRight(90),
+    kDownRight(135),
+    kDown(180),
+    kDownLeft(225),
+    kLeft(270),
+    kUpLeft(315);
+
+    private int value;
+
+    /**
+     * Constructor
+     * 
+     * @param value
      */
-    private static enum Direction {
-        kUp(0),
-        kUpRight(45),
-        kRight(90),
-        kDownRight(135),
-        kDown(180),
-        kDownLeft(225),
-        kLeft(270),
-        kUpLeft(315);
-
-        private int value;
-
-        /**
-         * Constructor
-         * @param value
-         */
-        Direction(int value) {
-            this.value = value;
-        }
+    Direction(int value) {
+      this.value = value;
     }
+  }
 
 	/**
 	 * Initializes a XBOX Controller on a specific channel, mapping the buttons. The
@@ -220,8 +220,7 @@ public class XboxController extends Joystick {
 	/**
 	 * Gets position of specified axis, accounting for the deadband
 	 *
-	 * @param axis
-	 *            the XboxAxis (XboxController.XboxAxis.k___) to retrieve
+	 * @param axis the XboxAxis (XboxController.XboxAxis.k___) to retrieve
 	 * @return the value of the axis, with the deadband factored in
 	 */
 	public double getAxis(XboxAxis axis) {
@@ -245,45 +244,43 @@ public class XboxController extends Joystick {
 	 *
 	 */
 	public static class DirectionalPad extends Button {
+    private final Joystick parent;
+    final Button up;
+    final Button upRight;
+    final Button right;
+    final Button downRight;
+    final Button down;
+    final Button downLeft;
+    final Button left;
+    final Button upLeft;
+
+    /**
+     * Initializes buttons
+     * @param parent 
+     */
+    DirectionalPad(Joystick parent) {
+      this.parent	= parent;
+      this.up = new DPadButton(this, Direction.kUp);
+      this.upRight = new DPadButton(this, Direction.kUpRight);
+      this.right = new DPadButton(this, Direction.kRight);
+      this.downRight = new DPadButton(this, Direction.kDownRight);
+      this.down = new DPadButton(this, Direction.kDown);
+      this.downLeft = new DPadButton(this, Direction.kDownLeft);
+      this.left = new DPadButton(this, Direction.kLeft);
+      this.upLeft = new DPadButton(this, Direction.kUpLeft);
+    }
         
-        private final Joystick parent;
+    /**
+     * Gets the angle of the POV
+     * @return the angle of the POV
+     */
+    public int getPOV() {
+      return parent.getPOV();
+    }
         
-        final Button up;
-        final Button upRight;
-        final Button right;
-        final Button downRight;
-        final Button down;
-        final Button downLeft;
-        final Button left;
-        final Button upLeft;
-        
-        /**
-         * Initializes buttons
-         * @param parent 
-         */
-        DirectionalPad(Joystick parent) {
-            this.parent	= parent;
-            this.up = new DPadButton(this, Direction.kUp);
-            this.upRight = new DPadButton(this, Direction.kUpRight);
-            this.right = new DPadButton(this, Direction.kRight);
-            this.downRight = new DPadButton(this, Direction.kDownRight);
-            this.down = new DPadButton(this, Direction.kDown);
-            this.downLeft = new DPadButton(this, Direction.kDownLeft);
-            this.left = new DPadButton(this, Direction.kLeft);
-            this.upLeft = new DPadButton(this, Direction.kUpLeft);
-        }
-        
-        /**
-         * Gets the angle of the POV
-         * @return the angle of the POV
-         */
-        public int getPOV() {
-        	return parent.getPOV();
-        }
-        
-        /**
-         * True if dpad is at an angle
-         */
+    /**
+     * True if dpad is at an angle
+     */
 		@Override
 		public boolean get() {
 			return getPOV() != -1;
@@ -354,30 +351,30 @@ public class XboxController extends Joystick {
 		}
 		
 		/**
-         * This class is used to represent each of the 8 values a
-         * dpad has as a button.
-         */
-        public static class DPadButton extends Button {
-            private final Direction direction;
-            private final DirectionalPad parent;
+     * This class is used to represent each of the 8 values a
+     * dpad has as a button.
+     */
+    public static class DPadButton extends Button {
+      private final Direction direction;
+      private final DirectionalPad parent;
             
-            /**
-             * Constructor
-             * @param parent
-             * @param dPad
-             */
-            DPadButton(DirectionalPad parent, Direction dPadDirection) {
-                this.direction  = dPadDirection;
-                this.parent = parent;
-            }
+      /**
+       * Constructor
+       * @param parent
+       * @param dPad
+       */
+      DPadButton(DirectionalPad parent, Direction dPadDirection) {
+        this.direction  = dPadDirection;
+        this.parent = parent;
+      }
             
-            /**
-             * True if dpad direction is this button
-             */
-            @Override
-            public boolean get() {
-                return parent.getPOV() == direction.value;
-            }
-        }
+      /**
+       * True if dpad direction is this button
+       */
+      @Override
+      public boolean get() {
+        return parent.getPOV() == direction.value;
+      }
+    }
 	}
 }

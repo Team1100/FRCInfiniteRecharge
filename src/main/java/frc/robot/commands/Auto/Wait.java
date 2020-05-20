@@ -14,9 +14,8 @@ import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Auto;
 
 public class Wait extends CommandBase {
-
-  Timer m_timer;
-	double m_time;
+  private Timer m_timer;
+	private double m_time;
 
   /**
    * Creates a new Wait.

@@ -7,17 +7,19 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Climber extends SubsystemBase {
   private static Climber climber;
-  private VictorSPX rightMotor;
   private VictorSPX leftMotor;
+  private VictorSPX rightMotor;
   private static DoubleSolenoid m_piston;
 
   /**
@@ -26,8 +28,7 @@ public class Climber extends SubsystemBase {
   private Climber() {
     leftMotor = new VictorSPX(RobotMap.CL_MOTOR_LEFT);
     rightMotor = new  VictorSPX(RobotMap.CL_MOTOR_RIGHT);
-    m_piston = new DoubleSolenoid(RobotMap.CL_PCM_CAN, 
-    RobotMap.CL_PISTON_PORT2, RobotMap.CL_PISTON_PORT5);
+    m_piston = new DoubleSolenoid(RobotMap.CL_PCM_CAN, RobotMap.CL_PISTON_PORT2, RobotMap.CL_PISTON_PORT5);
   }
 
   public static Climber getInstance() {
@@ -48,7 +49,6 @@ public class Climber extends SubsystemBase {
     rightMotor.set(ControlMode.PercentOutput, speed);
   }
 
-  
   public DoubleSolenoid getPiston() {
     return m_piston;
   }

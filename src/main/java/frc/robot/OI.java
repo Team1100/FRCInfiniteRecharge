@@ -12,7 +12,7 @@ import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Shooter.*;
-import frc.robot.commands.Spinner.*;
+//import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
 import frc.robot.input.ButtonBox;
@@ -31,28 +31,26 @@ public class OI {
   private static XboxController xbox;
   private static ButtonBox buttonBox;
 
-   /**
+  /**
    * Used outside of the OI class to return an instance of the class.
    * @return Returns instance of OI class formed from constructor.
    */
-  public static OI getInstance(){
-    if (oi == null){
+  public static OI getInstance() {
+    if (oi == null) {
       oi = new OI();
     }
     return oi;
   }
 
-  public OI(){
-    //User Input
-    //TODO:Tune deadband
+  public OI() {
+    // User Input
+    // TODO: Tune deadband
     leftStick = new AttackThree(RobotMap.U_JOYSTICK_LEFT, 0.01);
     rightStick = new AttackThree(RobotMap.U_JOYSTICK_RIGHT, 0.01);
     xbox = new XboxController(RobotMap.U_XBOX_CONTROLLER, 0.3);
     buttonBox = new ButtonBox(RobotMap.U_BUTTON_BOX);
 
-
-
-    //Now Mapping Commands to XBox
+    // Now Mapping Commands to XBox
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
     xbox.getButtonY().whenHeld(new FeedBalls());
@@ -84,7 +82,6 @@ public class OI {
     buttonBox.getClimberDeploy().whenPressed(new ClimberUp());
     buttonBox.getClimb().whenHeld(new Climb(0.5, true));    
     buttonBox.getClimb().whenReleased(new ClimberDown());
-
   }
 
   /**
@@ -110,5 +107,4 @@ public class OI {
   public XboxController getXbox() {
       return xbox;
   }
-
 }
