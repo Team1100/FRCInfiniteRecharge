@@ -17,9 +17,9 @@ public class BallReadyToShoot extends CommandBase {
    * Creates a new BallReadyToShoot.
    */
   public BallReadyToShoot() {
+    m_conveyor = Conveyor.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
-    m_conveyor = Conveyor.getInstance();
   }
 
   // Called when the command is initially scheduled.

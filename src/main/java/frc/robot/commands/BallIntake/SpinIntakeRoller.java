@@ -23,9 +23,9 @@ public class SpinIntakeRoller extends CommandBase {
    * Creates a new SpinIntakeRoller.
    */
   public SpinIntakeRoller(double spinnerSpeed, boolean parameterized) {
+    m_ballIntake = BallIntake.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
     m_speed = spinnerSpeed;
     m_parameterized = parameterized;
   }

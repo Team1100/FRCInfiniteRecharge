@@ -23,10 +23,10 @@ public class TimedForward extends CommandBase {
    * Creates a new TimedForward.
    */
   public TimedForward(double driveTime, double driveSpeed) {
+    m_drive = Drive.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.    
     addRequirements(Drive.getInstance());
     m_timer = new Timer();
-    m_drive = Drive.getInstance();
     m_time = driveTime;
     m_speed = driveSpeed;
   }

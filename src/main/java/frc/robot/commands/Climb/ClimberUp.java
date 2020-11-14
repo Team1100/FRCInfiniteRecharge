@@ -21,9 +21,9 @@ public class ClimberUp extends CommandBase {
    * Creates a new ClimberUp.
    */
   public ClimberUp() {
+    m_climber = Climber.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Climber.getInstance());
-    m_climber = Climber.getInstance();
     m_piston = m_climber.getPiston();
   }
 

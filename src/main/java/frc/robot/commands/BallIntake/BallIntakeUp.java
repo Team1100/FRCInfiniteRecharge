@@ -24,9 +24,9 @@ public class BallIntakeUp extends CommandBase {
    * Creates a new BallIntakeUp.
    */
    public BallIntakeUp() {
+    m_ballIntake = BallIntake.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(BallIntake.getInstance());
-    m_ballIntake = BallIntake.getInstance();
   }
 
   public static void registerWithTestingDashboard() {

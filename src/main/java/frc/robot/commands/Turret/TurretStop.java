@@ -18,9 +18,9 @@ public class TurretStop extends CommandBase {
    * Creates a new TurretStop.
    */
   public TurretStop() {
+    m_turret = Turret.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_turret);
-    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {

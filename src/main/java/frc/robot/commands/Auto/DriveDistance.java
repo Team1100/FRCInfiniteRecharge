@@ -21,13 +21,13 @@ public class DriveDistance extends CommandBase {
    * Creates a new DriveDistance.
    */
   public DriveDistance(double distance, double speed) {
+    m_drive = Drive.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Drive.getInstance());
-    m_drive = Drive.getInstance();
     m_speed = speed;
     m_distance = distance;
-    left = Drive.getInstance().getLeftEncoder();
-    right = Drive.getInstance().getRightEncoder();
+    left = m_drive.getLeftEncoder();
+    right = m_drive.getRightEncoder();
   }
 
   // Called when the command is initially scheduled.

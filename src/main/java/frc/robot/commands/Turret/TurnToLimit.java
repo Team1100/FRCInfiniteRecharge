@@ -18,9 +18,9 @@ public class TurnToLimit extends CommandBase {
    * Creates a new TurnToLimit.
    */
   public TurnToLimit() {
+    m_turret = Turret.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Turret.getInstance());
-    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {

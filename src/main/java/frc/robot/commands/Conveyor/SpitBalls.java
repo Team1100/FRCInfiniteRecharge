@@ -18,9 +18,9 @@ public class SpitBalls extends CommandBase {
    * Creates a new SpitBalls.
    */
   public SpitBalls() {
+    m_conveyor = Conveyor.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
-    m_conveyor = Conveyor.getInstance();
   }
 
   public static void registerWithTestingDashboard() {

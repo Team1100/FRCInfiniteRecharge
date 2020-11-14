@@ -21,9 +21,9 @@ public class Release extends CommandBase {
    * Creates a new Release.
    */
   public Release(double speed, boolean parameterized) {
+    m_climber = Climber.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Climber.getInstance()); 
-    m_climber = Climber.getInstance();
     m_speed = speed;
     m_parameterized = parameterized;
   }

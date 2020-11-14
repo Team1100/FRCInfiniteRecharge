@@ -35,6 +35,7 @@ public class PIDTurret extends PIDCommand {
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+    addRequirements(Turret.getInstance());
     getController().setTolerance(5);
     getController().disableContinuousInput();
   }

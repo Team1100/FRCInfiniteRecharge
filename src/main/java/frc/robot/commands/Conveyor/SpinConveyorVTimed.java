@@ -27,10 +27,10 @@ public class SpinConveyorVTimed extends CommandBase {
    * Creates a new SpinConveyorVTimed.
    */
   public SpinConveyorVTimed(double vSpeed, double period, boolean parameterized) {
+    m_conveyor = Conveyor.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
-    m_conveyor = Conveyor.getInstance();
     m_vSpeed = vSpeed;
     m_period = period;
     m_parameterized = parameterized;

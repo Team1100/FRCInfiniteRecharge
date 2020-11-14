@@ -24,10 +24,10 @@ public class FeedBalls extends CommandBase {
    * Creates a new FeedBalls.
    */
   public FeedBalls() {
+    m_conveyor = Conveyor.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
-    m_conveyor = Conveyor.getInstance();
   }
 
   public static void registerWithTestingDashboard() {

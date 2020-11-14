@@ -19,9 +19,9 @@ public class TurretRight extends CommandBase {
    * Creates a new TurretRight.
    */
   public TurretRight() {
+    m_turret = Turret.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_turret);
-    m_turret = Turret.getInstance();
   }
 
   public static void registerWithTestingDashboard() {

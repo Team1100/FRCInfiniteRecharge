@@ -22,9 +22,9 @@ public class Climb extends CommandBase {
    * Creates a new Climb.
    */
   public Climb(double speed, boolean parameterized) {
+    m_climber = Climber.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Climber.getInstance()); 
-    m_climber = Climber.getInstance();
     m_speed = speed;
     m_parameterized = parameterized;
   }

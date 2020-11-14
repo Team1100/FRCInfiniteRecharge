@@ -17,9 +17,9 @@ public class BallIncoming extends CommandBase {
    * Creates a new BallIncoming.
    */
   public BallIncoming() {
+    m_conveyor = Conveyor.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
-    m_conveyor = Conveyor.getInstance();
   }
 
   // Called when the command is initially scheduled.

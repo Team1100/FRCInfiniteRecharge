@@ -30,10 +30,10 @@ public class SpinBothConveyorsTimed extends CommandBase {
    * Creates a new SpinBothConveyorsTimed.
    */
   public SpinBothConveyorsTimed(double horizontalSpeedL, double horizontalSpeedR, double verticalSpeed, double horizontalPeriod, double verticalPeriod, boolean parameterized) {
+    m_conveyor = Conveyor.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Conveyor.getInstance());
     m_timer = new Timer();
-    m_conveyor = Conveyor.getInstance();
     m_hSpeedL = horizontalSpeedL;
     m_hSpeedR = horizontalSpeedR;
     m_vSpeed = verticalSpeed;

@@ -21,9 +21,9 @@ public class DefaultTurret extends CommandBase {
    * Creates a new DefaultTurret.
    */
   public DefaultTurret(Turret turret) {
+    m_turret = Turret.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Turret.getInstance());
-    m_turret = Turret.getInstance();
     oi = OI.getInstance();
   }
 
