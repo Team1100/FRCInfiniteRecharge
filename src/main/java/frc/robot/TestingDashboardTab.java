@@ -8,4 +8,5 @@ public class TestingDashboardTab {
   public String subsystemName;
   public ShuffleboardTab tab;
   public TestingDashboardCommandTable commandTable;
+  public TestingDashboardDataTable dataTable;
 }

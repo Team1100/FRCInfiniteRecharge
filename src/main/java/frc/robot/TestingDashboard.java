@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -81,6 +82,7 @@ public class TestingDashboard {
     tdt.subsystem = subsystem;
     tdt.subsystemName = name;
     tdt.commandTable = new TestingDashboardCommandTable();
+    tdt.dataTable = new TestingDashboardDataTable();
     testingTabs.add(tdt);
     System.out.println("Subsystem " + name + " registered with TestingDashboard");
   }
@@ -100,15 +102,27 @@ public class TestingDashboard {
     tab.commandTable.add(cmdGrpName, command);
   }
 
+  public void registerData(SubsystemBase subsystem, String dataGrpName, String dataName) {
+    TestingDashboardTab tab = getSubsystemTab(subsystem);
+    if (tab == null) {
+      System.out.println("WARNING: Subsystem for data does not exist!");
+      return;
+    }
+    System.out.println("Adding data " + dataName);
+    tab.dataTable.addName(dataGrpName, dataName);
+  }
+
   public void createTestingDashboard() {
     System.out.println("Creating Testing Dashboard");
     for (int i = 0; i < testingTabs.size(); i++) {
+      // Create Shuffleboard Tab
       TestingDashboardTab tdt = testingTabs.get(i);
       tdt.tab = Shuffleboard.getTab(tdt.subsystemName);
+      // Add Command Groups and Commands
       Enumeration<String> cmdGrpNames = tdt.commandTable.getCommandGroups();
       Iterator<String> it = cmdGrpNames.asIterator();
       System.out.println("Created tab for " + tdt.subsystemName + " subsystem");
-      int colpos = 0;
+      int colpos = 0; // columns in shuffleboard tab
       while (it.hasNext()) {
         String cmdGrpName = it.next();
         System.out.println("Creating \"" + cmdGrpName + "\" command group");
@@ -121,6 +135,26 @@ public class TestingDashboard {
         }
         colpos++;
       }
+
+      // Add Data Entries
+      Enumeration<String> dataGrpNames = tdt.dataTable.getDataGroups();
+      Iterator<String> itd = dataGrpNames.asIterator();
+      while (itd.hasNext()) {
+        String dataGrpName = itd.next();
+        System.out.println("Creating \"" + dataGrpName + "\" data group");
+        ArrayList<String> dataList = tdt.dataTable.getDataList(dataGrpName);
+        ShuffleboardLayout layout = tdt.tab.getLayout(dataGrpName, BuiltInLayouts.kList);
+        layout.withPosition(colpos,0);
+        layout.withSize(1,dataList.size());
+        for (int j = 0; j < dataList.size(); j++) {
+          String entryName = dataList.get(j);
+          double defaultValue = 0;
+          NetworkTableEntry entry = layout.add(entryName, defaultValue).getEntry();
+          tdt.dataTable.addEntry(entryName, entry);
+        }
+        colpos++;
+      }
+
     }
     createDebugTab();
   }
@@ -154,7 +188,7 @@ public class TestingDashboard {
     SmartDashboard.putNumber("DriveForwardTime", 3);
     
     // Controlling speed
-    SmartDashboard .putNumber("AutoDriveSpeed", 0.5);
+    SmartDashboard.putNumber("AutoDriveSpeed", 0.5);
 
     // Set delay for before we execute auto commands
     SmartDashboard.putNumber("StartAutoWaitTime", 3);
