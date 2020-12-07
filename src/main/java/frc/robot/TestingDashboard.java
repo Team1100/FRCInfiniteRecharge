@@ -12,6 +12,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -102,7 +103,7 @@ public class TestingDashboard {
     tab.commandTable.add(cmdGrpName, command);
   }
 
-  public void registerData(SubsystemBase subsystem, String dataGrpName, String dataName) {
+  public void registerNumber(SubsystemBase subsystem, String dataGrpName, String dataName, double defaultValue) {
     TestingDashboardTab tab = getSubsystemTab(subsystem);
     if (tab == null) {
       System.out.println("WARNING: Subsystem for data does not exist!");
@@ -110,6 +111,65 @@ public class TestingDashboard {
     }
     System.out.println("Adding data " + dataName);
     tab.dataTable.addName(dataGrpName, dataName);
+    tab.dataTable.addDefaultNumberValue(dataName, defaultValue);
+  }
+
+  public void registerString(SubsystemBase subsystem, String dataGrpName, String dataName, String defaultValue) {
+    TestingDashboardTab tab = getSubsystemTab(subsystem);
+    if (tab == null) {
+      System.out.println("WARNING: Subsystem for data does not exist!");
+      return;
+    }
+    System.out.println("Adding String data " + dataName);
+    tab.dataTable.addName(dataGrpName, dataName);
+    tab.dataTable.addDefaultStringValue(dataName, defaultValue);
+  }
+
+  public void registerSendable(SubsystemBase subsystem, String dataGrpName, String dataName, Sendable sendable) {
+    TestingDashboardTab tab = getSubsystemTab(subsystem);
+    if (tab == null) {
+      System.out.println("WARNING: Subsystem for data does not exist!");
+      return;
+    }
+    System.out.println("Adding String data " + dataName);
+    tab.dataTable.addName(dataGrpName, dataName);
+    tab.dataTable.addDefaultSendableValue(dataName, sendable);
+  }
+
+  public void updateNumber(SubsystemBase subsystem, String dataName, double value) {
+    TestingDashboardTab tab = getSubsystemTab(subsystem);
+    if (tab == null) {
+      System.out.println("WARNING: Subsystem for data does not exist!");
+      return;
+    }
+    tab.dataTable.getEntry(dataName).setDouble(value);
+  }
+
+  public void updateString(SubsystemBase subsystem, String dataName, String value) {
+    TestingDashboardTab tab = getSubsystemTab(subsystem);
+    if (tab == null) {
+      System.out.println("WARNING: Subsystem for data does not exist!");
+      return;
+    }
+    tab.dataTable.getEntry(dataName).setString(value);
+  }
+
+  public double getNumber(SubsystemBase subsystem, String dataName) {
+    TestingDashboardTab tab = getSubsystemTab(subsystem);
+    if (tab == null) {
+      System.out.println("WARNING: Subsystem for data does not exist!");
+      return 0;
+    }
+    return tab.dataTable.getEntry(dataName).getDouble(0.0);
+  }
+
+  public String getString(SubsystemBase subsystem, String dataName) {
+    TestingDashboardTab tab = getSubsystemTab(subsystem);
+    if (tab == null) {
+      System.out.println("WARNING: Subsystem for data does not exist!");
+      return "";
+    }
+    return tab.dataTable.getEntry(dataName).getString("");
   }
 
   public void createTestingDashboard() {
@@ -148,9 +208,30 @@ public class TestingDashboard {
         layout.withSize(1,dataList.size());
         for (int j = 0; j < dataList.size(); j++) {
           String entryName = dataList.get(j);
-          double defaultValue = 0;
-          NetworkTableEntry entry = layout.add(entryName, defaultValue).getEntry();
-          tdt.dataTable.addEntry(entryName, entry);
+          double defaultNumberValue = 0;
+          String defaultStringValue = "";
+          Sendable sendable;
+          NetworkTableEntry entry;
+          int type = tdt.dataTable.getType(entryName);
+          switch (type) {
+            case TestingDashboardDataTable.TYPE_NUMBER:
+              defaultNumberValue = tdt.dataTable.getDefaultNumberValue(entryName);
+              entry = layout.add(entryName, defaultNumberValue).getEntry();
+              tdt.dataTable.addEntry(entryName, entry);
+              break;
+            case TestingDashboardDataTable.TYPE_STRING:
+              defaultStringValue = tdt.dataTable.getDefaultStringValue(entryName);
+              entry = layout.add(entryName, defaultStringValue).getEntry();
+              tdt.dataTable.addEntry(entryName, entry);
+              break;
+            case TestingDashboardDataTable.TYPE_SENDABLE:
+              sendable = tdt.dataTable.getDefaultSendableValue(entryName);
+              layout.add(entryName, sendable);
+              break;
+            default:
+              System.out.println("ERROR: Type is " + type + "for data item \"" + entryName);
+              break;
+          }
         }
         colpos++;
       }

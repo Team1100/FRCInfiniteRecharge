@@ -60,7 +60,7 @@ public class SpinConveyorHTimed extends CommandBase {
     double hSpeedR = m_hSpeedR;
     if (!m_parameterized) {
       hSpeedL = SmartDashboard.getNumber("ConveyorHMotor1Speed", 0.5);
-      hSpeedR = SmartDashboard.getNumber("ConveyorHMotor2Speed", 0.5);
+      hSpeedR = TestingDashboard.getInstance().getNumber(m_conveyor, "ConveyorHMotor2Speed");
     }
     m_conveyor.spinHConveyors(hSpeedL, hSpeedR);
   }

@@ -12,6 +12,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.Sendable;
 
 /**
  * TestingDashboardDataTable is a map of data groups to
@@ -19,34 +20,82 @@ import edu.wpi.first.networktables.NetworkTableEntry;
  * tab.
  */
 public class TestingDashboardDataTable {
+  public static final int TYPE_NUMBER = 0;
+  public static final int TYPE_STRING = 1;
+  public static final int TYPE_SENDABLE = 2;
   Hashtable<String, ArrayList<String>> table;
   ArrayList<String> names;
+  Hashtable<String, Integer> type;
   Hashtable<String, NetworkTableEntry> entries;
+  Hashtable<String, String> defaultString;
+  Hashtable<String, Double> defaultDouble;
+  Hashtable<String, Object> defaultSendable;
   public TestingDashboardDataTable() {
     table = new Hashtable<String, ArrayList<String>>();
     names = new ArrayList<String>();
     entries = new Hashtable<String, NetworkTableEntry>();
+    type = new Hashtable<String, Integer>();
+    defaultString = new Hashtable<String, String>();
+    defaultDouble = new Hashtable<String, Double>();
+    defaultSendable = new Hashtable<String, Object>();
   }
 
-  public void addName(String str, String name) {
-    if (table.containsKey(str)) {
-      ArrayList<String> l = table.get(str);
+  public void addName(String grp, String name) {
+    if (table.containsKey(grp)) {
+      ArrayList<String> l = table.get(grp);
       l.add(name);
     } else {
       ArrayList<String> l = new ArrayList<String>();
       l.add(name);
-      table.put(str, l);
+      table.put(grp, l);
     }
     names.add(name);
+  }
+  
+  public int getType(String name) {
+      return type.get(name).intValue();
+  }
+
+  public void addDefaultStringValue(String name, String value ) {
+    if (names.contains(name)) {
+        type.put(name,TYPE_STRING);
+        defaultString.put(name,value);
+    }
+  }
+
+  public void addDefaultNumberValue(String name, double value) {
+    if (names.contains(name)) {
+        type.put(name,Integer.valueOf(TYPE_NUMBER));
+        defaultDouble.put(name,Double.valueOf(value));
+    }
+  }
+
+  public void addDefaultSendableValue(String name, Sendable sendable) {
+    if (names.contains(name)) {
+        type.put(name,TYPE_SENDABLE);
+        defaultSendable.put(name,(Object)sendable);
+    }
+  }
+
+  public String getDefaultStringValue(String name) {
+    return defaultString.get(name);
+  }
+
+  public double getDefaultNumberValue(String name) {
+    return defaultDouble.get(name).doubleValue();
+  }
+
+  public Sendable getDefaultSendableValue(String name) {
+    return (Sendable)defaultSendable.get(name);
   }
 
   /*
    *  This function adds the NetworkTableEntry for a given
    *  named data item.
    */
-  public void addEntry(String str, NetworkTableEntry entry) {
-      if (names.contains(str)) {
-          entries.put(str,entry);
+  public void addEntry(String name, NetworkTableEntry entry) {
+      if (names.contains(name)) {
+          entries.put(name,entry);
       }
   }
 

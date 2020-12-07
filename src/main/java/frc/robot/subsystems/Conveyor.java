@@ -40,7 +40,7 @@ public class Conveyor extends SubsystemBase {
     if (m_conveyor == null) {
       m_conveyor = new Conveyor();
       TestingDashboard.getInstance().registerSubsystem(m_conveyor, "Conveyor");
-      TestingDashboard.getInstance().registerData(m_conveyor, "Debug", "ConveyorHMotor2Speed");
+      TestingDashboard.getInstance().registerNumber(m_conveyor, "Debug", "ConveyorHMotor2Speed", 0.5);
     }
     return m_conveyor;
   }
