@@ -8,6 +8,7 @@
 package frc.robot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 
@@ -38,9 +39,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class TestingDashboard {
   private static TestingDashboard testingDashboard;
   private ArrayList<TestingDashboardTab> testingTabs;
+  boolean initialized = false;
     
   private TestingDashboard() {
     testingTabs = new ArrayList<TestingDashboardTab>();
+    initialized = false;
   }
 
   public static TestingDashboard getInstance() {
@@ -160,7 +163,11 @@ public class TestingDashboard {
       System.out.println("WARNING: Subsystem for data does not exist!");
       return 0;
     }
-    return tab.dataTable.getEntry(dataName).getDouble(0.0);
+    if (initialized) {
+      return tab.dataTable.getEntry(dataName).getDouble(0.0);
+    } else {
+      return tab.dataTable.getDefaultNumberValue(dataName);
+    }
   }
 
   public String getString(SubsystemBase subsystem, String dataName) {
@@ -169,7 +176,11 @@ public class TestingDashboard {
       System.out.println("WARNING: Subsystem for data does not exist!");
       return "";
     }
-    return tab.dataTable.getEntry(dataName).getString("");
+    if (initialized) {
+      return tab.dataTable.getEntry(dataName).getString("");
+    } else {
+      return tab.dataTable.getDefaultStringValue(dataName);
+    }
   }
 
   public void createTestingDashboard() {
@@ -203,6 +214,7 @@ public class TestingDashboard {
         String dataGrpName = itd.next();
         System.out.println("Creating \"" + dataGrpName + "\" data group");
         ArrayList<String> dataList = tdt.dataTable.getDataList(dataGrpName);
+        Collections.sort(dataList);
         ShuffleboardLayout layout = tdt.tab.getLayout(dataGrpName, BuiltInLayouts.kList);
         layout.withPosition(colpos,0);
         layout.withSize(1,dataList.size());
@@ -238,22 +250,11 @@ public class TestingDashboard {
 
     }
     createDebugTab();
+    initialized = true;
   }
 
   public void createDebugTab() {
     ShuffleboardTab debug_tab = Shuffleboard.getTab("Debug");
-
-    // Controlling inputs for Conveyor H motor1
-    SmartDashboard.putNumber("ConveyorHMotor1Speed", 0.5);
-
-    // Controlling inputs for Conveyor H motor2
-    SmartDashboard.putNumber("ConveyorHMotor2Speed", 0.5);
-
-    SmartDashboard.putNumber("ConveyorHMotorTimeout", 30);
-
-    // Controlling inputs for Conveyor V motor
-    SmartDashboard.putNumber("ConveyorVMotorSpeed", 0.5);
-    SmartDashboard.putNumber("ConveyorVMotorTimeout", 30);
 
     // Controlling inputs for Intake Roller motor
     SmartDashboard.putNumber("IntakeRollerSpeed", 1);
@@ -264,7 +265,7 @@ public class TestingDashboard {
     SmartDashboard.putString("SpinnerTargetColor","Yellow");
     SmartDashboard.putString("SpinnerActualColor","Yellow");
     SmartDashboard.putNumber("SpinnerColorNotFoundTimeout",5.0);
-        
+
     // Controlling amount of time to drive forward
     SmartDashboard.putNumber("DriveForwardTime", 3);
     
@@ -273,12 +274,6 @@ public class TestingDashboard {
 
     // Set delay for before we execute auto commands
     SmartDashboard.putNumber("StartAutoWaitTime", 3);
-
-    //Controlling shooter speeds
-    SmartDashboard.putNumber("TopShooterSpeed",0.2);
-    SmartDashboard.putNumber("BottomShooterSpeed",0.2);
-    SmartDashboard.putNumber("Top Setpoint", 2000);
-    SmartDashboard.putNumber("Bottom Setpoint", 2000);
 
     // Control Turret speed
     SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);

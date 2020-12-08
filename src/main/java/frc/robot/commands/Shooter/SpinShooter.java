@@ -7,7 +7,6 @@
 
 package frc.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Shooter;
@@ -50,8 +49,8 @@ public class SpinShooter extends CommandBase {
     double topSpeed = m_topSpeed;
     double botSpeed = m_botSpeed;
     if (!m_parameterized) {
-      topSpeed = SmartDashboard.getNumber("TopShooterSpeed", 0.5);
-      botSpeed = SmartDashboard.getNumber("BottomShooterSpeed", 0.5);
+      topSpeed = TestingDashboard.getInstance().getNumber(m_shooter, "TopShooterInputSpeed");
+      botSpeed = TestingDashboard.getInstance().getNumber(m_shooter, "BottomShooterInputSpeed");
     }
     m_shooter.setTop(topSpeed);
     m_shooter.setBottom(botSpeed);

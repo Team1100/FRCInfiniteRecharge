@@ -9,7 +9,6 @@
 package frc.robot.commands.Conveyor;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Conveyor;
@@ -55,7 +54,7 @@ public class SpinConveyorVTimed extends CommandBase {
   public void execute() {
     double vSpeed = m_vSpeed;
     if (!m_parameterized) {
-      vSpeed = SmartDashboard.getNumber("ConveyorVMotorSpeed", 0.5);
+      vSpeed = TestingDashboard.getInstance().getNumber(m_conveyor, "ConveyorVMotorSpeed");
     }
     m_conveyor.spinVConveyor(vSpeed);
   }
@@ -70,7 +69,7 @@ public class SpinConveyorVTimed extends CommandBase {
   @Override
   public boolean isFinished() {
     if (!m_parameterized) {
-      double period = SmartDashboard.getNumber("ConveyorVMotorTimeout", 5); // default of 5 seconds
+      double period = TestingDashboard.getInstance().getNumber(m_conveyor, "ConveyorVMotorTimeout"); // default of 5 seconds
       boolean timerExpired = m_timer.hasPeriodPassed(period);
       return timerExpired;
     } else {

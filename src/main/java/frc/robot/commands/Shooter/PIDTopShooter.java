@@ -8,7 +8,6 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Shooter;
@@ -41,7 +40,7 @@ public class PIDTopShooter extends PIDCommand {
 
   public static void registerWithTestingDashboard() {
     Shooter shooter = Shooter.getInstance();
-    double setpoint = SmartDashboard.getNumber("Top Setpoint", 2000);
+    double setpoint = TestingDashboard.getInstance().getNumber(shooter, "Top Setpoint");
     PIDTopShooter cmd = new PIDTopShooter(setpoint);
     TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
   }

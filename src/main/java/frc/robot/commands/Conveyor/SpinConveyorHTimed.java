@@ -9,7 +9,6 @@
 package frc.robot.commands.Conveyor;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Conveyor;
@@ -59,7 +58,7 @@ public class SpinConveyorHTimed extends CommandBase {
     double hSpeedL = m_hSpeedL;
     double hSpeedR = m_hSpeedR;
     if (!m_parameterized) {
-      hSpeedL = SmartDashboard.getNumber("ConveyorHMotor1Speed", 0.5);
+      hSpeedL = TestingDashboard.getInstance().getNumber(m_conveyor, "ConveyorHMotor1Speed");
       hSpeedR = TestingDashboard.getInstance().getNumber(m_conveyor, "ConveyorHMotor2Speed");
     }
     m_conveyor.spinHConveyors(hSpeedL, hSpeedR);
@@ -75,7 +74,7 @@ public class SpinConveyorHTimed extends CommandBase {
   @Override
   public boolean isFinished() {
     if (!m_parameterized) {
-      double period = SmartDashboard.getNumber("ConveyorHMotorTimeout", 5); // default of 5 seconds
+      double period = TestingDashboard.getInstance().getNumber(m_conveyor, "ConveyorHMotorTimeout"); // default of 5 seconds
       boolean timerExpired = m_timer.hasPeriodPassed(period);
       return timerExpired;
     } else {

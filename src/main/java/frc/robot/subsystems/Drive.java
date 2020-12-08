@@ -90,6 +90,7 @@ public class Drive extends SubsystemBase {
     if (drive == null) {
       drive = new Drive();
       TestingDashboard.getInstance().registerSubsystem(drive, "Drive");
+      TestingDashboard.getInstance().registerString(drive, "AHRS", "Heading", "");
     }
     return drive;
   }
@@ -205,7 +206,7 @@ public class Drive extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     m_odometry.update(getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
-    SmartDashboard.putString("Heading", getHeading().toString());
+    TestingDashboard.getInstance().updateString(drive, "Heading", getHeading().toString());
 
     /*
     SmartDashboard.putNumber("Yaw",getYaw());

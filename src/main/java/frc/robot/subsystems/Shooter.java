@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.RobotMap;
@@ -54,6 +53,15 @@ public class Shooter extends SubsystemBase {
     if (shooter == null) {
       shooter = new Shooter();
       TestingDashboard.getInstance().registerSubsystem(shooter, "Shooter");
+      //Controlling shooter speeds
+      TestingDashboard.getInstance().registerNumber(shooter, "TopShooter", "TopShooterInputSpeed", 0.2);
+      TestingDashboard.getInstance().registerNumber(shooter, "TopShooter", "Top Setpoint", 2000);
+      TestingDashboard.getInstance().registerNumber(shooter, "TopShooter", "TopShooterDist", 0);
+      TestingDashboard.getInstance().registerNumber(shooter, "TopShooter", "TopShooterOutputSpeed", 0);
+      TestingDashboard.getInstance().registerNumber(shooter, "BotShooter", "BottomShooterInputSpeed", 0.2);
+      TestingDashboard.getInstance().registerNumber(shooter, "BotShooter", "Bottom Setpoint", 2000);
+      TestingDashboard.getInstance().registerNumber(shooter, "BotShooter", "BottomShooterDist", 0);
+      TestingDashboard.getInstance().registerNumber(shooter, "BotShooter", "BottomShooterOutputSpeed", 0);
     }
     return shooter;
   }
@@ -128,9 +136,9 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Top Shooter Dist", topEncoder.getDistance());
-    SmartDashboard.putNumber("Bot Shooter Dist", bottomEncoder.getDistance());
-    SmartDashboard.putNumber("Top Shooter Encoder", getRPM(topEncoder));
-    SmartDashboard.putNumber("Bot Shooter Encoder", getRPM(bottomEncoder));
+    TestingDashboard.getInstance().updateNumber(this, "TopShooterDist", topEncoder.getDistance());
+    TestingDashboard.getInstance().updateNumber(this, "TopShooterOutputSpeed", getRPM(topEncoder));
+    TestingDashboard.getInstance().updateNumber(this, "BottomShooterDist", bottomEncoder.getDistance());
+    TestingDashboard.getInstance().updateNumber(this, "BottomShooterOutputSpeed", getRPM(bottomEncoder));
   }
 }
