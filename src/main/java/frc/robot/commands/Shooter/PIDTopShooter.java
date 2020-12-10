@@ -43,6 +43,7 @@ public class PIDTopShooter extends PIDCommand {
     double setpoint = TestingDashboard.getInstance().getNumber(shooter, "Top Setpoint");
     PIDTopShooter cmd = new PIDTopShooter(setpoint);
     TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
+    TestingDashboard.getInstance().registerSendable(shooter, "PIDController", "TopPIDController", cmd.getController());
   }
 
   // Returns true when the command should end.
