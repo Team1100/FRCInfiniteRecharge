@@ -34,7 +34,7 @@ public class PIDBottomShooter extends PIDCommand {
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(5);
+    getController().setTolerance(10);
     getController().disableContinuousInput();
   }
 
