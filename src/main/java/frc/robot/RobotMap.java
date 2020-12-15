@@ -202,6 +202,7 @@ public class RobotMap {
 	public static final int T_ENCODER_A = DIO_MXP_4;
 	public static final int T_ENCODER_B = DIO_MXP_5;
 	public static final int T_LIMIT = DIO_4;
+	public static final int T_POTENTIOMETER = ANALOG_0;
 
 	//[SH]ooter
 	public static final int SH_TOP = CAN_13;
