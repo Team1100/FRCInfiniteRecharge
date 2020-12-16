@@ -25,11 +25,12 @@ public class Turret extends SubsystemBase {
   private Encoder m_turretEncoder;
   private DigitalInput m_turretLimit;
   private AnalogInput m_potentiometer;
-  public static final double POTENTIOMETER_MIN = 0.0; // voltage
-  public static final double POTENTIOMETER_MAX = 5.0; // voltage
-  public static final double MIN_ANGLE = 0.0;
-  public static final double MAX_ANGLE = 360.0;
-  public static final double VOLTS_PER_DEGREE = 0.01;
+  private double m_speed;
+  public static final double POTENTIOMETER_MIN = 1.1; // voltage
+  public static final double POTENTIOMETER_MAX = 3.5; // voltage
+  public static final double MIN_ANGLE = 110.0;
+  public static final double MAX_ANGLE = 350.0;
+  public static final double DEGREES_PER_VOLT = 100;
 
   /**
    * Creates a new Turret.
@@ -39,6 +40,7 @@ public class Turret extends SubsystemBase {
     m_turretLimit = new DigitalInput(RobotMap.T_LIMIT);
     m_turretEncoder = new Encoder(RobotMap.T_ENCODER_A, RobotMap.T_ENCODER_B);
     m_potentiometer = new AnalogInput(RobotMap.T_POTENTIOMETER);
+    m_speed = 0;
   }
 
   public static Turret getInstance() {
@@ -48,6 +50,7 @@ public class Turret extends SubsystemBase {
       TestingDashboard.getInstance().registerNumber(m_turret, "PIDRotation", "TurretSetpoint", 180);
       TestingDashboard.getInstance().registerNumber(m_turret, "Potentiometer", "PotVoltage", POTENTIOMETER_MIN);
       TestingDashboard.getInstance().registerNumber(m_turret, "Potentiometer", "TurretAngle", MIN_ANGLE);
+      TestingDashboard.getInstance().registerNumber(m_turret, "Motor", "TurretMotorSpeed", 0);
     }
     return m_turret;
   }
@@ -56,7 +59,8 @@ public class Turret extends SubsystemBase {
     if (speed > 0 && getTurretLimit()) {
       speed = 0;
     }
-    m_turretMotor.set(ControlMode.PercentOutput, -speed);
+    m_speed = -speed;
+    m_turretMotor.set(ControlMode.PercentOutput, m_speed);
   }
 
   public boolean getTurretLimit() {
@@ -73,7 +77,7 @@ public class Turret extends SubsystemBase {
 
   public double getRotationAngle() {
     double volt = m_potentiometer.getVoltage();
-    double angle = MIN_ANGLE + (volt - POTENTIOMETER_MIN) * VOLTS_PER_DEGREE;
+    double angle = MIN_ANGLE + (volt - POTENTIOMETER_MIN) * DEGREES_PER_VOLT;
     return angle;
   }
       
@@ -83,6 +87,7 @@ public class Turret extends SubsystemBase {
     SmartDashboard.putNumber("TurretEnc", getEncoder().getDistance());
     TestingDashboard.getInstance().updateNumber(m_turret, "PotVoltage", getPotentiometerValue());
     TestingDashboard.getInstance().updateNumber(m_turret, "TurretAngle", getRotationAngle());
+    TestingDashboard.getInstance().updateNumber(m_turret, "TurretMotorSpeed", m_speed);
     
     if (getTurretLimit()) {
       m_turretEncoder.reset();
