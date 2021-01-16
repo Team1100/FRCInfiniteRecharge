@@ -39,6 +39,8 @@ public class Drive extends SubsystemBase {
 
   final double PULSE_PER_FOOT = 1300;
   final double PULSE_PER_METER = 4265.1;
+  public final double WHEEL_SIZE = 6;  //measured in inches
+  public final double PULSES_PER_ROTATION = 2048; //TODO: find out this value 
 
   private DifferentialDrive drivetrain;
 
