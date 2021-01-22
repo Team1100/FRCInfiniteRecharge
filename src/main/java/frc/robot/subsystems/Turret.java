@@ -59,7 +59,7 @@ public class Turret extends SubsystemBase {
     if (speed > 0 && getTurretLimit()) {
       speed = 0;
     }
-    m_speed = -speed;
+    m_speed = speed;
     m_turretMotor.set(ControlMode.PercentOutput, m_speed);
   }
 
