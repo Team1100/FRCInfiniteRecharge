@@ -33,8 +33,6 @@ import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
 import frc.robot.subsystems.*;
 
-import io.github.oblarg.oblog.Logger;
-
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -89,9 +87,6 @@ public class RobotContainer {
 
     //OI Device instantiation
     OI.getInstance();
-
-    //Configure OBlog
-    Logger.configureLoggingAndConfig(this, false);
 
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();

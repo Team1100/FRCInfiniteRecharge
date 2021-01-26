@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
-import io.github.oblarg.oblog.annotations.Config;
-
 public class Shooter extends SubsystemBase {
   private static Shooter shooter;
   private WPI_TalonSRX bottomShooter;
@@ -118,17 +116,14 @@ public class Shooter extends SubsystemBase {
     return kD;
   }
 
-  @Config
   public void setkP(double kP) {
     this.kP = kP;
   }
 
-  @Config
   public void setkI(double kI) {
     this.kI = kI;
   }
 
-  @Config
   public void setkD(double kD) {
     this.kD = kD;
   }
