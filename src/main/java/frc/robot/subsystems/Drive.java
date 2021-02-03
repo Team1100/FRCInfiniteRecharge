@@ -97,6 +97,7 @@ public class Drive extends SubsystemBase {
       TestingDashboard.getInstance().registerString(drive, "AHRS", "Heading", "");
       TestingDashboard.getInstance().registerNumber(drive, "Encoder", "LeftEncoderDistance", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Encoder", "RightEncoderDistance", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Travel", "DistanceToTravelInInches", 12);
 
     }
     return drive;
