@@ -28,6 +28,7 @@ import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Drive.*;
+import frc.robot.commands.Drive.DriveDistance;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
@@ -90,6 +91,7 @@ public class RobotContainer {
 
     // Register commands with TestingDashboard commands
     DefaultDrive.registerWithTestingDashboard();
+    DriveDistance.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
     DefaultTurret.registerWithTestingDashboard();
     SpinConveyorHTimed.registerWithTestingDashboard();

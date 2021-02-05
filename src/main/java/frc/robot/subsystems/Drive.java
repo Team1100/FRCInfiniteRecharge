@@ -40,7 +40,9 @@ public class Drive extends SubsystemBase {
   final double PULSE_PER_FOOT = 1300;
   final double PULSE_PER_METER = 4265.1;
   public final double WHEEL_SIZE = 6;  //measured in inches
-  public final double PULSES_PER_ROTATION = 2048; //TODO: find out this value 
+  public final double PULSES_PER_ROTATION = 2048;
+  // ( inches / pulse ) = (WHEEL_SIZE * PI ) * ( 1 / PULSES_PER_ROTATION)
+  public final double INCHES_PER_PULSE = (WHEEL_SIZE * Math.PI)/PULSES_PER_ROTATION;
 
   private DifferentialDrive drivetrain;
 
@@ -68,8 +70,8 @@ public class Drive extends SubsystemBase {
 
     leftEncoder = new Encoder(RobotMap.D_LEFT_ENCODER_A, RobotMap.D_LEFT_ENCODER_B);
     rightEncoder = new Encoder(RobotMap.D_RIGHT_ENCODER_A, RobotMap.D_RIGHT_ENCODER_B);
-    leftEncoder.setDistancePerPulse(0.0002338);
-    rightEncoder.setDistancePerPulse(0.0002338);
+    leftEncoder.setDistancePerPulse(INCHES_PER_PULSE);
+    rightEncoder.setDistancePerPulse(INCHES_PER_PULSE);
 
     frontLeft.follow(backLeft);
     frontRight.follow(backRight);
@@ -93,6 +95,10 @@ public class Drive extends SubsystemBase {
       drive = new Drive();
       TestingDashboard.getInstance().registerSubsystem(drive, "Drive");
       TestingDashboard.getInstance().registerString(drive, "AHRS", "Heading", "");
+      TestingDashboard.getInstance().registerNumber(drive, "Encoder", "LeftEncoderDistance", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Encoder", "RightEncoderDistance", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Travel", "DistanceToTravelInInches", 12);
+
     }
     return drive;
   }
@@ -209,6 +215,9 @@ public class Drive extends SubsystemBase {
     // This method will be called once per scheduler run
     m_odometry.update(getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
     TestingDashboard.getInstance().updateString(drive, "Heading", getHeading().toString());
+    TestingDashboard.getInstance().updateNumber(drive, "LeftEncoderDistance", leftEncoder.getDistance());
+    TestingDashboard.getInstance().updateNumber(drive, "RightEncoderDistance", rightEncoder.getDistance());
+
 
     /*
     SmartDashboard.putNumber("Yaw",getYaw());
