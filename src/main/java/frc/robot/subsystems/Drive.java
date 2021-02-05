@@ -43,21 +43,22 @@ public class Drive extends SubsystemBase {
   public final double PULSES_PER_ROTATION = 2048;
   // ( inches / pulse ) = (WHEEL_SIZE * PI ) * ( 1 / PULSES_PER_ROTATION)
   public final double INCHES_PER_PULSE = (WHEEL_SIZE * Math.PI)/PULSES_PER_ROTATION;
+  public final static double INITIAL_SPEED = 0.3;
 
   private DifferentialDrive drivetrain;
 
   private AHRS ahrs;
-  
+
   private static Drive drive;
 
-  private DifferentialDriveKinematics m_kinematics; 
+  private DifferentialDriveKinematics m_kinematics;
   private DifferentialDriveOdometry m_odometry;
   private SimpleMotorFeedforward m_feedforward;
 
   private PIDController leftPidController = new PIDController(Constants.kPDriveVel, 0, 0);
   private PIDController rightPidController = new PIDController(Constants.kPDriveVel, 0, 0);
 
-  //private Pose2d pose;
+  // private Pose2d pose;
 
   /**
    * Creates a new Drive.
@@ -83,11 +84,13 @@ public class Drive extends SubsystemBase {
 
     m_kinematics = new DifferentialDriveKinematics(Constants.kTrackwidthMeters);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getRoll()));
-    m_feedforward = new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter);
+    m_feedforward = new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
+        Constants.kaVoltSecondsSquaredPerMeter);
   }
 
   /**
    * Used outside of the Drive subsystem to return an instance of Drive subsystem.
+   * 
    * @return Returns instance of Drive subsystem formed from constructor.
    */
   public static Drive getInstance() {
@@ -98,7 +101,7 @@ public class Drive extends SubsystemBase {
       TestingDashboard.getInstance().registerNumber(drive, "Encoder", "LeftEncoderDistance", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Encoder", "RightEncoderDistance", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Travel", "DistanceToTravelInInches", 12);
-
+      TestingDashboard.getInstance().registerNumber(drive, "Travel", "SpeedToTravel", INITIAL_SPEED);
     }
     return drive;
   }

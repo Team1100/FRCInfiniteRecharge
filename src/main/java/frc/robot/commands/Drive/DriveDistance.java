@@ -14,7 +14,7 @@ public class DriveDistance extends CommandBase {
   boolean m_parameterized;
   double m_distance;
   double m_speed;
-  final double INITIAL_SPEED = 0.3;
+  
 
   /** Creates a new DriveDistance. */
   // distance is in inches
@@ -24,7 +24,7 @@ public class DriveDistance extends CommandBase {
     addRequirements(m_drive);
     m_parameterized = parameterized;
     m_distance = distance;
-    m_speed = INITIAL_SPEED;
+    m_speed = Drive.INITIAL_SPEED;
   }
 
   public static void registerWithTestingDashboard() {
@@ -36,13 +36,19 @@ public class DriveDistance extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Encoder leftEncoder = m_drive.getLeftEncoder();
+    Encoder rightEncoder = m_drive.getLeftEncoder();
+    leftEncoder.reset();
+    rightEncoder.reset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (!m_parameterized) {
       m_distance = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
+      m_speed = TestingDashboard.getInstance().getNumber(m_drive, "SpeedToTravel");
     }
     m_drive.tankDrive(m_speed, m_speed);
   }
