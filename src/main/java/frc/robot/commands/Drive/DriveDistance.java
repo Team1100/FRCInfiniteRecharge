@@ -38,7 +38,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public void initialize() {
     Encoder leftEncoder = m_drive.getLeftEncoder();
-    Encoder rightEncoder = m_drive.getLeftEncoder();
+    Encoder rightEncoder = m_drive.getRightEncoder();
     leftEncoder.reset();
     rightEncoder.reset();
   }
@@ -50,7 +50,12 @@ public class DriveDistance extends CommandBase {
       m_distance = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
       m_speed = TestingDashboard.getInstance().getNumber(m_drive, "SpeedToTravel");
     }
-    m_drive.tankDrive(m_speed, m_speed);
+    if (m_distance >= 0) {
+      m_drive.tankDrive(m_speed, m_speed);
+    } else {
+      m_drive.tankDrive(-m_speed, -m_speed);
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -63,8 +68,14 @@ public class DriveDistance extends CommandBase {
     Encoder leftEncoder = m_drive.getLeftEncoder();
     Encoder rightEncoder = m_drive.getRightEncoder();
     boolean finished = false;
-    if (leftEncoder.getDistance() >= m_distance && rightEncoder.getDistance() >= m_distance) {
-      finished = true;
+    if (m_distance >= 0) {
+      if (leftEncoder.getDistance() >= m_distance && rightEncoder.getDistance() >= m_distance) {
+        finished = true;
+      }
+    } else if (m_distance < 0) {
+      if (leftEncoder.getDistance() <= m_distance && rightEncoder.getDistance() <= m_distance) {
+        finished = true;
+      }
     }
     return finished;
   }
