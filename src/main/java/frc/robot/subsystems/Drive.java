@@ -102,6 +102,12 @@ public class Drive extends SubsystemBase {
       TestingDashboard.getInstance().registerNumber(drive, "Encoder", "RightEncoderDistance", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Travel", "DistanceToTravelInInches", 12);
       TestingDashboard.getInstance().registerNumber(drive, "Travel", "SpeedToTravel", INITIAL_SPEED);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "AngleToTurnInDegrees", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "SpeedWhenTurning", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "CurrentYawAngle", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "InitialAngle", 0);
+
+
     }
     return drive;
   }
@@ -220,6 +226,7 @@ public class Drive extends SubsystemBase {
     TestingDashboard.getInstance().updateString(drive, "Heading", getHeading().toString());
     TestingDashboard.getInstance().updateNumber(drive, "LeftEncoderDistance", leftEncoder.getDistance());
     TestingDashboard.getInstance().updateNumber(drive, "RightEncoderDistance", rightEncoder.getDistance());
+    TestingDashboard.getInstance().updateNumber(drive, "CurrentYawAngle", ahrs.getYaw());
 
 
     /*
