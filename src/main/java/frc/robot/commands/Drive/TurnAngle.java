@@ -67,13 +67,27 @@ public class TurnAngle extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean finished = false;
+    double yaw = m_drive.getYaw();
     if (m_direction == CLOCKWISE) {
-      if (m_drive.getYaw() > m_finalAngle) {
-        finished = true;
+      if (yaw > m_finalAngle) {
+        if (m_initialAngle > 0 && m_finalAngle < 0) {
+          if (yaw < 0) {
+            finished = true;
+          }
+        } else {
+          finished = true;
+        }
+        
       }
     } else if (m_direction == COUNTER_CLOCKWISE) {
-      if (m_drive.getYaw() < m_finalAngle) {
-        finished = true;
+      if (yaw < m_finalAngle) {
+        if (m_initialAngle < 0 && m_finalAngle > 0) {
+          if (yaw > 0) {
+            finished = true;
+          }
+        } else {
+          finished = true;
+        }
       }
     }
 
