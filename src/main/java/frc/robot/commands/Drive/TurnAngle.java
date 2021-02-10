@@ -23,20 +23,20 @@ public class TurnAngle extends CommandBase {
   final double COUNTER_CLOCKWISE = -1;
 
   /** Creates a new TurnAngle. */
-  public TurnAngle(double angle, boolean parameterized) {
+  public TurnAngle(double angle, double speed, boolean parameterized) {
     m_drive = Drive.getInstance();
     m_parameterized = parameterized;
     m_direction = angle/Math.abs(angle);
     m_angle = (Math.abs(angle) % 360) * m_direction;
     updateFinalAngle();
-
+    m_speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
   }
 
   public static void registerWithTestingDashboard() {
     Drive drive = Drive.getInstance();
-    TurnAngle cmd = new TurnAngle(12.0, false);
+    TurnAngle cmd = new TurnAngle(12.0, Drive.INITIAL_SPEED, false);
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
   }
 

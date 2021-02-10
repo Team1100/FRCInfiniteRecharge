@@ -18,18 +18,18 @@ public class DriveDistance extends CommandBase {
 
   /** Creates a new DriveDistance. */
   // distance is in inches
-  public DriveDistance(double distance, boolean parameterized) {
+  public DriveDistance(double distance, double speed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = Drive.getInstance();
     addRequirements(m_drive);
     m_parameterized = parameterized;
     m_distance = distance;
-    m_speed = Drive.INITIAL_SPEED;
+    m_speed = speed;
   }
 
   public static void registerWithTestingDashboard() {
     Drive drive = Drive.getInstance();
-    DriveDistance cmd = new DriveDistance(12.0, false);
+    DriveDistance cmd = new DriveDistance(12.0, Drive.INITIAL_SPEED, false);
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
 
   }

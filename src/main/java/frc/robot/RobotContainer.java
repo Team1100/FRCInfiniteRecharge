@@ -93,6 +93,7 @@ public class RobotContainer {
     DefaultDrive.registerWithTestingDashboard();
     DriveDistance.registerWithTestingDashboard();
     TurnAngle.registerWithTestingDashboard();
+    DriveSquareAuto.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
     DefaultTurret.registerWithTestingDashboard();
     SpinConveyorHTimed.registerWithTestingDashboard();
