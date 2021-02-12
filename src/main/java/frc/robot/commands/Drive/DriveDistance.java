@@ -14,37 +14,48 @@ public class DriveDistance extends CommandBase {
   boolean m_parameterized;
   double m_distance;
   double m_speed;
-  final double INITIAL_SPEED = 0.3;
+  
 
   /** Creates a new DriveDistance. */
   // distance is in inches
-  public DriveDistance(double distance, boolean parameterized) {
+  public DriveDistance(double distance, double speed, boolean parameterized) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = Drive.getInstance();
     addRequirements(m_drive);
     m_parameterized = parameterized;
     m_distance = distance;
-    m_speed = INITIAL_SPEED;
+    m_speed = speed;
   }
 
   public static void registerWithTestingDashboard() {
     Drive drive = Drive.getInstance();
-    DriveDistance cmd = new DriveDistance(12.0, false);
+    DriveDistance cmd = new DriveDistance(12.0, Drive.INITIAL_SPEED, false);
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    Encoder leftEncoder = m_drive.getLeftEncoder();
+    Encoder rightEncoder = m_drive.getRightEncoder();
+    leftEncoder.reset();
+    rightEncoder.reset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (!m_parameterized) {
       m_distance = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
+      m_speed = TestingDashboard.getInstance().getNumber(m_drive, "SpeedToTravel");
     }
-    m_drive.tankDrive(m_speed, m_speed);
+    if (m_distance >= 0) {
+      m_drive.tankDrive(m_speed, m_speed);
+    } else {
+      m_drive.tankDrive(-m_speed, -m_speed);
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -57,8 +68,14 @@ public class DriveDistance extends CommandBase {
     Encoder leftEncoder = m_drive.getLeftEncoder();
     Encoder rightEncoder = m_drive.getRightEncoder();
     boolean finished = false;
-    if (leftEncoder.getDistance() >= m_distance && rightEncoder.getDistance() >= m_distance) {
-      finished = true;
+    if (m_distance >= 0) {
+      if (leftEncoder.getDistance() >= m_distance && rightEncoder.getDistance() >= m_distance) {
+        finished = true;
+      }
+    } else if (m_distance < 0) {
+      if (leftEncoder.getDistance() <= m_distance && rightEncoder.getDistance() <= m_distance) {
+        finished = true;
+      }
     }
     return finished;
   }
