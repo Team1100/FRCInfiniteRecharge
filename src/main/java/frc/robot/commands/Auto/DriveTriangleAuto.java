@@ -17,7 +17,7 @@ public class DriveTriangleAuto extends SequentialCommandGroup {
   public DriveTriangleAuto() {
     double distance = 60; // inches
     double speed = .5; // % power
-    double angle = 60.0; // degrees
+    double angle = 120.0; // degrees
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

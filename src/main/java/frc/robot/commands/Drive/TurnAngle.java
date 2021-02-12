@@ -26,9 +26,7 @@ public class TurnAngle extends CommandBase {
   public TurnAngle(double angle, double speed, boolean parameterized) {
     m_drive = Drive.getInstance();
     m_parameterized = parameterized;
-    m_direction = angle/Math.abs(angle);
-    m_angle = (Math.abs(angle) % 360) * m_direction;
-    updateFinalAngle();
+    m_angle = angle;
     m_speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drive);
@@ -46,14 +44,17 @@ public class TurnAngle extends CommandBase {
     m_initialAngle = m_drive.getYaw();
     if (!m_parameterized) {
       TestingDashboard.getInstance().updateNumber(m_drive, "InitialAngle", m_initialAngle);
+      m_angle = TestingDashboard.getInstance().getNumber(m_drive, "AngleToTurnInDegrees");
     }
+    m_direction = m_angle/Math.abs(m_angle);
+    m_angle = (Math.abs(m_angle) % 360) * m_direction;
+    updateFinalAngle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (!m_parameterized) {
-      m_angle = TestingDashboard.getInstance().getNumber(m_drive, "AngleToTurnInDegrees");
       m_speed = TestingDashboard.getInstance().getNumber(m_drive, "SpeedWhenTurning");
     }
     m_drive.tankDrive(m_speed * m_direction, m_speed * m_direction * -1);
@@ -90,7 +91,7 @@ public class TurnAngle extends CommandBase {
         }
       }
     }
-
+    System.out.println("m_finalAngle: " + m_finalAngle + " m_direction: " + m_direction + " yaw: " + yaw +  " Finished: " + finished);
     return finished;
   }
 
