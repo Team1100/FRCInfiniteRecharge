@@ -101,6 +101,7 @@ public class Drive extends SubsystemBase {
       TestingDashboard.getInstance().registerNumber(drive, "Encoder", "LeftEncoderDistance", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Encoder", "RightEncoderDistance", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Travel", "DistanceToTravelInInches", 12);
+      TestingDashboard.getInstance().registerNumber(drive, "Travel", "SpeedOfTravel", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Travel", "SpeedToTravel", INITIAL_SPEED);
       TestingDashboard.getInstance().registerNumber(drive, "Turn", "AngleToTurnInDegrees", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Turn", "SpeedWhenTurning", 0);
@@ -115,6 +116,7 @@ public class Drive extends SubsystemBase {
   // Drive Methods
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drivetrain.tankDrive(leftSpeed, rightSpeed);
+    TestingDashboard.getInstance().updateNumber(drive, "SpeedOfTravel", leftSpeed);
   }
 
   /**

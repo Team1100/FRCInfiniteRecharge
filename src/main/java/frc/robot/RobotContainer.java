@@ -94,6 +94,7 @@ public class RobotContainer {
     DriveDistance.registerWithTestingDashboard();
     TurnAngle.registerWithTestingDashboard();
     PIDTurnAngle.registerWithTestingDashboard();
+    PIDDriveDistance.registerWithTestingDashboard();
     DriveSquareAuto.registerWithTestingDashboard();
     DriveTriangleAuto.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
