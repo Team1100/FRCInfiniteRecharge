@@ -17,6 +17,7 @@ public class PIDTurnAngle extends PIDCommand {
   double m_setpoint;
   boolean m_parameterized;
   double m_initialAngle;
+  double m_finalAngle;
 
   /** Creates a new PIDTurnAngle. */
   public PIDTurnAngle(double setpoint, boolean parameterized) {
@@ -48,7 +49,7 @@ public class PIDTurnAngle extends PIDCommand {
     m_parameterized = parameterized;
     m_drive = Drive.getInstance();
     m_initialAngle = 0;
-
+    m_finalAngle = 0;
   }
 
   public static void registerWithTestingDashboard() {
@@ -74,17 +75,29 @@ public class PIDTurnAngle extends PIDCommand {
     if (m_parameterized) {
       m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "AngleToTurnInDegrees");
     }
-      
+    updateFinalAngle();
     m_useOutput.accept(
-        m_controller.calculate(m_measurement.getAsDouble(), m_initialAngle + m_setpoint));
+        m_controller.calculate(m_measurement.getAsDouble(), m_finalAngle));
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    return getController().atSetpoint();
+    boolean finished = getController().atSetpoint();
+    System.out.println("m_finalAngle: " + m_finalAngle + " Finished: " + finished);
+    return finished;
   }
 
+  public void updateFinalAngle() {
+
+    m_finalAngle = m_initialAngle + m_setpoint;
+    if (m_finalAngle > 180) {
+      double delta = m_setpoint - (180-m_initialAngle);
+      m_finalAngle = -180 + delta;
+    } else if (m_finalAngle < -180) {
+      double delta = m_setpoint - (-180-m_initialAngle);
+      m_finalAngle = 180 + delta;
+    }
+  }
 
 }
