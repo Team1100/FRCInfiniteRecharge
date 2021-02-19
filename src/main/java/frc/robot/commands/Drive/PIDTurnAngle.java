@@ -16,6 +16,7 @@ public class PIDTurnAngle extends PIDCommand {
   static Drive m_drive;
   double m_setpoint;
   boolean m_parameterized;
+  double m_initialAngle;
 
   /** Creates a new PIDTurnAngle. */
   public PIDTurnAngle(double setpoint, boolean parameterized) {
@@ -29,11 +30,11 @@ public class PIDTurnAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          if (output > 1) {
-            output = 1;
+          if (output > .7) {
+            output = .7;
           }
-          if (output < -1) {
-            output = -1;
+          if (output < -.7) {
+            output = -.7;
           }
             
           m_drive.tankDrive(-output, output);
@@ -41,12 +42,12 @@ public class PIDTurnAngle extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(Drive.getInstance());
-    getController().setTolerance(1);
+    getController().setTolerance(5);
     getController().enableContinuousInput(-180, 180);
     m_setpoint = setpoint;
     m_parameterized = parameterized;
     m_drive = Drive.getInstance();
-    
+    m_initialAngle = 0;
 
   }
 
@@ -55,15 +56,16 @@ public class PIDTurnAngle extends PIDCommand {
     Drive drive = Drive.getInstance();
     PIDTurnAngle cmd = new PIDTurnAngle(90,true);
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
-    TestingDashboard.getInstance().registerSendable(drive, "PIDRotation", "DrivePIDController", cmd.getController());
+    TestingDashboard.getInstance().registerSendable(drive, "PIDRotation", "RotatePIDController", cmd.getController());
   }
 
   @Override
   public void initialize() {
     super.initialize();
+    m_initialAngle = m_drive.getYaw();
     if (m_parameterized) {
       m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "AngleToTurnInDegrees");
-      TestingDashboard.getInstance().updateNumber(m_drive, "InitialAngle", m_drive.getYaw());
+      TestingDashboard.getInstance().updateNumber(m_drive, "InitialAngle", m_initialAngle);
     }
   }
 
@@ -74,7 +76,7 @@ public class PIDTurnAngle extends PIDCommand {
     }
       
     m_useOutput.accept(
-        m_controller.calculate(m_measurement.getAsDouble(), m_setpoint));
+        m_controller.calculate(m_measurement.getAsDouble(), m_initialAngle + m_setpoint));
   }
 
   // Returns true when the command should end.

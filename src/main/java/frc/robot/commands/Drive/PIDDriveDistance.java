@@ -37,11 +37,11 @@ public class PIDDriveDistance extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          if (output > 1) {
-            output = 1;
+          if (output > .7) {
+            output = .7;
           }
-          if (output < -1) {
-            output = -1;
+          if (output < -.7) {
+            output = -.7;
           }
             
           m_drive.tankDrive(output, output);
@@ -54,6 +54,8 @@ public class PIDDriveDistance extends PIDCommand {
     m_setpoint = setpoint;
     m_parameterized = parameterized;
     m_drive = Drive.getInstance();
+    m_leftEncoder = m_drive.getLeftEncoder();
+    m_rightEncoder = m_drive.getRightEncoder();
   }
 
   public static void registerWithTestingDashboard() {
@@ -70,6 +72,8 @@ public class PIDDriveDistance extends PIDCommand {
     if (m_parameterized) {
       m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
     }
+    m_leftEncoder.reset();
+    m_rightEncoder.reset();
   }
 
   @Override
