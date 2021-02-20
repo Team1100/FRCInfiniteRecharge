@@ -38,7 +38,7 @@ public class PIDTurnAngle extends PIDCommand {
             output = -.7;
           }
             
-          m_drive.tankDrive(-output, output);
+          m_drive.tankDrive(output, -output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
