@@ -40,22 +40,25 @@ public class Drive extends SubsystemBase {
   final double PULSE_PER_FOOT = 1300;
   final double PULSE_PER_METER = 4265.1;
   public final double WHEEL_SIZE = 6;  //measured in inches
-  public final double PULSES_PER_ROTATION = 2048; //TODO: find out this value 
+  public final double PULSES_PER_ROTATION = 2048;
+  // ( inches / pulse ) = (WHEEL_SIZE * PI ) * ( 1 / PULSES_PER_ROTATION)
+  public final double INCHES_PER_PULSE = (WHEEL_SIZE * Math.PI)/PULSES_PER_ROTATION;
+  public final static double INITIAL_SPEED = 0.3;
 
   private DifferentialDrive drivetrain;
 
   private AHRS ahrs;
-  
+
   private static Drive drive;
 
-  private DifferentialDriveKinematics m_kinematics; 
+  private DifferentialDriveKinematics m_kinematics;
   private DifferentialDriveOdometry m_odometry;
   private SimpleMotorFeedforward m_feedforward;
 
   private PIDController leftPidController = new PIDController(Constants.kPDriveVel, 0, 0);
   private PIDController rightPidController = new PIDController(Constants.kPDriveVel, 0, 0);
 
-  //private Pose2d pose;
+  // private Pose2d pose;
 
   /**
    * Creates a new Drive.
@@ -68,8 +71,8 @@ public class Drive extends SubsystemBase {
 
     leftEncoder = new Encoder(RobotMap.D_LEFT_ENCODER_A, RobotMap.D_LEFT_ENCODER_B);
     rightEncoder = new Encoder(RobotMap.D_RIGHT_ENCODER_A, RobotMap.D_RIGHT_ENCODER_B);
-    leftEncoder.setDistancePerPulse(0.0002338);
-    rightEncoder.setDistancePerPulse(0.0002338);
+    leftEncoder.setDistancePerPulse(INCHES_PER_PULSE);
+    rightEncoder.setDistancePerPulse(INCHES_PER_PULSE);
 
     frontLeft.follow(backLeft);
     frontRight.follow(backRight);
@@ -81,11 +84,13 @@ public class Drive extends SubsystemBase {
 
     m_kinematics = new DifferentialDriveKinematics(Constants.kTrackwidthMeters);
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getRoll()));
-    m_feedforward = new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter, Constants.kaVoltSecondsSquaredPerMeter);
+    m_feedforward = new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
+        Constants.kaVoltSecondsSquaredPerMeter);
   }
 
   /**
    * Used outside of the Drive subsystem to return an instance of Drive subsystem.
+   * 
    * @return Returns instance of Drive subsystem formed from constructor.
    */
   public static Drive getInstance() {
@@ -93,6 +98,17 @@ public class Drive extends SubsystemBase {
       drive = new Drive();
       TestingDashboard.getInstance().registerSubsystem(drive, "Drive");
       TestingDashboard.getInstance().registerString(drive, "AHRS", "Heading", "");
+      TestingDashboard.getInstance().registerNumber(drive, "Encoder", "LeftEncoderDistance", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Encoder", "RightEncoderDistance", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Travel", "DistanceToTravelInInches", 12);
+      TestingDashboard.getInstance().registerNumber(drive, "Travel", "SpeedOfTravel", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Travel", "SpeedToTravel", INITIAL_SPEED);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "AngleToTurnInDegrees", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "SpeedWhenTurning", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "CurrentYawAngle", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Turn", "InitialAngle", 0);
+
+
     }
     return drive;
   }
@@ -100,6 +116,7 @@ public class Drive extends SubsystemBase {
   // Drive Methods
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drivetrain.tankDrive(leftSpeed, rightSpeed);
+    TestingDashboard.getInstance().updateNumber(drive, "SpeedOfTravel", leftSpeed);
   }
 
   /**
@@ -209,6 +226,10 @@ public class Drive extends SubsystemBase {
     // This method will be called once per scheduler run
     m_odometry.update(getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
     TestingDashboard.getInstance().updateString(drive, "Heading", getHeading().toString());
+    TestingDashboard.getInstance().updateNumber(drive, "LeftEncoderDistance", leftEncoder.getDistance());
+    TestingDashboard.getInstance().updateNumber(drive, "RightEncoderDistance", rightEncoder.getDistance());
+    TestingDashboard.getInstance().updateNumber(drive, "CurrentYawAngle", ahrs.getYaw());
+
 
     /*
     SmartDashboard.putNumber("Yaw",getYaw());
