@@ -7,6 +7,8 @@ package frc.robot.commands.Auto;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.TestingDashboard;
 import frc.robot.commands.Drive.DriveDistance;
+import frc.robot.commands.Drive.PIDDriveDistance;
+import frc.robot.commands.Drive.PIDTurnAngle;
 import frc.robot.commands.Drive.TurnAngle;
 import frc.robot.subsystems.Auto;
 
@@ -22,14 +24,22 @@ public class DriveSquareAuto extends SequentialCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveDistance(distance, speed,true),
+    addCommands(/**new DriveDistance(distance, speed,true),
                 new TurnAngle(angle, speed, true),
                 new DriveDistance(distance, speed,true),
                 new TurnAngle(angle,speed, true),
                 new DriveDistance(distance, speed,true),
                 new TurnAngle(angle,speed, true),
                 new DriveDistance(distance, speed,true),
-                new TurnAngle(angle,speed, true));
+                new TurnAngle(angle,speed, true));*/
+                new PIDDriveDistance(144.0,true),
+                new PIDTurnAngle(90, true),
+                new PIDDriveDistance(60.0, true),
+                new PIDTurnAngle(90, true),
+                new PIDDriveDistance(72.0, true),
+                new PIDTurnAngle(90, true),
+                new PIDDriveDistance(57.0, true),
+                new PIDTurnAngle(90, true));
   }
 
   public static void registerWithTestingDashboard() {

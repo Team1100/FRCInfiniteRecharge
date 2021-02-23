@@ -70,7 +70,7 @@ public class PIDDriveDistance extends PIDCommand {
   public void initialize() {
     super.initialize();
     if (m_parameterized) {
-      m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
+      //m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
     }
     m_leftEncoder.reset();
     m_rightEncoder.reset();
@@ -79,7 +79,7 @@ public class PIDDriveDistance extends PIDCommand {
   @Override
   public void execute() {
     if (m_parameterized) {
-      m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
+      //m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
     }
       
     m_useOutput.accept(
