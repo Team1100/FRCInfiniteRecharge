@@ -61,7 +61,7 @@ public class PIDDriveDistance extends PIDCommand {
   public static void registerWithTestingDashboard() {
 
     Drive drive = Drive.getInstance();
-    PIDDriveDistance cmd = new PIDDriveDistance(24,true);
+    PIDDriveDistance cmd = new PIDDriveDistance(24,false);
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
     TestingDashboard.getInstance().registerSendable(drive, "PIDDriveDistance", "DrivePIDController", cmd.getController());
   }
@@ -69,8 +69,8 @@ public class PIDDriveDistance extends PIDCommand {
   @Override
   public void initialize() {
     super.initialize();
-    if (m_parameterized) {
-      //m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
+    if (!m_parameterized) {
+      m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
     }
     m_leftEncoder.reset();
     m_rightEncoder.reset();
@@ -78,8 +78,8 @@ public class PIDDriveDistance extends PIDCommand {
 
   @Override
   public void execute() {
-    if (m_parameterized) {
-      //m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
+    if (!m_parameterized) {
+      m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "DistanceToTravelInInches");
     }
       
     m_useOutput.accept(
