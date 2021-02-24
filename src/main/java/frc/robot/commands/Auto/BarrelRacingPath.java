@@ -22,31 +22,30 @@ public class BarrelRacingPath extends SequentialCommandGroup {
   public BarrelRacingPath() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    double speed = 0.5;
     addCommands(
-      //new PIDDriveDistance(144.0,true),
-      /**new PIDTurnAngle(90, true));
-      new DriveDistance(60, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(60, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(57, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(213, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(60, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(36, speed,true),
-      new TurnAngle(45, speed, true),
-      new DriveDistance(132, speed,true),
-      new TurnAngle(45, speed, true),
-      new DriveDistance(33, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(60, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(60, speed,true),
-      new TurnAngle(90, speed, true),
-      new DriveDistance(222, speed,true) */
+      new PIDDriveDistance(144.0,true),
+      new PIDTurnAngle(90, true));
+      new PIDDriveDistance(60, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(60, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(57, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(213, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(60, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(36, true),
+      new PIDTurnAngle(45, true),
+      new PIDDriveDistance(132, true),
+      new PIDTurnAngle(45, true),
+      new PIDDriveDistance(33, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(60, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(60, true),
+      new PIDTurnAngle(90, true),
+      new PIDDriveDistance(222, true)
     );
   }
   
@@ -58,6 +57,7 @@ public class BarrelRacingPath extends SequentialCommandGroup {
 }
 
 /**
+This is the sequence for following the BarrelRacingPath
 1. drive 12 feet-
 1.5 turn 90 deg-
 2. drive 5 feet-
