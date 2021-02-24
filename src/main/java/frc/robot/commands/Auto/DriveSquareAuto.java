@@ -30,6 +30,7 @@ public class DriveSquareAuto extends SequentialCommandGroup {
                 new TurnAngle(angle,speed, true),
                 new DriveDistance(distance, speed,true),
                 new TurnAngle(angle,speed, true));
+
   }
 
   public static void registerWithTestingDashboard() {
