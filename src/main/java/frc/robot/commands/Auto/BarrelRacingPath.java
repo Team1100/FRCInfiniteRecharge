@@ -24,7 +24,7 @@ public class BarrelRacingPath extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new PIDDriveDistance(144.0,true),
-      new PIDTurnAngle(90, true));
+      new PIDTurnAngle(90, true),
       new PIDDriveDistance(60, true),
       new PIDTurnAngle(90, true),
       new PIDDriveDistance(60, true),
