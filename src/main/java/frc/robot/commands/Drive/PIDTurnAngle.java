@@ -19,6 +19,7 @@ public class PIDTurnAngle extends PIDCommand {
   double m_initialAngle;
   double m_finalAngle;
   double m_at_setpoint_counter;
+  static final double MAX_SPEED = 1;
 
   /** Creates a new PIDTurnAngle. */
   public PIDTurnAngle(double setpoint, boolean parameterized) {
@@ -32,11 +33,11 @@ public class PIDTurnAngle extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          if (output > .7) {
-            output = .7;
+          if (output > MAX_SPEED) {
+            output = MAX_SPEED;
           }
-          if (output < -.7) {
-            output = -.7;
+          if (output < -MAX_SPEED) {
+            output = -MAX_SPEED;
           }
             
           m_drive.tankDrive(output, -output);
