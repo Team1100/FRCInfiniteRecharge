@@ -23,6 +23,6 @@ public class ShootBalls extends ParallelCommandGroup {
     // super(new FooCommand(), new BarCommand());super();
     super(new FeedBalls(), 
           new PIDTopShooter(doubleArray[0]), 
-          new PIDBottomShooter(doubleArray[1]));
+          new PIDBottomShooter(doubleArray[1], true));
   }
 }
