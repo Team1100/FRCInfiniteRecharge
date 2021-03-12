@@ -28,6 +28,6 @@ public class ShootBallsAuto extends ParallelDeadlineGroup {
           new SpinIntakeRoller(1, true),
           new FeedBalls(), 
           new PIDTopShooter(topSetpoint), 
-          new PIDBottomShooter(botSetpoint));
+          new PIDBottomShooter(botSetpoint, true));
   }
 }
