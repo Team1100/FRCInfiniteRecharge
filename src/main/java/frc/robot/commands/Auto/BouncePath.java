@@ -19,7 +19,7 @@ public class BouncePath extends SequentialCommandGroup {
   /** Creates a new BouncePath. */
   public BouncePath() {
     // distance is in inches
-    // ? % power
+    // N/A % power
     // angle setpoint is in degrees
 
     // Add your commands in the addCommands() call, e.g.
