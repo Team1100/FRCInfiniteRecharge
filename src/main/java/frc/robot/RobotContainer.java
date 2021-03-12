@@ -97,6 +97,7 @@ public class RobotContainer {
     PIDDriveDistance.registerWithTestingDashboard();
     DriveSquareAuto.registerWithTestingDashboard();
     DriveSquareAutoPID.registerWithTestingDashboard();
+    SlalomPath.registerWithTestingDashboard();
     DriveTriangleAuto.registerWithTestingDashboard();
     BarrelRacingPath.registerWithTestingDashboard();
     DefaultIntake.registerWithTestingDashboard();
