@@ -134,6 +134,7 @@ public class RobotContainer {
     PIDTurnToCenter.registerWithTestingDashboard();
     SpitBalls.registerWithTestingDashboard();
     PIDTurnToAngle.registerWithTestingDashboard();
+    BouncePath.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
