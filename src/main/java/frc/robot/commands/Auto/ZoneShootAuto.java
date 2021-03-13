@@ -31,7 +31,17 @@ public class ZoneShootAuto extends SequentialCommandGroup{
 
     public static void registerWithTestingDashboard() {
         Auto auto = Auto.getInstance();
-        ZoneShootAuto cmd = new ZoneShootAuto("hello");
-        TestingDashboard.getInstance().registerCommand(auto, "Auto", cmd);
+        ZoneShootAuto greenZone = new ZoneShootAuto("green");
+        ZoneShootAuto yellowZone = new ZoneShootAuto("yellow");
+        ZoneShootAuto blueZone = new ZoneShootAuto("blue");
+        ZoneShootAuto redZone = new ZoneShootAuto("red");
+        TestingDashboard.getInstance().registerCommand(auto, "Auto", greenZone);
+        TestingDashboard.getInstance().registerCommand(auto, "Auto", yellowZone);
+        TestingDashboard.getInstance().registerCommand(auto, "Auto", blueZone);
+        TestingDashboard.getInstance().registerCommand(auto, "Auto", redZone);
+        TestingDashboard.getInstance().registerCommand(auto, "ZoneShootAuto", greenZone);
+        TestingDashboard.getInstance().registerCommand(auto, "ZoneShootAuto", yellowZone);
+        TestingDashboard.getInstance().registerCommand(auto, "ZoneShootAuto", blueZone);
+        TestingDashboard.getInstance().registerCommand(auto, "ZoneShootAuto", redZone);
       }
 }
