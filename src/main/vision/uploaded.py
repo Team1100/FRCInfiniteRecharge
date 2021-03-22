@@ -33,17 +33,18 @@ def findColor(img,myColors):
 
 def getContours(img):
     image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    global garea
+    garea = 0
     if len(contours) > 0:
         largest = contours[0]
         for contour in contours:
             if cv2.contourArea(contour) > cv2.contourArea(largest):
                 largest = contour
         area = cv2.contourArea(largest)
-        if area > 50:
+        if area > 100:
 
             cv2.drawContours(imgResult,largest, -1, (255,0,0), 3)
             peri = cv2.arcLength(largest, True)
-            global garea
             garea = area
 
             approx = cv2.approxPolyDP(largest, 0.02 * peri, True)
@@ -76,12 +77,22 @@ def main():
    ntinst.startClientTeam(team)
    #ntinst.startClient(ip)
    vision_nt = ntinst.getTable('Vision')
-   
+
+   vision_nt.putNumber('hueMin',1)
+   vision_nt.putNumber('hueMax',255)
+   vision_nt.putNumber('satMin',1)
+   vision_nt.putNumber('satMax',255)
+   vision_nt.putNumber('valMin',1)
+   vision_nt.putNumber('valMax',255)
+
+
+
+
 
    # Wait for NetworkTables to start
    time.sleep(0.5)
    count = 0
-
+   sumArea = 0
    while True:
 
 
@@ -107,18 +118,23 @@ def main():
         imgResult = input_img.copy()
         findColor(input_img,myColors)
         count += 1
-        vision_nt.putNumber('area', garea)
+        sumArea += garea
+        if count >= 50:
+            average = sumArea/count
+            vision_nt.putNumber('area',average)
+            sumArea = 0
+            count = 0
         vision_nt.putNumber('debug', count)
         
         cvsrc.putFrame(imgResult)
-        if count >= 1000:
-            count = 0
-        hueMin = int(vision_nt.getNumber('hueMin',1))
+
+        hueMin = int(vision_nt.getNumber('hueMin',255))
         hueMax = int(vision_nt.getNumber('hueMax',255))
-        satMin = int(vision_nt.getNumber('satMin',1))
+        satMin = int(vision_nt.getNumber('satMin',255))
         satMax = int(vision_nt.getNumber('satMax',255))
-        valMin = int(vision_nt.getNumber('valMin',1))
+        valMin = int(vision_nt.getNumber('valMin',255))
         valMax = int(vision_nt.getNumber('valMax',255))
+
         myColors = [[hueMin,satMin,valMin,hueMax,satMax,valMax]]
         cvmask.putFrame(mask)
 main()    
