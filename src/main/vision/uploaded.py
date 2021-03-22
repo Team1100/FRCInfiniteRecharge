@@ -72,9 +72,9 @@ def main():
    # Table for vision output information
    ntinst = NetworkTablesInstance.getDefault()
    ip = '192.168.102.225'
-   print("Setting up NetworkTables client for team {} at {}".format(team,ip))
-   #ntinst.startClientTeam(team)
-   ntinst.startClient(ip)
+   #print("Setting up NetworkTables client for team {} at {}".format(team,ip))
+   ntinst.startClientTeam(team)
+   #ntinst.startClient(ip)
    vision_nt = ntinst.getTable('Vision')
    
 
