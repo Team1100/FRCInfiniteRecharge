@@ -76,7 +76,7 @@ def main():
    #print("Setting up NetworkTables client for team {} at {}".format(team,ip))
    ntinst.startClientTeam(team)
    #ntinst.startClient(ip)
-   vision_nt = ntinst.getTable('Vision')
+   vision_nt = ntinst.getTable('Shuffleboard/Vision')
 
    vision_nt.putNumber('hueMin',1)
    vision_nt.putNumber('hueMax',255)

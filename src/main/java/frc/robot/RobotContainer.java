@@ -121,7 +121,6 @@ public class RobotContainer {
     BallIntakeUp.registerWithTestingDashboard();
     ShooterUp.registerWithTestingDashboard();
     ShooterDown.registerWithTestingDashboard();
-    PIDTurret.registerWithTestingDashboard();
     PIDTopShooter.registerWithTestingDashboard();
     PIDBottomShooter.registerWithTestingDashboard();
     Wait.registerWithTestingDashboard();
