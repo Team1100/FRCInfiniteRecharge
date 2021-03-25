@@ -57,6 +57,12 @@ public class RobotContainer {
   private final DefaultDrive defaultdrive;
   private final DefaultIntake defaultintake;
   private final DefaultTurret defaultturret;
+
+  BarrelRacingPath barrelRacingPath;
+  DriveSquareAuto driveSquareAuto;
+  DriveSquareAutoPID driveSquareAutoPID;
+  SlalomPath slalomPath;
+  DriveTriangleAuto driveTriangleAuto;
   
   //OI
   private static RobotContainer robotContainer;
@@ -85,6 +91,13 @@ public class RobotContainer {
     ballIntake.setDefaultCommand(defaultintake);
     defaultturret = new DefaultTurret(turret);
     turret.setDefaultCommand(defaultturret);
+
+    // Auto command instantiation
+    barrelRacingPath = new BarrelRacingPath();
+    driveSquareAuto = new DriveSquareAuto();
+    driveSquareAutoPID = new DriveSquareAutoPID();
+    slalomPath = new SlalomPath();
+    driveTriangleAuto = new DriveTriangleAuto();
 
     //OI Device instantiation
     OI.getInstance();
@@ -121,7 +134,6 @@ public class RobotContainer {
     BallIntakeUp.registerWithTestingDashboard();
     ShooterUp.registerWithTestingDashboard();
     ShooterDown.registerWithTestingDashboard();
-    PIDTurret.registerWithTestingDashboard();
     PIDTopShooter.registerWithTestingDashboard();
     PIDBottomShooter.registerWithTestingDashboard();
     Wait.registerWithTestingDashboard();
@@ -134,6 +146,7 @@ public class RobotContainer {
     PIDTurnToCenter.registerWithTestingDashboard();
     SpitBalls.registerWithTestingDashboard();
     PIDTurnToAngle.registerWithTestingDashboard();
+    BouncePath.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
@@ -168,55 +181,7 @@ public class RobotContainer {
     // TODO: This needs to be changed to collect the autonomous command
     // from a chooser on ShuffleBoard
     // Create a voltage constraint to ensure we don't accelerate too fast
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.ksVolts,
-                                       Constants.kvVoltSecondsPerMeter,
-                                       Constants.kaVoltSecondsSquaredPerMeter),
-            Drive.getInstance().getKinematics(),
-            8);
-
-    // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(Constants.kMaxSpeedMetersPerSecond, Constants.kMaxAccelerationMetersPerSecondSquared);
-                             
-    // Add kinematics to ensure max speed is actually obeyed
-    config.setKinematics(Drive.getInstance().getKinematics());
-    // Apply the voltage constraint
-    config.addConstraint(autoVoltageConstraint);
-
-    
-    // An default trajectory to follow.  All units in meters. Should be overwritten.
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(
-            new Translation2d(1, 0),
-            new Translation2d(2, 0)
-        ),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
-        // Pass config
-        config
-        
-    );
-
-    RamseteCommand ramseteCommand = new RamseteCommand(
-        trajectory,
-        drive::getPose,
-        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        drive.getFeedforward(),
-        drive.getKinematics(),
-        drive::getWheelSpeeds,
-        drive.getLeftPidController(),
-        drive.getRightPidController(),
-        // RamseteCommand passes volts to the callback
-        drive::tankDriveVolts,
-        drive
-    );
-
-    return ramseteCommand;
-
+    return driveSquareAuto;
     // Run path following command, then stop at the end.
     //return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
   }

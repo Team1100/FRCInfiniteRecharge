@@ -56,7 +56,6 @@ public class OI {
     xbox.getButtonY().whenHeld(new FeedBalls());
     xbox.getButtonB().whenHeld(new SpitBalls());
     xbox.getButtonStart().whileHeld(new ShootBallsAuto(5500, 4500));
-    xbox.getButtonBack().whileHeld(new PIDTurret());
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
     xbox.getDPad().getUp().whenPressed(new ShooterUp());
@@ -64,9 +63,6 @@ public class OI {
     xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
     xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
 
-    buttonBox.getWideFocus().whenHeld(new PIDTurretProcedure());
-    buttonBox.getFineFocus().whenHeld(new PIDTurretProcedure());
-    buttonBox.getFire().whenHeld(new ShootBallsProcedure(Vision.getInstance().calculateRPM()));
     buttonBox.getFire().whenReleased(new ShooterDown());
     buttonBox.getIntakeIn().whenPressed(new BallIntakeUp());
     buttonBox.getIntakeOut().whenPressed(new BallIntakeDown());

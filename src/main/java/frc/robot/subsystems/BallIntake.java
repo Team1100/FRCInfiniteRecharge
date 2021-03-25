@@ -16,16 +16,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 public class BallIntake extends SubsystemBase {
   private static BallIntake m_ballIntake;
   private static DoubleSolenoid m_piston;
-  private VictorSPX m_intakeRoller;
+  private CANSparkMax m_intakeRoller;
 
   /**
    * Creates a new Ball Intake subsystem
    */
   private BallIntake() {
-    m_intakeRoller = new VictorSPX(RobotMap.B_INTAKE_ROLLER);
+    m_intakeRoller = new CANSparkMax(RobotMap.B_INTAKE_ROLLER, MotorType.kBrushless);
     m_piston = new DoubleSolenoid(RobotMap.B_PCM_CAN, RobotMap.B_PISTON_PORT2, RobotMap.B_PISTON_PORT3);
   }
 
@@ -38,7 +41,7 @@ public class BallIntake extends SubsystemBase {
   }
 
   public void spinIntakeRoller(double speed) {
-    m_intakeRoller.set(ControlMode.PercentOutput, speed);
+    m_intakeRoller.set(-speed); // speed is reversed
   }
 
   public DoubleSolenoid getPiston() {
