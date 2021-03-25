@@ -51,13 +51,6 @@ public class Drive extends SubsystemBase {
 
   private static Drive drive;
 
-  private DifferentialDriveKinematics m_kinematics;
-  private DifferentialDriveOdometry m_odometry;
-  private SimpleMotorFeedforward m_feedforward;
-
-  private PIDController leftPidController = new PIDController(Constants.kPDriveVel, 0, 0);
-  private PIDController rightPidController = new PIDController(Constants.kPDriveVel, 0, 0);
-
   // private Pose2d pose;
 
   /**
@@ -81,11 +74,6 @@ public class Drive extends SubsystemBase {
     ahrs = new AHRS(RobotMap.D_NAVX);
 
     drivetrain = new DifferentialDrive(backLeft, backRight);
-
-    m_kinematics = new DifferentialDriveKinematics(Constants.kTrackwidthMeters);
-    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getRoll()));
-    m_feedforward = new SimpleMotorFeedforward(Constants.ksVolts, Constants.kvVoltSecondsPerMeter,
-        Constants.kaVoltSecondsSquaredPerMeter);
   }
 
   /**
@@ -158,10 +146,6 @@ public class Drive extends SubsystemBase {
     ahrs.reset();
   }
 
-  public Rotation2d getHeading() {
-    return Rotation2d.fromDegrees(-ahrs.getYaw());
-  }
-
   //Encoder Methods
   public Encoder getLeftEncoder() {
     return leftEncoder;
@@ -171,61 +155,13 @@ public class Drive extends SubsystemBase {
     return rightEncoder;
   }
 
-  //Kinematics Methods
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
-    //return pose;
-  }
-
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
   }
 
-  public void resetOdometry(Pose2d pose) {
-    leftEncoder.reset();
-    rightEncoder.reset();
-    //m_odometry.resetPosition(pose, getHeading());
-    m_odometry.resetPosition(m_odometry.getPoseMeters(), getHeading());
-  }
-
-  /**
-   * @return the odometry
-   */
-  public DifferentialDriveOdometry getOdometry() {
-    return m_odometry;
-  }
-
-  /**
-   * @return the kinematics
-   */
-  public DifferentialDriveKinematics getKinematics() {
-    return m_kinematics;
-  }
-
-  public SimpleMotorFeedforward getFeedforward() {
-    return m_feedforward;
-  }
-
-  /**
-   * @return the leftPidController
-   */
-  public PIDController getLeftPidController() {
-    return leftPidController;
-  }
-
-  /**
-   * @return the rightPidController
-   */
-  public PIDController getRightPidController() {
-    return rightPidController;
-  }
-
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    m_odometry.update(getHeading(), leftEncoder.getDistance(), rightEncoder.getDistance());
-    TestingDashboard.getInstance().updateString(drive, "Heading", getHeading().toString());
     TestingDashboard.getInstance().updateNumber(drive, "LeftEncoderDistance", leftEncoder.getDistance());
     TestingDashboard.getInstance().updateNumber(drive, "RightEncoderDistance", rightEncoder.getDistance());
     TestingDashboard.getInstance().updateNumber(drive, "CurrentYawAngle", ahrs.getYaw());
