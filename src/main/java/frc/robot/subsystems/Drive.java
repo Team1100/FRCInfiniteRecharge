@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -104,7 +105,7 @@ public class Drive extends SubsystemBase {
       TestingDashboard.getInstance().registerNumber(drive, "Turn", "InitialAngle", 0);
       TestingDashboard.getInstance().registerNumber(drive, "DriveSpeed", "rightSpeed", 0);
       TestingDashboard.getInstance().registerNumber(drive, "DriveSpeed", "leftSpeed", 0);
-
+      TestingDashboard.getInstance().registerNumber(drive, "Robot", "BatteryVoltage", 0);
 
     }
     return drive;
@@ -174,7 +175,7 @@ public class Drive extends SubsystemBase {
     TestingDashboard.getInstance().updateNumber(drive, "rightSpeed", m_rightSpeed);
     TestingDashboard.getInstance().updateNumber(drive, "leftSpeed", m_leftSpeed);
     TestingDashboard.getInstance().updateNumber(drive, "CurrentYawAngle", ahrs.getYaw());
-
+    TestingDashboard.getInstance().updateNumber(drive, "BatteryVoltage", RobotController.getBatteryVoltage());
 
     /*
     SmartDashboard.putNumber("Yaw",getYaw());
