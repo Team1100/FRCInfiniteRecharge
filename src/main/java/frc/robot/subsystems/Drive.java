@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -34,6 +35,9 @@ public class Drive extends SubsystemBase {
   private VictorSPX frontRight;
   private WPI_TalonSRX backLeft;
   private WPI_TalonSRX backRight;
+
+  double m_rightSpeed;
+  double m_leftSpeed;
 
   private Encoder leftEncoder, rightEncoder;
 
@@ -74,6 +78,10 @@ public class Drive extends SubsystemBase {
     ahrs = new AHRS(RobotMap.D_NAVX);
 
     drivetrain = new DifferentialDrive(backLeft, backRight);
+
+    double rightSpeed = m_rightSpeed;
+    double leftSpeed = m_leftSpeed;
+
   }
 
   /**
@@ -95,7 +103,9 @@ public class Drive extends SubsystemBase {
       TestingDashboard.getInstance().registerNumber(drive, "Turn", "SpeedWhenTurning", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Turn", "CurrentYawAngle", 0);
       TestingDashboard.getInstance().registerNumber(drive, "Turn", "InitialAngle", 0);
-
+      TestingDashboard.getInstance().registerNumber(drive, "DriveSpeed", "rightSpeed", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "DriveSpeed", "leftSpeed", 0);
+      TestingDashboard.getInstance().registerNumber(drive, "Robot", "BatteryVoltage", 0);
 
     }
     return drive;
@@ -103,6 +113,8 @@ public class Drive extends SubsystemBase {
 
   // Drive Methods
   public void tankDrive(double leftSpeed, double rightSpeed) {
+    m_rightSpeed = rightSpeed;
+    m_leftSpeed = leftSpeed;
     drivetrain.tankDrive(leftSpeed, rightSpeed);
     TestingDashboard.getInstance().updateNumber(drive, "SpeedOfTravel", leftSpeed);
   }
@@ -154,18 +166,16 @@ public class Drive extends SubsystemBase {
   public Encoder getRightEncoder() {
     return rightEncoder;
   }
-
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getRate(), rightEncoder.getRate());
-  }
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     TestingDashboard.getInstance().updateNumber(drive, "LeftEncoderDistance", leftEncoder.getDistance());
     TestingDashboard.getInstance().updateNumber(drive, "RightEncoderDistance", rightEncoder.getDistance());
+    TestingDashboard.getInstance().updateNumber(drive, "rightSpeed", m_rightSpeed);
+    TestingDashboard.getInstance().updateNumber(drive, "leftSpeed", m_leftSpeed);
     TestingDashboard.getInstance().updateNumber(drive, "CurrentYawAngle", ahrs.getYaw());
-
+    TestingDashboard.getInstance().updateNumber(drive, "BatteryVoltage", RobotController.getBatteryVoltage());
 
     /*
     SmartDashboard.putNumber("Yaw",getYaw());
