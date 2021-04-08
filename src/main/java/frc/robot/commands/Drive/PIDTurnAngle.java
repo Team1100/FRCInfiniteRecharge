@@ -25,7 +25,7 @@ public class PIDTurnAngle extends PIDCommand {
   public PIDTurnAngle(double setpoint, boolean parameterized) {
     super(
         // The controller that the command will use
-        new PIDController(0.21, 0.001, 0.01),
+        new PIDController(0.01, 0.01, 0.0),
         // This should return the measurement
         () -> m_drive.getYaw(),
         // This should return the setpoint (can also be a constant)
@@ -60,6 +60,7 @@ public class PIDTurnAngle extends PIDCommand {
     PIDTurnAngle cmd = new PIDTurnAngle(90,false);
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
     TestingDashboard.getInstance().registerSendable(drive, "PIDRotation", "RotatePIDController", cmd.getController());
+    TestingDashboard.getInstance().registerNumber(drive, "Turn", "m_measurement", 0);
   }
 
   @Override
@@ -71,16 +72,14 @@ public class PIDTurnAngle extends PIDCommand {
       TestingDashboard.getInstance().updateNumber(m_drive, "InitialAngle", m_initialAngle);
     }
     m_at_setpoint_counter = 0;
+    updateFinalAngle();
   }
 
   @Override
   public void execute() {
-    if (!m_parameterized) {
-      m_setpoint = TestingDashboard.getInstance().getNumber(m_drive, "AngleToTurnInDegrees");
-    }
-    updateFinalAngle();
     m_useOutput.accept(
         m_controller.calculate(m_measurement.getAsDouble(), m_finalAngle));
+        TestingDashboard.getInstance().updateNumber(m_drive, "m_measurement", m_measurement.getAsDouble());
   }
 
   // Returns true when the command should end.
@@ -90,7 +89,6 @@ public class PIDTurnAngle extends PIDCommand {
       m_at_setpoint_counter++;
     }
     boolean finished = m_at_setpoint_counter > 50;
-    System.out.println("m_finalAngle: " + m_finalAngle + " Finished: " + finished);
     return finished;
   }
 
