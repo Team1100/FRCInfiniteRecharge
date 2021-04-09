@@ -18,6 +18,7 @@ public class PIDDriveDistance extends PIDCommand {
   Encoder m_rightEncoder;
   boolean m_parameterized;
   double m_setpoint;
+  double m_at_setpoint_counter;
   static Drive m_drive;
   static final double MAX_SPEED = 1;
 
@@ -75,6 +76,7 @@ public class PIDDriveDistance extends PIDCommand {
     }
     m_leftEncoder.reset();
     m_rightEncoder.reset();
+    m_at_setpoint_counter = 0;
   }
 
   @Override
@@ -90,6 +92,10 @@ public class PIDDriveDistance extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    if (getController().atSetpoint()) {
+      m_at_setpoint_counter++;
+    }
+    boolean finished = m_at_setpoint_counter > 50;
+    return finished;
   }
 }
