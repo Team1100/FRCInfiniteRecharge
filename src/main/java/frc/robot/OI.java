@@ -17,6 +17,7 @@ import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
 import frc.robot.input.ButtonBox;
 import frc.robot.input.XboxController;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
 /**
@@ -30,7 +31,7 @@ public class OI {
   public static AttackThree rightStick;
   private static XboxController xbox;
   private static ButtonBox buttonBox;
-
+  private double sspeed = .5;
   /**
    * Used outside of the OI class to return an instance of the class.
    * @return Returns instance of OI class formed from constructor.
@@ -53,9 +54,12 @@ public class OI {
     // Now Mapping Commands to XBox
     xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
+
     xbox.getButtonY().whenHeld(new FeedBalls());
     xbox.getButtonB().whenHeld(new SpitBalls());
-    xbox.getButtonStart().whileHeld(new ShootBallsAuto(5500, 4500));
+    xbox.getButtonStart().whenPressed(new PIDBottomShooter(5500, true));
+    //xbox.getButtonStart().whenPressed(new SpinShooter(sspeed, sspeed, true));
+    xbox.getButtonBack().whenPressed(new SpinShooter(0.0,0.0,false));
     xbox.getButtonX().whenPressed(new BallIntakeUp());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
     xbox.getDPad().getUp().whenPressed(new ShooterUp());
@@ -63,10 +67,20 @@ public class OI {
     xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
     xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
 
-    buttonBox.getFire().whenReleased(new ShooterDown());
-    buttonBox.getIntakeIn().whenPressed(new BallIntakeUp());
-    buttonBox.getIntakeOut().whenPressed(new BallIntakeDown());
-    buttonBox.getHopper().whenHeld(new SpinIntakeRoller(1,true));
+    // Zone 1
+    buttonBox.getFire().whenPressed(new PIDBottomShooter(6500, true));
+    buttonBox.getFire().whenPressed(new ShooterDown());
+    // Zone 2
+    buttonBox.getIntakeIn().whenPressed(new PIDBottomShooter(7000, true));
+    buttonBox.getIntakeIn().whenPressed(new ShooterUp());
+    // Zone 3
+    buttonBox.getIntakeOut().whenPressed(new PIDBottomShooter(6075, true));
+    buttonBox.getIntakeOut().whenPressed(new ShooterUp());
+    // Zone 4
+    buttonBox.getHopper().whenPressed(new PIDBottomShooter(6000, true));
+    buttonBox.getHopper().whenPressed(new ShooterUp());
+    // Stop shooter
+    buttonBox.getCPDeploy().whenPressed(new SpinShooter(0.0,0.0,true));
     /*
     buttonBox.getCPDeploy().whenPressed(new DeploySpinner());
     buttonBox.getCPSpin().whenPressed(new SpinSpinner3Times());
