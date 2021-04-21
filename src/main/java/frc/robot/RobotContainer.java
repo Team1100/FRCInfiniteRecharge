@@ -20,6 +20,8 @@ import frc.robot.commands.Drive.DriveDistance;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
+import frc.robot.commands.Vision.PIDVisionFindTarget;
+import frc.robot.commands.Vision.PIDVisionTurretTarget;
 import frc.robot.subsystems.*;
 
 /**
@@ -137,6 +139,8 @@ public class RobotContainer {
     PIDTurnToAngle.registerWithTestingDashboard();
     BouncePath.registerWithTestingDashboard();
     Rotate.registerWithTestingDashboard();
+    PIDVisionFindTarget.registerWithTestingDashboard();
+    PIDVisionTurretTarget.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
