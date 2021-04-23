@@ -37,7 +37,7 @@ public class PIDVisionTurretTarget extends PIDCommand {
 
   public static void registerWithTestingDashboard() {
     Vision vision = Vision.getInstance();
-    PIDVisionFindTarget cmd = new PIDVisionFindTarget();
+    PIDVisionTurretTarget cmd = new PIDVisionTurretTarget();
     TestingDashboard.getInstance().registerCommand(vision, "Basic", cmd);
     TestingDashboard.getInstance().registerSendable(vision, "PIDTurretRotation", "PIDTurretRotation", cmd.getController());
   }

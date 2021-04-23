@@ -33,10 +33,11 @@ public class Vision extends SubsystemBase {
   public static Vision getInstance() {
     if (vision == null) {
       vision = new Vision();
+      TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
       TestingDashboard.getInstance().registerNumber(vision, "Turn", "InitialAngle", 0);
       TestingDashboard.getInstance().registerNumber(vision, "Turn", "FinalAngle", 0);
       TestingDashboard.getInstance().registerNumber(vision, "Turn", "SpeedWhenTurning", 0);
-      TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
+      
       Shuffleboard.getTab("Vision")
           .add("hueMin", 0)
           .withWidget(BuiltInWidgets.kNumberSlider)

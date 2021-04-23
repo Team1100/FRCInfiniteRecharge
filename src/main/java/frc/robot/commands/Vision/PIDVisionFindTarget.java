@@ -34,7 +34,7 @@ public class PIDVisionFindTarget extends PIDCommand {
     Vision vision = Vision.getInstance();
     PIDVisionFindTarget cmd = new PIDVisionFindTarget();
     TestingDashboard.getInstance().registerCommand(vision, "Basic", cmd);
-    TestingDashboard.getInstance().registerSendable(vision, "PIDFindTarget", "PIDFindTarget", cmd.getController());
+    TestingDashboard.getInstance().registerSendable(vision, "PIDVisionFindTarget", "PIDVisionFindTarget", cmd.getController());
   }
 
   // Returns true when the command should end.
