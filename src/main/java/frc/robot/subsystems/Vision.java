@@ -23,6 +23,8 @@ public class Vision extends SubsystemBase {
   private static Vision vision;
   NetworkTable table;
 
+  public final static double INITIAL_SPEED = 0.3;
+
   /**
    * Creates a new Vision.
    */

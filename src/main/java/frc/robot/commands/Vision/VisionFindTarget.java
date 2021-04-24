@@ -33,9 +33,9 @@ public class VisionFindTarget extends CommandBase {
   }
 
   public static void registerWithTestingDashboard() {
-    Drive drive = Drive.getInstance();
-    VisionFindTarget cmd = new VisionFindTarget(Drive.INITIAL_SPEED, false);
-    TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
+    Vision vision = Vision.getInstance();
+    VisionFindTarget cmd = new VisionFindTarget(Vision.INITIAL_SPEED, false);
+    TestingDashboard.getInstance().registerCommand(vision, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
@@ -70,12 +70,23 @@ public class VisionFindTarget extends CommandBase {
   public boolean isFinished() {
     boolean finished = false;
     double yaw = m_drive.getYaw();
-    if (yaw > m_finalAngle) {
-      if (m_initialAngle > 0 && m_finalAngle < 0) {
-        if (yaw < 0) {
-          finished = true;
-        }
-      } else {
+    if (m_initialAngle >= 0 && m_finalAngle < 0) {
+      // May need to add a tolerance to initial angle if the current angle
+      // drifts to less than the initial angle at the start of the command.
+      if (yaw < m_initialAngle && yaw > m_finalAngle) {
+        finished = true;
+      }
+    } else if (m_initialAngle < 0 && m_finalAngle > 0) {
+      // Test if the current angle is off at either end of the number line
+      if (yaw < m_initialAngle || yaw > m_finalAngle) {
+        finished = true;
+      }
+    } else if (m_initialAngle < 0 && m_finalAngle < 0) {
+      if (yaw < m_initialAngle && yaw > m_finalAngle) {
+        finished = true;
+      }
+    } else if (m_initialAngle > 0 && m_finalAngle > 0) {
+      if (yaw < m_initialAngle && yaw > m_finalAngle) {
         finished = true;
       }
     }
