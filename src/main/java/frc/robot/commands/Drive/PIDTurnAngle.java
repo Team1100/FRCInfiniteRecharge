@@ -19,7 +19,7 @@ public class PIDTurnAngle extends PIDCommand {
   double m_initialAngle;
   double m_finalAngle;
   double m_at_setpoint_counter;
-  static final double MAX_SPEED = 1;
+  static final double MAX_SPEED = 0.7;
 
   /** Creates a new PIDTurnAngle. */
   public PIDTurnAngle(double setpoint, boolean parameterized) {

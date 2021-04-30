@@ -11,6 +11,7 @@ import frc.robot.TestingDashboard;
 
 public class VisionFindTarget extends CommandBase {
   static Drive m_drive;
+  static final int DRIFT_TOLERANCE = 2;
   // angle is in degrees
 
   double m_finalAngle;
@@ -46,7 +47,7 @@ public class VisionFindTarget extends CommandBase {
     updateFinalAngle();
     if (!m_parameterized) {
       TestingDashboard.getInstance().updateNumber(Vision.getInstance(), "InitialAngle", m_initialAngle);
-      TestingDashboard.getInstance().updateNumber(Vision.getInstance(), "SpeedWhenTurning", m_speed);
+      m_speed = TestingDashboard.getInstance().getNumber(Vision.getInstance(), "SpeedWhenTurning");
       TestingDashboard.getInstance().updateNumber(Vision.getInstance(), "FinalAngle", m_finalAngle);
     }
 
@@ -73,20 +74,20 @@ public class VisionFindTarget extends CommandBase {
     if (m_initialAngle >= 0 && m_finalAngle < 0) {
       // May need to add a tolerance to initial angle if the current angle
       // drifts to less than the initial angle at the start of the command.
-      if (yaw < m_initialAngle && yaw > m_finalAngle) {
+      if (yaw < (m_initialAngle - DRIFT_TOLERANCE) && yaw > m_finalAngle) {
         finished = true;
       }
     } else if (m_initialAngle < 0 && m_finalAngle > 0) {
       // Test if the current angle is off at either end of the number line
-      if (yaw < m_initialAngle || yaw > m_finalAngle) {
+      if (yaw < (m_initialAngle - DRIFT_TOLERANCE) || yaw > m_finalAngle) {
         finished = true;
       }
     } else if (m_initialAngle < 0 && m_finalAngle < 0) {
-      if (yaw < m_initialAngle && yaw > m_finalAngle) {
+      if (yaw < (m_initialAngle - DRIFT_TOLERANCE) && yaw > m_finalAngle) {
         finished = true;
       }
     } else if (m_initialAngle > 0 && m_finalAngle > 0) {
-      if (yaw < m_initialAngle && yaw > m_finalAngle) {
+      if (yaw < (m_initialAngle - DRIFT_TOLERANCE) && yaw > m_finalAngle) {
         finished = true;
       }
     }

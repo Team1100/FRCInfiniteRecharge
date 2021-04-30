@@ -15,8 +15,8 @@ import frc.robot.subsystems.Vision;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PIDVisionFindTarget extends PIDCommand {
   // the width of the camera stream is 480 pixels
-  static final double OFFSET_TOLERANCE = 100; // measured in pixels 
-  static final double MAX_SPEED = 1;
+  static final double OFFSET_TOLERANCE = 75; // measured in pixels 
+  static final double MAX_SPEED = .6;
   static Drive m_drive;
   /** Creates a new PIDVisionTurnToTarget. */
   public PIDVisionFindTarget() {
@@ -37,7 +37,7 @@ public class PIDVisionFindTarget extends PIDCommand {
             output = -MAX_SPEED;
           }
             
-          m_drive.tankDrive(output, -output);
+          m_drive.tankDrive(-output, output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
