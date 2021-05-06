@@ -21,18 +21,25 @@ import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
   private static Vision vision;
+  NetworkTable table;
+
+  public final static double INITIAL_SPEED = 0.55;
 
   /**
    * Creates a new Vision.
    */
   private Vision() {
-
+    table = NetworkTableInstance.getDefault().getTable("Shuffleboard/Vision");
   }
 
   public static Vision getInstance() {
     if (vision == null) {
       vision = new Vision();
       TestingDashboard.getInstance().registerSubsystem(vision, "Vision");
+      TestingDashboard.getInstance().registerNumber(vision, "Turn", "InitialAngle", 0);
+      TestingDashboard.getInstance().registerNumber(vision, "Turn", "FinalAngle", 0);
+      TestingDashboard.getInstance().registerNumber(vision, "Turn", "SpeedWhenTurning", INITIAL_SPEED);
+      
       Shuffleboard.getTab("Vision")
           .add("hueMin", 0)
           .withWidget(BuiltInWidgets.kNumberSlider)
@@ -65,6 +72,16 @@ public class Vision extends SubsystemBase {
           .getEntry();
     }
     return vision;
+  }
+
+  public double getTargetOffset() {
+    return table.getEntry("offset").getDouble(0);
+  }
+  public boolean isTargetFound() {
+    if (table.getEntry("targetDetected").getDouble(0) == 0)
+      return false;
+    else
+      return true;
   }
 
   @Override
