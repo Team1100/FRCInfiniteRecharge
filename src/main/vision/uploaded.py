@@ -44,7 +44,7 @@ def findColor(img,myColors):
 def getContours(img):
     image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
-    tolerance = .15
+    tolerance = .05
     idealRatio = 0.1 #ideal = .166
     global garea
     global areaRatio
@@ -172,7 +172,7 @@ def main():
         vision_nt.putNumber('largestAreaRatio', largestAreaRatio)
         if count >= loopLen:
             average = sumArea/count
-            distance = (.00004 * average * average) - (.2104 * average) + 345.33
+            distance = (20235 * (average ** -.558))
 
             vision_nt.putNumber('distance',distance)
             vision_nt.putNumber('area',average) 

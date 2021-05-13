@@ -20,7 +20,8 @@ public class PIDDriveDistance extends PIDCommand {
   double m_setpoint;
   double m_at_setpoint_counter;
   static Drive m_drive;
-  static final double MAX_SPEED = 1;
+  static final double MAX_SPEED = 0.6;
+  static final double MIN_SPEED = 0.35;
 
   /** Creates a new PIDDriveDistance. */
   public PIDDriveDistance(double setpoint, boolean parameterized) {
@@ -45,13 +46,19 @@ public class PIDDriveDistance extends PIDCommand {
           if (output < -MAX_SPEED) {
             output = -MAX_SPEED;
           }
+          if (output < MIN_SPEED && output > 0) {
+            output = MIN_SPEED;
+          }
+          if (output > -MIN_SPEED && output < 0) {
+            output = -MIN_SPEED;
+          }
             
           m_drive.tankDrive(output, output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(Drive.getInstance());
-    getController().setTolerance(1);
+    getController().setTolerance(2.4);
     getController().disableContinuousInput();
     m_setpoint = setpoint;
     m_parameterized = parameterized;
