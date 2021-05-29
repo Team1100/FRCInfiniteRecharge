@@ -10,26 +10,28 @@ package frc.robot.commands.Shooter;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.TestingDashboard;
+import frc.robot.commands.Vision.PIDVisionFindTarget;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class PIDBottomShooter extends PIDCommand {
+public class PIDVisionShoot extends PIDCommand {
   double m_setpoint;
   boolean m_parameterized;
   Shooter m_shooter;
   /**
    * Creates a new PIDBottomShooter.
    */
-  public PIDBottomShooter(double setpoint, boolean parameterized) {
+  public PIDVisionShoot() {
     super(
         // The controller that the command will use
         new PIDController(Shooter.getInstance().getkP(), Shooter.getInstance().getkI(), Shooter.getInstance().getkD()),
         // This should return the measurement
         () -> Shooter.getInstance().getRPM(Shooter.getInstance().getBottomEncoder()),
         // This should return the setpoint (can also be a constant)
-        () -> setpoint,
+        () -> Shooter.getInstance().getZoneShooterSpeed(Vision.getInstance().getZone()),
         // This uses the output
         output -> {
           // Use the output here
@@ -40,33 +42,26 @@ public class PIDBottomShooter extends PIDCommand {
     getController().setTolerance(10);
     getController().disableContinuousInput();
     m_shooter = Shooter.getInstance();
-    m_setpoint = setpoint;
-    m_parameterized = parameterized;
+    m_setpoint = Shooter.getInstance().getZoneShooterSpeed(Vision.getInstance().getZone());
   }
 
   public static void registerWithTestingDashboard() {
     Shooter shooter = Shooter.getInstance();
-    double setpoint = TestingDashboard.getInstance().getNumber(shooter, "Bottom Setpoint");
-    PIDBottomShooter cmd = new PIDBottomShooter(setpoint,false);
+    PIDVisionShoot cmd = new PIDVisionShoot();
     TestingDashboard.getInstance().registerCommand(shooter, "Basic", cmd);
-    TestingDashboard.getInstance().registerSendable(shooter, "PIDController", "BottomPIDController", cmd.getController());
+    TestingDashboard.getInstance().registerSendable(shooter, "PIDController", "PIDVisionShootController", cmd.getController());
   }
 
   @Override
   public void initialize() {
     super.initialize();
-    if (!m_parameterized) {
-      m_setpoint = TestingDashboard.getInstance().getNumber(m_shooter, "Bottom Setpoint");
-    }
   }
 
   @Override
   public void execute() {
-    if (!m_parameterized) {
-      m_setpoint = TestingDashboard.getInstance().getNumber(m_shooter, "Bottom Setpoint");
-    }
-    m_useOutput.accept(
-        m_controller.calculate(m_measurement.getAsDouble(), m_setpoint));
+    int zone = Vision.getInstance().getZone();
+    m_setpoint = m_shooter.getZoneShooterSpeed(zone);
+    m_useOutput.accept(m_controller.calculate(m_measurement.getAsDouble(), m_setpoint));
   }
 
   // Returns true when the command should end.

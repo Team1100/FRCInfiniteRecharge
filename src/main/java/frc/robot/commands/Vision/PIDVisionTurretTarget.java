@@ -14,6 +14,7 @@ import frc.robot.subsystems.Vision;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PIDVisionTurretTarget extends PIDCommand {
+  static final double OFFSET_TOLERANCE = 10; // measured in pixels 
   /** Creates a new PIDVisionCenterTarget. */
   public PIDVisionTurretTarget() {
     super(
@@ -31,7 +32,7 @@ public class PIDVisionTurretTarget extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(Turret.getInstance());
-    getController().setTolerance(5);
+    getController().setTolerance(OFFSET_TOLERANCE);
     getController().disableContinuousInput();
   }
 
