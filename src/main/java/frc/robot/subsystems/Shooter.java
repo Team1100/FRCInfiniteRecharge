@@ -129,6 +129,24 @@ public class Shooter extends SubsystemBase {
     m_piston.set(DoubleSolenoid.Value.kReverse);
   }
 
+  public boolean getZoneShooterPosition(int zone) {
+    boolean position = Constants.kZoneShooterDown;
+    switch (zone) {
+      case Constants.kZoneGreen:
+        position = Constants.kZoneShooterDown;
+        break;
+      case Constants.kZoneYellow:
+      case Constants.kZoneBlue:
+      case Constants.kZoneRed:
+      case Constants.kZonePurple:
+        position = Constants.kZoneShooterUp;
+        break;
+      default:
+        break;
+    }
+    return position;
+  }
+
   public double getkP() {
     return kP;
   }

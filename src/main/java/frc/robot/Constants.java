@@ -63,6 +63,9 @@ public final class Constants {
     public static final double kZoneRedSpeed = 4000;
     public static final double kZonePurpleSpeed = 5000;
 
+    public static final boolean kZoneShooterUp = true;
+    public static final boolean kZoneShooterDown = false;
+
 
 
     public static final double kRobotLength = 36; // in inches

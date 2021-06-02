@@ -7,8 +7,10 @@
 
 package frc.robot.commands.Shooter;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.commands.Vision.PIDVisionFindTarget;
 import frc.robot.subsystems.Shooter;
@@ -19,7 +21,7 @@ import frc.robot.subsystems.Vision;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class PIDVisionShoot extends PIDCommand {
   double m_setpoint;
-  boolean m_parameterized;
+  boolean m_shooterPosition;
   Shooter m_shooter;
   /**
    * Creates a new PIDBottomShooter.
@@ -55,6 +57,8 @@ public class PIDVisionShoot extends PIDCommand {
   @Override
   public void initialize() {
     super.initialize();
+    int zone = Vision.getInstance().getZone();
+    m_shooterPosition = m_shooter.getZoneShooterPosition(zone);
   }
 
   @Override
@@ -62,6 +66,12 @@ public class PIDVisionShoot extends PIDCommand {
     int zone = Vision.getInstance().getZone();
     m_setpoint = m_shooter.getZoneShooterSpeed(zone);
     m_useOutput.accept(m_controller.calculate(m_measurement.getAsDouble(), m_setpoint));
+
+    if (m_shooterPosition && !(m_shooter.getPiston().get() == DoubleSolenoid.Value.kForward)) {
+      m_shooter.raiseShooter();
+    } else if (!m_shooterPosition && !(m_shooter.getPiston().get() == DoubleSolenoid.Value.kReverse)) {
+      m_shooter.lowerShooter();
+    }
   }
 
   // Returns true when the command should end.
