@@ -25,7 +25,7 @@ public class Vision extends SubsystemBase {
   private static Shooter m_shooter;
   NetworkTable table;
 
-  public final static double INITIAL_SPEED = 0.55;
+  public final static double INITIAL_SPEED = 0.6;
 
   /**
    * Creates a new Vision.

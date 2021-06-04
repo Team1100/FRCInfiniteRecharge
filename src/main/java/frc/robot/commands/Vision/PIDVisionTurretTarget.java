@@ -19,7 +19,7 @@ public class PIDVisionTurretTarget extends PIDCommand {
   public PIDVisionTurretTarget() {
     super(
         // The controller that the command will use
-        new PIDController(0.003, 0.001, 0),
+        new PIDController(0.001, 0.00067, 0),
         // This should return the measurement
         () -> Vision.getInstance().getTargetOffset(),
         // This should return the setpoint (can also be a constant)
