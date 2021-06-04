@@ -57,10 +57,10 @@ public final class Constants {
     public static final double kZoneRedEnd = kZonePurpleStart;
     public static final double kZonePurpleEnd = 360;
 
-    public static final double kZoneGreenSpeed = 1000;
-    public static final double kZoneYellowSpeed = 2000;
-    public static final double kZoneBlueSpeed = 3000;
-    public static final double kZoneRedSpeed = 4000;
+    public static final double kZoneGreenSpeed = 6000;
+    public static final double kZoneYellowSpeed = 7000;
+    public static final double kZoneBlueSpeed = 7000;
+    public static final double kZoneRedSpeed = 6150;
     public static final double kZonePurpleSpeed = 5000;
 
     public static final boolean kZoneShooterUp = true;
