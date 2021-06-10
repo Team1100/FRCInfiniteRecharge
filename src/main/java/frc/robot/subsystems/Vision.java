@@ -17,19 +17,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.Map;
 
+import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 
 public class Vision extends SubsystemBase {
   private static Vision vision;
+  private static Shooter m_shooter;
   NetworkTable table;
 
-  public final static double INITIAL_SPEED = 0.55;
+  public final static double INITIAL_SPEED = 0.6;
 
   /**
    * Creates a new Vision.
    */
   private Vision() {
     table = NetworkTableInstance.getDefault().getTable("Shuffleboard/Vision");
+    m_shooter = Shooter.getInstance();
   }
 
   public static Vision getInstance() {
@@ -39,6 +42,7 @@ public class Vision extends SubsystemBase {
       TestingDashboard.getInstance().registerNumber(vision, "Turn", "InitialAngle", 0);
       TestingDashboard.getInstance().registerNumber(vision, "Turn", "FinalAngle", 0);
       TestingDashboard.getInstance().registerNumber(vision, "Turn", "SpeedWhenTurning", INITIAL_SPEED);
+      TestingDashboard.getInstance().registerNumber(m_shooter, "Vision", "Zone", 0);
       
       Shuffleboard.getTab("Vision")
           .add("hueMin", 0)
@@ -77,6 +81,24 @@ public class Vision extends SubsystemBase {
   public double getTargetOffset() {
     return table.getEntry("offset").getDouble(0);
   }
+
+  public int getZone() {
+    double distance = table.getEntry("distance").getDouble(0);
+    int zone = 0;
+    if (distance > Constants.kZonePurpleStart + Constants.kRobotLength) {
+      zone = Constants.kZonePurple;
+    } else if (distance > Constants.kZoneRedStart + Constants.kRobotLength) {
+      zone = Constants.kZoneRed;
+    } else if (distance > Constants.kZoneBlueStart + Constants.kRobotLength) {
+      zone = Constants.kZoneBlue;
+    } else if (distance > Constants.kZoneYellowStart + Constants.kRobotLength) {
+      zone = Constants.kZoneYellow;
+    } else {
+      zone = Constants.kZoneGreen;
+    }
+    return zone;
+  }
+
   public boolean isTargetFound() {
     if (table.getEntry("targetDetected").getDouble(0) == 0)
       return false;
@@ -87,5 +109,6 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    TestingDashboard.getInstance().updateNumber(m_shooter, "Zone", getZone());
   }
 }
