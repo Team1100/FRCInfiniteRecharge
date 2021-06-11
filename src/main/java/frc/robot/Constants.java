@@ -37,4 +37,36 @@ public final class Constants {
     public static final double kRamseteZeta = 0.7;
 
     public static final boolean kGyroReversed = false;
+
+    // defines zone constants
+    public static final int kZoneGreen = 0;
+    public static final int kZoneYellow = 1;
+    public static final int kZoneBlue = 2;
+    public static final int kZoneRed = 3;
+    public static final int kZonePurple = 4;
+
+    public static final double kZoneGreenStart = 0;
+    public static final double kZoneYellowStart = 90;
+    public static final double kZoneBlueStart = 150;
+    public static final double kZoneRedStart = 210;
+    public static final double kZonePurpleStart = 270;
+
+    public static final double kZoneGreenEnd = kZoneYellowStart;
+    public static final double kZoneYellowEnd = kZoneBlueStart;
+    public static final double kZoneBlueEnd = kZoneRedStart;
+    public static final double kZoneRedEnd = kZonePurpleStart;
+    public static final double kZonePurpleEnd = 360;
+
+    public static final double kZoneGreenSpeed = 6000;
+    public static final double kZoneYellowSpeed = 7000;
+    public static final double kZoneBlueSpeed = 7000;
+    public static final double kZoneRedSpeed = 6150;
+    public static final double kZonePurpleSpeed = 5000;
+
+    public static final boolean kZoneShooterUp = true;
+    public static final boolean kZoneShooterDown = false;
+
+
+
+    public static final double kRobotLength = 36; // in inches
 }

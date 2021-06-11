@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 
@@ -64,6 +64,31 @@ public class Shooter extends SubsystemBase {
     return shooter;
   }
 
+  public double getZoneShooterSpeed(int zone) {
+    double speed = 0;
+    switch (zone) {
+      case Constants.kZoneGreen:
+        speed = Constants.kZoneGreenSpeed;
+        break;
+      case Constants.kZoneYellow:
+        speed = Constants.kZoneYellowSpeed;
+        break;
+      case Constants.kZoneBlue:
+        speed = Constants.kZoneBlueSpeed;
+        break;
+      case Constants.kZoneRed:
+        speed = Constants.kZoneRedSpeed;
+        break;
+      case Constants.kZonePurple:
+        speed = Constants.kZonePurpleSpeed;
+        break;
+      default:
+        speed = 0;
+        break;
+    }
+    return speed;
+  }
+
   public void setBottom(double speed) {
     bottomShooter.set(speed);
   }
@@ -102,6 +127,24 @@ public class Shooter extends SubsystemBase {
 
   public void lowerShooter() {
     m_piston.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public boolean getZoneShooterPosition(int zone) {
+    boolean position = Constants.kZoneShooterDown;
+    switch (zone) {
+      case Constants.kZoneGreen:
+        position = Constants.kZoneShooterDown;
+        break;
+      case Constants.kZoneYellow:
+      case Constants.kZoneBlue:
+      case Constants.kZoneRed:
+      case Constants.kZonePurple:
+        position = Constants.kZoneShooterUp;
+        break;
+      default:
+        break;
+    }
+    return position;
   }
 
   public double getkP() {
