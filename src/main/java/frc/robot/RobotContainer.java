@@ -144,6 +144,7 @@ public class RobotContainer {
     PIDVisionFindTarget.registerWithTestingDashboard();
     PIDVisionTurretTarget.registerWithTestingDashboard();
     VisionFindTarget.registerWithTestingDashboard();
+    VisionShootBallsAuto.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();
