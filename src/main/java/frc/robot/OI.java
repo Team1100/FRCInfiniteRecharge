@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import frc.robot.commands.Auto.ShootBallsAuto;
 import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
