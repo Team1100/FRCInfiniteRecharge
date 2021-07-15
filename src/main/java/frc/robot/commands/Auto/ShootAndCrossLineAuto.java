@@ -8,6 +8,7 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.commands.BallIntake.BallIntakeDown;
 import frc.robot.commands.Drive.TimedForward;
@@ -30,7 +31,7 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     // TODO: Add the commands for shooting here
     super(new BallIntakeDown(),
           new Wait(1),
-          new ShootBallsAuto(3800, 5500),
+          new ShootBallsAuto(Constants.kZoneYellowSpeed, false),
           new ShooterUp(),
           new TimedForward(3, 0.5));
   }
@@ -38,6 +39,6 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
   public static void registerWithTestingDashboard() {
     Auto auto = Auto.getInstance();
     ShootAndCrossLineAuto cmd = new ShootAndCrossLineAuto();
-    TestingDashboard.getInstance().registerCommand(auto, "Auto", cmd);
+    TestingDashboard.getInstance().registerCommand(auto, "FullAutoSequence", cmd);
   }
 }

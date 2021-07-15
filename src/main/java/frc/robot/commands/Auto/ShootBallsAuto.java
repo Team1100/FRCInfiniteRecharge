@@ -8,10 +8,12 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import frc.robot.Constants;
+import frc.robot.TestingDashboard;
 import frc.robot.commands.BallIntake.SpinIntakeRoller;
 import frc.robot.commands.Conveyor.FeedBalls;
 import frc.robot.commands.Shooter.PIDBottomShooter;
-import frc.robot.commands.Shooter.PIDTopShooter;
+import frc.robot.subsystems.Auto;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -20,14 +22,21 @@ public class ShootBallsAuto extends ParallelDeadlineGroup {
   /**
    * Creates a new ShootBallsAuto.
    */
-  public ShootBallsAuto(double topSetpoint, double botSetpoint)
+  public ShootBallsAuto(double botSetpoint, boolean parametrized)
   {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
     super(new Wait(4),
-          new SpinIntakeRoller(1, true),
-          new FeedBalls(), 
-          new PIDTopShooter(topSetpoint), 
-          new PIDBottomShooter(botSetpoint, true));
+          new SpinIntakeRoller(1, parametrized),
+          new FeedBalls(),
+          new PIDBottomShooter(botSetpoint, parametrized));
   }
+
+  public static void registerWithTestingDashboard() {
+    Auto auto = Auto.getInstance();
+    boolean parametrized = false;
+    ShootBallsAuto cmd = new ShootBallsAuto(Constants.kZoneYellowSpeed, parametrized);
+    TestingDashboard.getInstance().registerCommand(auto, "ShootingCmds", cmd);
+  }
+
 }
