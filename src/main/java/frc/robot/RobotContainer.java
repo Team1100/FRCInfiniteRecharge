@@ -124,6 +124,8 @@ public class RobotContainer {
     ShootAndCrossLineAuto.registerWithTestingDashboard();
     CrossLineAndShootAuto.registerWithTestingDashboard();
     ShootBallsAuto.registerWithTestingDashboard();
+    MoveBalls.registerWithTestingDashboard();
+    MoveBallsAfterDelay.registerWithTestingDashboard();
     BallIntakeDown.registerWithTestingDashboard();
     BallIntakeUp.registerWithTestingDashboard();
     ShooterUp.registerWithTestingDashboard();

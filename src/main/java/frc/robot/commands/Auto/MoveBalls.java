@@ -7,35 +7,30 @@
 
 package frc.robot.commands.Auto;
 
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.TestingDashboard;
 import frc.robot.commands.BallIntake.SpinIntakeRoller;
 import frc.robot.commands.Conveyor.FeedBalls;
-import frc.robot.commands.Shooter.PIDBottomShooter;
 import frc.robot.subsystems.Auto;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootBallsAuto extends ParallelDeadlineGroup {
+public class MoveBalls extends ParallelCommandGroup {
   /**
-   * Creates a new ShootBallsAuto.
+   * Creates a new MoveBalls.
    */
-  public ShootBallsAuto(double botSetpoint, boolean parametrized)
-  {
+  public MoveBalls() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new Wait(5),
-          new MoveBallsAfterDelay(),
-          new PIDBottomShooter(botSetpoint, parametrized));
+    super(new SpinIntakeRoller(1, true),
+          new FeedBalls()
+          );
   }
 
   public static void registerWithTestingDashboard() {
     Auto auto = Auto.getInstance();
-    boolean parametrized = false;
-    ShootBallsAuto cmd = new ShootBallsAuto(Constants.kZoneYellowSpeed, parametrized);
-    TestingDashboard.getInstance().registerCommand(auto, "ShootingCmds", cmd);
+    MoveBalls cmd = new MoveBalls();
+    TestingDashboard.getInstance().registerCommand(auto, "ConveyorCmds", cmd);
   }
-
 }
