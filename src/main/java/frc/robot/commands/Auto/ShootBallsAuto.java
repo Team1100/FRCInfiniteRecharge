@@ -33,7 +33,7 @@ public class ShootBallsAuto extends ParallelDeadlineGroup {
 
   public static void registerWithTestingDashboard() {
     Auto auto = Auto.getInstance();
-    boolean parametrized = false;
+    boolean parametrized = true;
     ShootBallsAuto cmd = new ShootBallsAuto(Constants.kZoneYellowSpeed, parametrized);
     TestingDashboard.getInstance().registerCommand(auto, "ShootingCmds", cmd);
   }
