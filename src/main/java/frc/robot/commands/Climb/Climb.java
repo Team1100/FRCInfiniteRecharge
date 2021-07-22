@@ -31,7 +31,7 @@ public class Climb extends CommandBase {
 
   public static void registerWithTestingDashboard() {
     Climber climber = Climber.getInstance();
-    double speed = SmartDashboard.getNumber("ClimberSpeed", 0.3);
+    double speed = SmartDashboard.getNumber("ClimberSpeed", 0.5);
     Climb cmd = new Climb(speed, false);
     TestingDashboard.getInstance().registerCommand(climber, "Basic", cmd); 
   }
@@ -46,7 +46,7 @@ public class Climb extends CommandBase {
   public void execute() {
     double speed = m_speed;
     if (!m_parameterized) {
-      speed = SmartDashboard.getNumber("ClimberSpeed", 0.3);
+      speed = SmartDashboard.getNumber("ClimberSpeed", 0.5);
     }
     m_climber.climb(speed);
   }

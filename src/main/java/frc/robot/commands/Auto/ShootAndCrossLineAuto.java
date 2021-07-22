@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.commands.BallIntake.BallIntakeDown;
+import frc.robot.commands.Drive.DriveDistance;
 import frc.robot.commands.Drive.TimedForward;
 import frc.robot.commands.Shooter.ShooterUp;
 import frc.robot.subsystems.Auto;
@@ -29,11 +30,10 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     // 1. Wait a certain amount of time (controlled by StartAutoWaitTime in SmartDashboard)
     // 2. Move forward for a certain amount of time (controlled by DriveForwardTime in SmartDashboard)
     // TODO: Add the commands for shooting here
-    super(new BallIntakeDown(),
+    addCommands(new BallIntakeDown(),
           new Wait(1),
           new ShootBallsAuto(Constants.kZoneYellowSpeed, false),
-          new ShooterUp(),
-          new TimedForward(3, 0.5));
+          new DriveDistance(Constants.kRobotLength + 6, -Constants.kRobotNormalDriveSpeed, true)
   }
 
   public static void registerWithTestingDashboard() {
