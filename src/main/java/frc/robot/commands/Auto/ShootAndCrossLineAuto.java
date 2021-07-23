@@ -33,7 +33,7 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     addCommands(new BallIntakeDown(),
           new Wait(1),
           new ShootBallsAuto(Constants.kZoneYellowSpeed, false),
-          new DriveDistance(Constants.kRobotLength + 6, -Constants.kRobotNormalDriveSpeed, true)
+          new DriveDistance(-Constants.kRobotLength + 6, Constants.kRobotNormalDriveSpeed, true)
           );
   }
 

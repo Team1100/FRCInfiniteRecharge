@@ -49,11 +49,11 @@ public class BallIntake extends SubsystemBase {
   }
 
   public void lowerIntake() {
-    m_piston.set(DoubleSolenoid.Value.kForward);
+    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void raiseIntake() {
-    m_piston.set(DoubleSolenoid.Value.kReverse);
+    m_piston.set(DoubleSolenoid.Value.kForward);
   }
  
   @Override
