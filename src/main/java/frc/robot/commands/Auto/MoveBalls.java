@@ -7,19 +7,30 @@
 
 package frc.robot.commands.Auto;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Shooter.ShooterUp;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.TestingDashboard;
+import frc.robot.commands.BallIntake.SpinIntakeRoller;
+import frc.robot.commands.Conveyor.FeedBalls;
+import frc.robot.subsystems.Auto;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ShootBallsAutoProcedure extends SequentialCommandGroup {
+public class MoveBalls extends ParallelCommandGroup {
   /**
-   * Creates a new ShootBallsAutoProcedure.
+   * Creates a new MoveBalls.
    */
-  public ShootBallsAutoProcedure(boolean parametrized) {
+  public MoveBalls() {
     // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
-    super(new ShooterUp(), new Wait(1.5), new ShootBallsAuto(5500, parametrized));
+    // super(new FooCommand(), new BarCommand());super();
+    super(new SpinIntakeRoller(1, true),
+          new FeedBalls()
+          );
+  }
+
+  public static void registerWithTestingDashboard() {
+    Auto auto = Auto.getInstance();
+    MoveBalls cmd = new MoveBalls();
+    TestingDashboard.getInstance().registerCommand(auto, "ConveyorCmds", cmd);
   }
 }

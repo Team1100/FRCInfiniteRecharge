@@ -122,6 +122,10 @@ public class RobotContainer {
     TurretLeft.registerWithTestingDashboard();
     TurretRight.registerWithTestingDashboard();
     ShootAndCrossLineAuto.registerWithTestingDashboard();
+    CrossLineAndShootAuto.registerWithTestingDashboard();
+    ShootBallsAuto.registerWithTestingDashboard();
+    MoveBalls.registerWithTestingDashboard();
+    MoveBallsAfterDelay.registerWithTestingDashboard();
     BallIntakeDown.registerWithTestingDashboard();
     BallIntakeUp.registerWithTestingDashboard();
     ShooterUp.registerWithTestingDashboard();
@@ -144,6 +148,7 @@ public class RobotContainer {
     PIDVisionFindTarget.registerWithTestingDashboard();
     PIDVisionTurretTarget.registerWithTestingDashboard();
     VisionFindTarget.registerWithTestingDashboard();
+    VisionShootBallsAuto.registerWithTestingDashboard();
 
     // Create Testing Dashboard
     TestingDashboard.getInstance().createTestingDashboard();

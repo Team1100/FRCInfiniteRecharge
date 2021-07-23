@@ -67,6 +67,17 @@ public final class Constants {
     public static final boolean kZoneShooterDown = false;
 
 
-
+    ////////////////////////////////
+    // MEASURED ROBOT CONSTANTS
+    ////////////////////////////////
+    public static final double kRobotNormalDriveSpeed = 0.7; // percentage
     public static final double kRobotLength = 36; // in inches
+
+    /////////////////////////////////
+    // GAME FIELD CONSTANTS
+    /////////////////////////////////
+
+    // Distance from face of player station to the edge of the tape for the
+    // INITIATION LINE
+    public static final double kInitiationLine = 120; // in inches
 }
