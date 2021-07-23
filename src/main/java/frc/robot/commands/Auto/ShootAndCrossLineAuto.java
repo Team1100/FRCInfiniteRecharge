@@ -30,12 +30,14 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     // 1. Wait a certain amount of time (controlled by StartAutoWaitTime in SmartDashboard)
     // 2. Move forward for a certain amount of time (controlled by DriveForwardTime in SmartDashboard)
     // TODO: Add the commands for shooting here
-    addCommands(new BallIntakeDown(),
+    addCommands(
+          new BallIntakeDown(),
           new Wait(1),
-          new ShootBallsAuto(Constants.kZoneYellowSpeed, false),
-          new DriveDistance(-Constants.kRobotLength + 6, Constants.kRobotNormalDriveSpeed, true)
+          new ShootBallsAuto(Constants.kZoneYellowSpeed, true),
+          new DriveDistance(-Constants.kRobotLength - 6, Constants.kRobotNormalDriveSpeed, true)
           );
   }
+  
 
   public static void registerWithTestingDashboard() {
     Auto auto = Auto.getInstance();
