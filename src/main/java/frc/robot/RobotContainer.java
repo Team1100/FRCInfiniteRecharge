@@ -97,9 +97,11 @@ public class RobotContainer {
     driveSquareAutoPID = new DriveSquareAutoPID();
     slalomPath = new SlalomPath();
     driveTriangleAuto = new DriveTriangleAuto();
+    crossLineAndShootAuto = new CrossLineAndShootAuto();
+    shootAndCrossLineAuto = new ShootAndCrossLineAuto();
     m_chooser = new SendableChooser<>();
-    m_chooser.setDefaultOption("CrossLineAndShootAuto", crossLineAndShootAuto);
-    m_chooser.addOption("ShootAndCrossLineAuto", shootAndCrossLineAuto);
+    m_chooser.setDefaultOption("ShootAndCrossLineAuto", shootAndCrossLineAuto);
+    m_chooser.addOption("CrossLineAndShootAuto", crossLineAndShootAuto);
     SmartDashboard.putData(m_chooser);
     //OI Device instantiation
     OI.getInstance();
