@@ -9,7 +9,10 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Auto.*;
 import frc.robot.commands.BallIntake.*;
@@ -43,6 +46,7 @@ public class RobotContainer {
   private final Spinner spinner;
   private final Turret turret;
   private final Vision vision;
+  private final Auto auto;
 
   //Commands
   private final DefaultDrive defaultdrive;
@@ -50,10 +54,13 @@ public class RobotContainer {
   private final DefaultTurret defaultturret;
 
   BarrelRacingPath barrelRacingPath;
+  ShootAndCrossLineAuto shootAndCrossLineAuto;
+  CrossLineAndShootAuto crossLineAndShootAuto;
   DriveSquareAuto driveSquareAuto;
   DriveSquareAutoPID driveSquareAutoPID;
   SlalomPath slalomPath;
   DriveTriangleAuto driveTriangleAuto;
+  SendableChooser<Command> m_chooser;
   
   //OI
   private static RobotContainer robotContainer;
@@ -74,6 +81,7 @@ public class RobotContainer {
     spinner = Spinner.getInstance();
     turret = Turret.getInstance();
     vision = Vision.getInstance();
+    auto = Auto.getInstance();
 
     //Default command instantiation
     defaultdrive = new DefaultDrive(drive);
@@ -89,7 +97,12 @@ public class RobotContainer {
     driveSquareAutoPID = new DriveSquareAutoPID();
     slalomPath = new SlalomPath();
     driveTriangleAuto = new DriveTriangleAuto();
-
+    crossLineAndShootAuto = new CrossLineAndShootAuto();
+    shootAndCrossLineAuto = new ShootAndCrossLineAuto();
+    m_chooser = new SendableChooser<>();
+    m_chooser.setDefaultOption("ShootAndCrossLineAuto", shootAndCrossLineAuto);
+    m_chooser.addOption("CrossLineAndShootAuto", crossLineAndShootAuto);
+    SmartDashboard.putData(m_chooser);
     //OI Device instantiation
     OI.getInstance();
 
@@ -182,8 +195,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // TODO: This needs to be changed to collect the autonomous command
     // from a chooser on ShuffleBoard
+    return m_chooser.getSelected();
     // Create a voltage constraint to ensure we don't accelerate too fast
-    return driveSquareAuto;
     // Run path following command, then stop at the end.
     //return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
   }
