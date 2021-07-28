@@ -256,9 +256,6 @@ public class TestingDashboard {
   public void createDebugTab() {
     ShuffleboardTab debug_tab = Shuffleboard.getTab("Debug");
 
-    // Controlling inputs for Intake Roller motor
-    SmartDashboard.putNumber("IntakeRollerSpeed", 1);
-
     // Controlling time for spinner
     SmartDashboard.putNumber("SpinnerMotorPeriod",5);
     SmartDashboard.putNumber("SpinnerMotorSpeed",0.2);
@@ -271,9 +268,6 @@ public class TestingDashboard {
     
     // Controlling speed
     SmartDashboard.putNumber("AutoDriveSpeed", 0.5);
-
-    // Set delay for before we execute auto commands
-    SmartDashboard.putNumber("StartAutoWaitTime", 3);
 
     // Control Turret speed
     SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);

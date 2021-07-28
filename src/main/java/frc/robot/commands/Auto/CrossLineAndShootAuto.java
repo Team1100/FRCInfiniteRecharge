@@ -20,9 +20,10 @@ public class CrossLineAndShootAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new Wait(0,false),
       new DriveDistance(Constants.kInitiationLine, Constants.kRobotNormalDriveSpeed, true),
       new BallIntakeDown(),
-      new Wait(1),
+      new Wait(1, true),
       new ShootBallsAuto(Constants.kZoneYellowSpeed, true)
     );
   }

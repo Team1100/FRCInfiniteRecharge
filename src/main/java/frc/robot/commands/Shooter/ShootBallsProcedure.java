@@ -20,6 +20,6 @@ public class ShootBallsProcedure extends SequentialCommandGroup {
   public ShootBallsProcedure(double[] doubleArray) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new ShooterUp(), new Wait(1.5), new ShootBalls(doubleArray));
+    super(new ShooterUp(), new Wait(1.5, true), new ShootBalls(doubleArray));
   }
 }

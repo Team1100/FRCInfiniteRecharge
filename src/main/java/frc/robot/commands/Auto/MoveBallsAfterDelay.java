@@ -21,7 +21,7 @@ public class MoveBallsAfterDelay extends SequentialCommandGroup {
   public MoveBallsAfterDelay() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super( new Wait(1),
+    super( new Wait(1, true),
            new MoveBalls()
           );
   }

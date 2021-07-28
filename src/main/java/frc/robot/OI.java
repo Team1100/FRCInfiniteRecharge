@@ -16,8 +16,6 @@ import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
 import frc.robot.input.ButtonBox;
 import frc.robot.input.XboxController;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -30,7 +28,6 @@ public class OI {
   public static AttackThree rightStick;
   private static XboxController xbox;
   private static ButtonBox buttonBox;
-  private double sspeed = .5;
   /**
    * Used outside of the OI class to return an instance of the class.
    * @return Returns instance of OI class formed from constructor.

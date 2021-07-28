@@ -8,14 +8,12 @@
 // Spins the ball intake roller while command is active.
 package frc.robot.commands.BallIntake;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.BallIntake;
 
 public class SpinIntakeRoller extends CommandBase {
   private BallIntake m_ballIntake;
-  private static final double DEF_ROLLER_SPEED = 0.5;
   private double m_speed;
   private boolean m_parameterized = true;
 
@@ -32,7 +30,7 @@ public class SpinIntakeRoller extends CommandBase {
 
   public static void registerWithTestingDashboard() {
     BallIntake ballIntake = BallIntake.getInstance();
-    double speed = DEF_ROLLER_SPEED;
+    double speed = BallIntake.DEF_ROLLER_SPEED;
     SpinIntakeRoller cmd = new SpinIntakeRoller(speed, false);
     TestingDashboard.getInstance().registerCommand(ballIntake, "Basic", cmd);
   }
@@ -47,7 +45,7 @@ public class SpinIntakeRoller extends CommandBase {
   public void execute() {
     double speed = m_speed;
     if (!m_parameterized) {
-      speed = SmartDashboard.getNumber("IntakeRollerSpeed", DEF_ROLLER_SPEED);
+      speed = TestingDashboard.getInstance().getNumber(m_ballIntake, "IntakeRollerSpeed");
     }
     m_ballIntake.spinIntakeRoller(speed);
   }

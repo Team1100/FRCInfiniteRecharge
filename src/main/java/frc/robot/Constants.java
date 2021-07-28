@@ -80,4 +80,10 @@ public final class Constants {
     // Distance from face of player station to the edge of the tape for the
     // INITIATION LINE
     public static final double kInitiationLine = 120; // in inches
+
+
+    //////////////////////////////////
+    // ROBOT AUTO CONSTANTS
+    //////////////////////////////////
+    public static final double kDefaultAutoWaitToStartTime = 0;
 }

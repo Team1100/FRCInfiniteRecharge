@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.TestingDashboard;
@@ -29,6 +30,8 @@ public class Auto extends SubsystemBase {
     if (auto == null) {
       auto = new Auto();
       TestingDashboard.getInstance().registerSubsystem(auto, "Auto");
+      // "Register" this on smart dashboard.
+      SmartDashboard.putNumber("StartAutoWaitTimeSeconds", Constants.kDefaultAutoWaitToStartTime);
     }
     return auto;
   }
