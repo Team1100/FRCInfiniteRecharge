@@ -27,9 +27,10 @@ boundingCenterY = 0
 targetDetected = False
 
 
-areaRatio = 0
-largestAreaRatio = 0
-aspectRatio = 0
+areaRatio = 0 # this is the areaRatio of every contour that is seen by the camera
+largestAreaRatio = 0 # this is the areaRatio of the target once it has been isolated
+aspectRatio = 0 # this is the aspectRatio of every contour that is seen by the camera
+largestAspectRatio = 0 # this is the aspectRatio fo the target once it has been isolated
 
 def findColor(img,myColors):
     global mask
@@ -45,10 +46,16 @@ def getContours(img):
     image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
     tolerance = .05
-    idealRatio = 0.1 #ideal = .166
+    idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
+    idealAspectRatio = 2.31 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
+    aspectTolerance = .5 # this is the tolerance for finding the target with the right aspect ratio
+                         # start off with a large tolerance, and if the ideal ratio is correct, lower the tolerance as needed. 
     global garea
     global areaRatio
     global largestAreaRatio
+    global aspectRatio  #width/height of the box
+    global largestAspectRatio
+
     garea = 0
     if len(contours) > 0:
         global targetDetected
@@ -62,30 +69,30 @@ def getContours(img):
             if (boundingArea < 1100):
                 continue
             areaRatio = contourArea/boundingArea
-            if areaRatio > idealRatio - tolerance and areaRatio < idealRatio + tolerance:
-                largest = contour
-                area = boundingArea
-                largestAreaRatio = areaRatio
-            #if cv2.contourArea(contour) > cv2.contourArea(largest):
-                #largest = contour
+            aspectRatio = w/h
+            if areaRatio > idealRatio - tolerance and areaRatio < idealRatio + tolerance: # if the target is within the right area ratio range, it is possibly the correct target
+                if aspectRatio > idealAspectRatio - aspectTolerance and aspectRatio < idealAspectRatio + aspectTolerance: # if the target is within the correct aspect ratio range aswell, it is definitely the right target
+                    largest = contour
+                    area = boundingArea
+                    largestAreaRatio = areaRatio
+                    largestAspectRatio = aspectRatio
 
         
         
         peri = cv2.arcLength(largest, True)
         approx = cv2.approxPolyDP(largest, 0.015 * peri, True)
-        if area > 100:
+        if area > 100: # may not need this if statement. Consider deleting in the future.
             targetDetected = True
             global boundingCenterX #center of the bounding box x axis
             global boundingCenterY # center of the bounding box y axis
-            global aspectRatio #width/height of the box
             cv2.drawContours(imgResult,largest, -1, (255,0,0), 3)
             peri = cv2.arcLength(largest, True)
             garea = area
 
             approx = cv2.approxPolyDP(largest, 0.02 * peri, True)
             x, y, w, h, = cv2.boundingRect(approx)
-            aspectRatio = w/h
-            boundingCenterX = ((x + (w/2))-320)/320
+            boundingCenterX = x + w/2
+            #boundingCenterX = ((x + (w/2))-320)/320
             boundingCenterY = ((y + (h/2))-240)/240
 
             cv2.rectangle(imgResult, (x,y),(x+w,y+h),(0,255,0),3)
@@ -112,7 +119,7 @@ def main():
    # Table for vision output information
    ntinst = NetworkTablesInstance.getDefault()
    ip = '192.168.102.225'
-   #print("Setting up NetworkTables client for team {} at {}".format(team,ip))
+   print("Setting up NetworkTables client for team {} at {}".format(team,ip))
    ntinst.startClientTeam(team)
    #ntinst.startClient(ip)
    vision_nt = ntinst.getTable('Shuffleboard/Vision')
@@ -153,6 +160,9 @@ def main():
         global targetDetected
         global areaRatio
         global largestAreaRatio
+        global aspectRatio
+        global largestAspectRatio
+
         camCenter = (width * 4)/2
         offset = camCenter - boundingCenterX
         input_img = None
@@ -183,10 +193,14 @@ def main():
            
         count +=1
         loopLen = 25
-        vision_nt.putNumber('realTimeArea',garea)
+        vision_nt.putNumber('realTimeArea',garea) # these lines put all the necessary data on network tables, which are then displayed on shuffleboard
         vision_nt.putNumber('areaRatio',areaRatio)
         vision_nt.putNumber('offset',-offset)
         vision_nt.putNumber('largestAreaRatio', largestAreaRatio)
+
+        vision_nt.putNumber('aspectRatio', aspectRatio)
+        
+        vision_nt.putNumber('largestAspectRatio', largestAspectRatio)
         vision_nt.putNumber('CenterOfBoxX', boundingCenterX)
         vision_nt.putNumber('CenterOfBoxY', boundingCenterY)
         if sumArea > 0 and count >= loopLen:
