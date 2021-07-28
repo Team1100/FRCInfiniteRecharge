@@ -23,7 +23,7 @@ public class CrossLineAndShootAuto extends SequentialCommandGroup {
       new DriveDistance(Constants.kInitiationLine, Constants.kRobotNormalDriveSpeed, true),
       new BallIntakeDown(),
       new Wait(1),
-      new ShootBallsAuto(Constants.kZoneYellowSpeed, false)
+      new ShootBallsAuto(Constants.kZoneYellowSpeed, true)
     );
   }
   public static void registerWithTestingDashboard() {
