@@ -20,6 +20,7 @@ public class Climber extends SubsystemBase {
   private static Climber climber;
   private VictorSPX leftMotor;
   private VictorSPX rightMotor;
+  private VictorSPX hookMotor;
   private static DoubleSolenoid m_piston;
 
   /**
@@ -28,6 +29,7 @@ public class Climber extends SubsystemBase {
   private Climber() {
     leftMotor = new VictorSPX(RobotMap.CL_MOTOR_LEFT);
     rightMotor = new  VictorSPX(RobotMap.CL_MOTOR_RIGHT);
+    hookMotor = new  VictorSPX(RobotMap.CL_HOOK_MOTOR);
     m_piston = new DoubleSolenoid(RobotMap.CL_PCM_CAN, RobotMap.CL_PISTON_PORT2, RobotMap.CL_PISTON_PORT5);
   }
 
@@ -49,6 +51,9 @@ public class Climber extends SubsystemBase {
     rightMotor.set(ControlMode.PercentOutput, speed);
   }
 
+  public void hook(double speed) {
+    hookMotor.set(ControlMode.PercentOutput, -speed);
+  }
   public DoubleSolenoid getPiston() {
     return m_piston;
   }

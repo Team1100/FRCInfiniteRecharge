@@ -50,7 +50,6 @@ public class OI {
     // Now Mapping Commands to XBox
     xbox.getButtonLeftBumper().whenPressed(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
-
     xbox.getButtonY().whenHeld(new FeedBalls());
     xbox.getButtonB().whenHeld(new SpitBalls());
     xbox.getButtonStart().whileHeld(new PIDBottomShooter(5500, true));
@@ -60,8 +59,8 @@ public class OI {
     xbox.getButtonA().whenPressed(new BallIntakeDown());
     xbox.getDPad().getUp().whenPressed(new ShooterUp());
     xbox.getDPad().getDown().whenPressed(new ShooterDown());
-    xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
-    xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
+    xbox.getDPad().getLeft().whenHeld(new Climb(-0.5, true));
+    xbox.getDPad().getRight().whenHeld(new HookUp(-0.5));
 
     // Zone 1
     buttonBox.getFire().whenPressed(new PIDBottomShooter(6500, true));
