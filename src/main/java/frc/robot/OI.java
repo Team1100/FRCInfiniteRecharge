@@ -48,12 +48,12 @@ public class OI {
     buttonBox = new ButtonBox(RobotMap.U_BUTTON_BOX);
 
     // Now Mapping Commands to XBox
-    xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
+    xbox.getButtonLeftBumper().whenPressed(new TurretLeft());
     xbox.getButtonRightBumper().whileHeld(new TurretRight());
 
     xbox.getButtonY().whenHeld(new FeedBalls());
     xbox.getButtonB().whenHeld(new SpitBalls());
-    xbox.getButtonStart().whenPressed(new PIDBottomShooter(5500, true));
+    xbox.getButtonStart().whileHeld(new PIDBottomShooter(5500, true));
     //xbox.getButtonStart().whenPressed(new SpinShooter(sspeed, sspeed, true));
     xbox.getButtonBack().whenPressed(new SpinShooter(0.0,0.0,false));
     xbox.getButtonX().whenPressed(new BallIntakeUp());

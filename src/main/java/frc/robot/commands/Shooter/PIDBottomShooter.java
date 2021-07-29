@@ -70,6 +70,12 @@ public class PIDBottomShooter extends PIDCommand {
   }
 
   // Returns true when the command should end.
+
+  @Override
+  public void end(boolean interrupted) {
+    m_shooter.setBottom(0);
+  }
+
   @Override
   public boolean isFinished() {
     return false;
