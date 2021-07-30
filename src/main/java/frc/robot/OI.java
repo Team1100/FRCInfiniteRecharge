@@ -47,21 +47,42 @@ public class OI {
     xbox = new XboxController(RobotMap.U_XBOX_CONTROLLER, 0.3);
     buttonBox = new ButtonBox(RobotMap.U_BUTTON_BOX);
 
+    ////////////////////////////////////////////////////
     // Now Mapping Commands to XBox
-    xbox.getButtonLeftBumper().whenPressed(new TurretLeft());
-    xbox.getButtonRightBumper().whileHeld(new TurretRight());
-    xbox.getButtonY().whenHeld(new FeedBalls());
-    xbox.getButtonB().whenHeld(new SpitBalls());
-    xbox.getButtonStart().whileHeld(new PIDBottomShooter(5500, true));
-    //xbox.getButtonStart().whenPressed(new SpinShooter(sspeed, sspeed, true));
-    xbox.getButtonBack().whenPressed(new SpinShooter(0.0,0.0,false));
-    xbox.getButtonX().whenPressed(new BallIntakeUp());
-    xbox.getButtonA().whenPressed(new BallIntakeDown());
-    xbox.getDPad().getUp().whenPressed(new ShooterUp());
-    xbox.getDPad().getDown().whenPressed(new ShooterDown());
-    xbox.getDPad().getLeft().whenHeld(new Climb(-0.5, true));
-    xbox.getDPad().getRight().whenHeld(new HookUp(-0.5));
+    ////////////////////////////////////////////////////
+    
+    // Bumpers
+    xbox.getButtonLeftBumper().whenPressed(new ShooterDown());
+    xbox.getButtonRightBumper().whileHeld(new ShooterUp());
 
+    // XYAB
+    xbox.getButtonX().whenPressed(new BallIntakeUp());
+    xbox.getButtonY().whenHeld(new FeedBalls());
+    xbox.getButtonA().whenPressed(new BallIntakeDown());
+    xbox.getButtonB().whenHeld(new SpitBalls());
+    
+    // Start and Back
+    PIDBottomShooter pidBottomShooter = new PIDBottomShooter(5500, true);
+    xbox.getButtonStart().whenPressed(pidBottomShooter);
+    xbox.getButtonBack().cancelWhenPressed(pidBottomShooter);
+
+    // DPAD
+    xbox.getDPad().getUp().whileHeld(new Climb(-0.5,true));
+
+    // Left and Right Stick buttons
+    xbox.getButtonLeftStick().toggleWhenPressed(new HookUp(0));
+
+    ////////////////////////////////////////////////////
+    // Now Mapping Commands to AttackThree controllers
+    ////////////////////////////////////////////////////
+
+    leftStick.getButton(6).whenHeld(new Climb(0.5, true));
+
+    ////////////////////////////////////////////////////
+    // Now Mapping Commands to Button Box
+    ////////////////////////////////////////////////////
+
+    
     // Zone 1
     buttonBox.getFire().whenPressed(new PIDBottomShooter(6500, true));
     buttonBox.getFire().whenPressed(new ShooterDown());
