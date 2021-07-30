@@ -69,11 +69,11 @@ public class DriveDistance extends CommandBase {
     Encoder rightEncoder = m_drive.getRightEncoder();
     boolean finished = false;
     if (m_distance >= 0) {
-      if (leftEncoder.getDistance() >= m_distance && rightEncoder.getDistance() >= m_distance) {
+      if (leftEncoder.getDistance() >= m_distance || rightEncoder.getDistance() >= m_distance) {
         finished = true;
       }
     } else if (m_distance < 0) {
-      if (leftEncoder.getDistance() <= m_distance && rightEncoder.getDistance() <= m_distance) {
+      if (leftEncoder.getDistance() <= m_distance || rightEncoder.getDistance() <= m_distance) {
         finished = true;
       }
     }

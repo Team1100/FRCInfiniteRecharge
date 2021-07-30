@@ -26,7 +26,7 @@ public class ShootBallsAuto extends ParallelDeadlineGroup {
   {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());super();
-    super(new Wait(5, true),
+    super(new Wait(7, true),
           new MoveBallsAfterDelay(),
           new PIDBottomShooter(botSetpoint, parametrized));
   }
