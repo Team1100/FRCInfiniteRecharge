@@ -63,7 +63,7 @@ public class SpinSpinnerToColor extends CommandBase {
     String m_actualColor = m_spinner.getColor();
     if (m_parameterized == false) {
       m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout", 5.0);
-      m_speed = SmartDashboard.getNumber("SpinnerMotorSpeed", 0.2);
+      m_speed = TestingDashboard.getInstance().getNumber(m_spinner, "SpinnerMotorSpeed");
       m_color = SmartDashboard.getString("SpinnerTargetColor", "Yellow");
     }
     if (!m_actualColor.equals(m_currentColor)) {

@@ -258,7 +258,6 @@ public class TestingDashboard {
 
     // Controlling time for spinner
     SmartDashboard.putNumber("SpinnerMotorPeriod",5);
-    SmartDashboard.putNumber("SpinnerMotorSpeed",0.2);
     SmartDashboard.putString("SpinnerTargetColor","Yellow");
     SmartDashboard.putString("SpinnerActualColor","Yellow");
     SmartDashboard.putNumber("SpinnerColorNotFoundTimeout",5.0);
