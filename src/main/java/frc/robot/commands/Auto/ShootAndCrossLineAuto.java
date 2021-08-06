@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.commands.BallIntake.BallIntakeDown;
 import frc.robot.commands.Drive.DriveDistance;
+import frc.robot.commands.Shooter.ShooterDown;
 import frc.robot.subsystems.Auto;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -31,6 +32,7 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     addCommands(
           new Wait(0, false),
           new BallIntakeDown(),
+          new ShooterDown(),
           new Wait(1, true),
           new ShootBallsAuto(Constants.kZoneYellowSpeed, true),
           new DriveDistance(-Constants.kRobotLength - 6, Constants.kRobotNormalDriveSpeed, true)
