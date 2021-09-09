@@ -167,6 +167,7 @@ public class RobotMap {
 	//[CL]imber
 	public static final int CL_MOTOR_LEFT = CAN_6;
 	public static final int CL_MOTOR_RIGHT = CAN_10;
+	public static final int CL_HOOK_MOTOR = CAN_12;
 	public static final int CL_PCM_CAN = PCM_CAN;
 	public static final int CL_PISTON_PORT2 = PCM_2;
 	public static final int CL_PISTON_PORT5 = PCM_5;

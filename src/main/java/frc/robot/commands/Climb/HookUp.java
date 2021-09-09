@@ -7,33 +7,28 @@
 
 package frc.robot.commands.Climb;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.TestingDashboard;
+import frc.robot.OI;
+import frc.robot.input.XboxController;
+//import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Climber;
 
-
-public class Climb extends CommandBase {
-  private Climber m_climber;
-  private double m_speed;
-  private boolean m_parameterized = true;
-
+public class HookUp extends CommandBase {
   /**
-   * Creates a new Climb.
+   * Creates a new HookUp.
    */
-  public Climb(double speed, boolean parameterized) {
+    private Climber m_climber;
+    private double m_speed;
+ 
+  public HookUp(double speed) {
     m_climber = Climber.getInstance();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Climber.getInstance()); 
     m_speed = speed;
-    m_parameterized = parameterized;
-  }
-
-  public static void registerWithTestingDashboard() {
-    Climber climber = Climber.getInstance();
-    double speed = SmartDashboard.getNumber("ClimberSpeed", 0.5);
-    Climb cmd = new Climb(speed, false);
-    TestingDashboard.getInstance().registerCommand(climber, "Basic", cmd); 
+ 
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -44,17 +39,14 @@ public class Climb extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = m_speed;
-    if (!m_parameterized) {
-      speed = SmartDashboard.getNumber("ClimberSpeed", 0.5);
-    }
-    m_climber.climb(speed);
+    double speed = OI.getInstance().getXbox().getAxis(XboxController.XboxAxis.kYLeft);
+    m_climber.hook(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climber.climb(0);
+      m_climber.hook(0);
   }
 
   // Returns true when the command should end.

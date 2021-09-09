@@ -36,8 +36,8 @@ public class ButtonBox extends Joystick {
 		WideFocus = new JoystickButton(this, 3);
 		FineFocus = new JoystickButton(this, 2);
 		Fire = new JoystickButton(this, 1);
-		IntakeIn = new JoystickButton(this, 12);
-		IntakeOut = new JoystickButton(this, 5);
+		IntakeIn = new JoystickButton(this, 5);
+		IntakeOut = new JoystickButton(this, 12);
 		Hopper = new JoystickButton(this, 4);
 		CPDeploy = new JoystickButton(this, 6);
 		CPSpin = new JoystickButton(this, 11);

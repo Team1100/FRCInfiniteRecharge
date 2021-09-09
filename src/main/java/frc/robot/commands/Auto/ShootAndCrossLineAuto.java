@@ -8,10 +8,11 @@
 package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.commands.BallIntake.BallIntakeDown;
-import frc.robot.commands.Drive.TimedForward;
-import frc.robot.commands.Shooter.ShooterUp;
+import frc.robot.commands.Drive.DriveDistance;
+import frc.robot.commands.Shooter.ShooterDown;
 import frc.robot.subsystems.Auto;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -25,19 +26,23 @@ public class ShootAndCrossLineAuto extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     // Autonomous mode will execute the below steps
-    // 1. Wait a certain amount of time (controlled by StartAutoWaitTime in SmartDashboard)
+    // 1. Wait a certain amount of time (controlled by StartAutoWaitTimeSeconds in SmartDashboard)
     // 2. Move forward for a certain amount of time (controlled by DriveForwardTime in SmartDashboard)
     // TODO: Add the commands for shooting here
-    super(new BallIntakeDown(),
-          new Wait(1),
-          new ShootBallsAuto(3800, 5500),
-          new ShooterUp(),
-          new TimedForward(3, 0.5));
+    addCommands(
+          new Wait(0, false),
+          new BallIntakeDown(),
+          new ShooterDown(),
+          new Wait(1, true),
+          new ShootBallsAuto(Constants.kZoneYellowSpeed, true),
+          new DriveDistance(-Constants.kRobotLength - 6, Constants.kRobotNormalDriveSpeed, true)
+          );
   }
+  
 
   public static void registerWithTestingDashboard() {
     Auto auto = Auto.getInstance();
     ShootAndCrossLineAuto cmd = new ShootAndCrossLineAuto();
-    TestingDashboard.getInstance().registerCommand(auto, "Auto", cmd);
+    TestingDashboard.getInstance().registerCommand(auto, "FullAutoSequence", cmd);
   }
 }

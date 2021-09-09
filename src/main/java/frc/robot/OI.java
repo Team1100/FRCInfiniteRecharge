@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import frc.robot.commands.Auto.ShootBallsAuto;
 import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
@@ -17,8 +16,6 @@ import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
 import frc.robot.input.ButtonBox;
 import frc.robot.input.XboxController;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -31,7 +28,6 @@ public class OI {
   public static AttackThree rightStick;
   private static XboxController xbox;
   private static ButtonBox buttonBox;
-  private double sspeed = .5;
   /**
    * Used outside of the OI class to return an instance of the class.
    * @return Returns instance of OI class formed from constructor.
@@ -51,22 +47,42 @@ public class OI {
     xbox = new XboxController(RobotMap.U_XBOX_CONTROLLER, 0.3);
     buttonBox = new ButtonBox(RobotMap.U_BUTTON_BOX);
 
+    ////////////////////////////////////////////////////
     // Now Mapping Commands to XBox
-    xbox.getButtonLeftBumper().whileHeld(new TurretLeft());
-    xbox.getButtonRightBumper().whileHeld(new TurretRight());
+    ////////////////////////////////////////////////////
+    
+    // Bumpers
+    xbox.getButtonLeftBumper().whenPressed(new ShooterDown());
+    xbox.getButtonRightBumper().whileHeld(new ShooterUp());
 
-    xbox.getButtonY().whenHeld(new FeedBalls());
-    xbox.getButtonB().whenHeld(new SpitBalls());
-    xbox.getButtonStart().whenPressed(new PIDBottomShooter(5500, true));
-    //xbox.getButtonStart().whenPressed(new SpinShooter(sspeed, sspeed, true));
-    xbox.getButtonBack().whenPressed(new SpinShooter(0.0,0.0,false));
+    // XYAB
     xbox.getButtonX().whenPressed(new BallIntakeUp());
+    xbox.getButtonY().whenHeld(new FeedBalls());
     xbox.getButtonA().whenPressed(new BallIntakeDown());
-    xbox.getDPad().getUp().whenPressed(new ShooterUp());
-    xbox.getDPad().getDown().whenPressed(new ShooterDown());
-    xbox.getDPad().getLeft().whenHeld(new Climb(0.3, true));
-    xbox.getDPad().getRight().whenHeld(new Climb(-0.3, true));
+    xbox.getButtonB().whenHeld(new SpitBalls());
+    
+    // Start and Back
+    PIDBottomShooter pidBottomShooter = new PIDBottomShooter(5500, true);
+    xbox.getButtonStart().whenPressed(pidBottomShooter);
+    xbox.getButtonBack().cancelWhenPressed(pidBottomShooter);
 
+    // DPAD
+    xbox.getDPad().getUp().whileHeld(new Climb(-0.5,true));
+
+    // Left and Right Stick buttons
+    xbox.getButtonLeftStick().toggleWhenPressed(new HookUp(0));
+
+    ////////////////////////////////////////////////////
+    // Now Mapping Commands to AttackThree controllers
+    ////////////////////////////////////////////////////
+
+    leftStick.getButton(6).whenHeld(new Climb(0.5, true));
+
+    ////////////////////////////////////////////////////
+    // Now Mapping Commands to Button Box
+    ////////////////////////////////////////////////////
+
+    
     // Zone 1
     buttonBox.getFire().whenPressed(new PIDBottomShooter(6500, true));
     buttonBox.getFire().whenPressed(new ShooterDown());
