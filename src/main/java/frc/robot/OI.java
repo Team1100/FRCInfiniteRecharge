@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.Auto.VisionShootBallsAuto;
 import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
@@ -84,17 +85,15 @@ public class OI {
 
     
     // Zone 1
-    buttonBox.getFire().whenPressed(new PIDBottomShooter(6500, true));
-    buttonBox.getFire().whenPressed(new ShooterDown());
+    buttonBox.getFire().whenHeld(new PIDBottomShooter(6500, true));
+    buttonBox.getFineFocus().whenHeld(new FeedBalls());
+    buttonBox.getWideFocus().whenHeld(new SpitBalls());
     // Zone 2
-    buttonBox.getIntakeIn().whenPressed(new PIDBottomShooter(7000, true));
-    buttonBox.getIntakeIn().whenPressed(new ShooterUp());
+    buttonBox.getIntakeIn().whenPressed(new BallIntakeUp());
     // Zone 3
-    buttonBox.getIntakeOut().whenPressed(new PIDBottomShooter(6075, true));
-    buttonBox.getIntakeOut().whenPressed(new ShooterUp());
+    buttonBox.getIntakeOut().whenPressed(new BallIntakeDown());
     // Zone 4
-    buttonBox.getHopper().whenPressed(new PIDBottomShooter(6000, true));
-    buttonBox.getHopper().whenPressed(new ShooterUp());
+    
     // Stop shooter
     buttonBox.getCPDeploy().whenPressed(new SpinShooter(0.0,0.0,true));
     /*
@@ -108,6 +107,18 @@ public class OI {
     buttonBox.getClimberDeploy().whenPressed(new ClimberUp());
     buttonBox.getClimb().whenHeld(new Climb(0.5, true));    
     buttonBox.getClimb().whenReleased(new ClimberDown());
+
+    buttonBox.getCPRed().whenHeld(new TurretLeft());
+    buttonBox.getCPRed().whenReleased(new TurretStop());
+    buttonBox.getCPBlue().whenHeld(new TurretRight());
+    buttonBox.getCPBlue().whenReleased(new TurretStop());
+    buttonBox.getCPYellow().whenPressed(new ShooterUp());
+    buttonBox.getCPGreen().whenPressed(new ShooterDown());
+
+    buttonBox.getCPSpin().whenPressed(new VisionShootBallsAuto());
+
+    buttonBox.getHopper().whenHeld(new SpinIntakeRoller(1, false));
+
   }
 
   /**
