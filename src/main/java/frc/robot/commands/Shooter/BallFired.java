@@ -22,6 +22,7 @@ public class BallFired extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_ballFired = false;
     m_timer.reset();
   }
 
