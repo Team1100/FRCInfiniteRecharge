@@ -14,7 +14,8 @@ import frc.robot.subsystems.Vision;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PIDVisionFindTarget extends PIDCommand {
-  // the width of the camera stream is 480 pixels
+  // the height of the camera stream is 480 pixels
+  // the width of the camera stream is 640 pixels
   static final double OFFSET_TOLERANCE = 75; // measured in pixels 
   static final double MAX_SPEED = .6;
   static Drive m_drive;

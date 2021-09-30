@@ -10,32 +10,39 @@ package frc.robot.commands.Auto;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Auto;
 
 public class Wait extends CommandBase {
   private Timer m_timer;
-	private double m_time;
+  private double m_time;
+  private boolean m_parametrized;
 
   /**
    * Creates a new Wait.
    */
-  public Wait(double waitTime) {
+  public Wait(double waitTime, boolean parametrized) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_timer = new Timer();
     m_time = waitTime;
+    m_parametrized = parametrized;
   }
 
   public static void registerWithTestingDashboard() {
     Auto auto = Auto.getInstance();
-    double time = SmartDashboard.getNumber("StartAutoWaitTime", 3);
-    Wait cmd = new Wait(time);
+    double time = Constants.kDefaultAutoWaitToStartTime;
+    Wait cmd = new Wait(time, false);
     TestingDashboard.getInstance().registerCommand(auto, "Basic", cmd);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (!m_parametrized) {
+      m_time = SmartDashboard.getNumber("StartAutoWaitTimeSeconds", Constants.kDefaultAutoWaitToStartTime);
+    }
+    m_timer.reset();
     m_timer.start();
   }
 

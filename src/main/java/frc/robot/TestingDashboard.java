@@ -200,7 +200,7 @@ public class TestingDashboard {
         ArrayList<CommandBase> cmdList = tdt.commandTable.getCommandList(cmdGrpName);
         ShuffleboardLayout layout = tdt.tab.getLayout(cmdGrpName, BuiltInLayouts.kList);
         layout.withPosition(colpos,0);
-        layout.withSize(1,cmdList.size());
+        layout.withSize(4,cmdList.size()*2);
         for (int j = 0; j < cmdList.size(); j++) {
           layout.add(cmdList.get(j));
         }
@@ -217,7 +217,7 @@ public class TestingDashboard {
         Collections.sort(dataList);
         ShuffleboardLayout layout = tdt.tab.getLayout(dataGrpName, BuiltInLayouts.kList);
         layout.withPosition(colpos,0);
-        layout.withSize(1,dataList.size());
+        layout.withSize(4,dataList.size()*2);
         for (int j = 0; j < dataList.size(); j++) {
           String entryName = dataList.get(j);
           double defaultNumberValue = 0;
@@ -256,9 +256,6 @@ public class TestingDashboard {
   public void createDebugTab() {
     ShuffleboardTab debug_tab = Shuffleboard.getTab("Debug");
 
-    // Controlling inputs for Intake Roller motor
-    SmartDashboard.putNumber("IntakeRollerSpeed", 1);
-
     // Controlling time for spinner
     SmartDashboard.putNumber("SpinnerMotorPeriod",5);
     SmartDashboard.putNumber("SpinnerMotorSpeed",0.2);
@@ -271,9 +268,6 @@ public class TestingDashboard {
     
     // Controlling speed
     SmartDashboard.putNumber("AutoDriveSpeed", 0.5);
-
-    // Set delay for before we execute auto commands
-    SmartDashboard.putNumber("StartAutoWaitTime", 3);
 
     // Control Turret speed
     SmartDashboard.putNumber("IncrementTurretMotorSpeed", 0.5);

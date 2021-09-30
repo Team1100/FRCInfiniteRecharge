@@ -23,6 +23,7 @@ public class BallIntake extends SubsystemBase {
   private static BallIntake m_ballIntake;
   private static DoubleSolenoid m_piston;
   private CANSparkMax m_intakeRoller;
+  public static final double DEF_ROLLER_SPEED = 0.5;
 
   /**
    * Creates a new Ball Intake subsystem
@@ -36,6 +37,7 @@ public class BallIntake extends SubsystemBase {
     if (m_ballIntake == null) {
       m_ballIntake = new BallIntake();
       TestingDashboard.getInstance().registerSubsystem(m_ballIntake, "BallIntake");
+      TestingDashboard.getInstance().registerNumber(m_ballIntake, "MotorInputs", "IntakeRollerSpeed", DEF_ROLLER_SPEED);
     }
     return m_ballIntake;
   }
@@ -49,11 +51,11 @@ public class BallIntake extends SubsystemBase {
   }
 
   public void lowerIntake() {
-    m_piston.set(DoubleSolenoid.Value.kForward);
+    m_piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void raiseIntake() {
-    m_piston.set(DoubleSolenoid.Value.kReverse);
+    m_piston.set(DoubleSolenoid.Value.kForward);
   }
  
   @Override
