@@ -74,7 +74,7 @@ public class Drive extends SubsystemBase {
     leftEncoder.setDistancePerPulse(INCHES_PER_PULSE);
     rightEncoder.setDistancePerPulse(INCHES_PER_PULSE);
 
-    brakeModeToggle();
+    //brakeModeToggle();
 
     frontLeft.follow(backLeft);
     frontRight.follow(backRight);
@@ -172,8 +172,10 @@ public class Drive extends SubsystemBase {
     return rightEncoder;
   }
 
-  public void brakeModeToggle() {
+  public void brakeModeToggle(boolean bm) {
    
+    Brake = bm;
+
     if (Brake = true) {backLeft.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);}
 
