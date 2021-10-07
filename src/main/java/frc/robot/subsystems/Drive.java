@@ -176,10 +176,10 @@ public class Drive extends SubsystemBase {
    
     Brake = bm;
 
-    if (Brake = true) {backLeft.setNeutralMode(NeutralMode.Brake);
+    if (Brake == true) {backLeft.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);}
 
-    else if(Brake = false) {
+    else if(Brake == false) {
       backLeft.setNeutralMode(NeutralMode.Coast);
     backRight.setNeutralMode(NeutralMode.Coast);
     }
