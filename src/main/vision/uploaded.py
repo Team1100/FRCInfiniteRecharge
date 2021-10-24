@@ -77,8 +77,8 @@ def getContours(img):
                     area = boundingArea
                     largestAreaRatio = areaRatio
                     largestAspectRatio = aspectRatio
-                else:
-                    print(str(aspectRatio))
+                #else:
+                    #print(str(aspectRatio))
 
         
         
@@ -175,7 +175,8 @@ def main():
         input_img = None
         frame_time, input_img = sink.grabFrame(input_img)
         pitch = (centerY/2) * 48.9417
-        advancedDistance = (2.275 - .92) / math.tan(18.0454 + pitch)
+        #(height of target (m) - height of camera in up position (m))/tan(pitch + angle of camera)
+        advancedDistance = (2.286 - .965) / math.tan(math.radians(pitch + 18.0455))
 
         # Notify output of error and skip iteration
         if frame_time == 0:
