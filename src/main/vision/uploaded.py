@@ -5,6 +5,7 @@ import time
 import cv2
 import json
 import numpy as np
+import math
 
 garea = 0
 
@@ -45,9 +46,9 @@ def findColor(img,myColors):
 def getContours(img):
     image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
-    tolerance = .2
+    tolerance = .125
     idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
-    idealAspectRatio = 2 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
+    idealAspectRatio = 1.8 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
     aspectTolerance = .44 # this is the tolerance for finding the target with the right aspect ratio
                          # start off with a large tolerance, and if the ideal ratio is correct, lower the tolerance as needed. 
     global garea
@@ -76,8 +77,8 @@ def getContours(img):
                     area = boundingArea
                     largestAreaRatio = areaRatio
                     largestAspectRatio = aspectRatio
-                else:
-                    print(str(aspectRatio))
+                #else:
+                    #print(str(aspectRatio))
 
         
         
@@ -97,7 +98,7 @@ def getContours(img):
             x, y, w, h, = cv2.boundingRect(approx)
             boundingCenterX = x + w/2
             centerX = ((x + (w/2))-320)/320
-            centerY = ((y + (h/2))-240)/240
+            centerY = ((y + (h/2))-180)/180 * -1
 
             cv2.rectangle(imgResult, (x,y),(x+w,y+h),(0,255,0),3)
 
@@ -122,7 +123,7 @@ def main():
 
    # Table for vision output information
    ntinst = NetworkTablesInstance.getDefault()
-   ip = '192.168.102.225'
+   ip = ''
    print("Setting up NetworkTables client for team {} at {}".format(team,ip))
    ntinst.startClientTeam(team)
    #ntinst.startClient(ip)
@@ -173,7 +174,9 @@ def main():
         offset = camCenter - boundingCenterX
         input_img = None
         frame_time, input_img = sink.grabFrame(input_img)
-
+        pitch = (centerY/2) * 48.9417
+        #(height of target (m) - height of camera in up position (m))/tan(pitch + angle of camera)
+        advancedDistance = (2.286 - .965) / math.tan(math.radians(pitch + 18.0455))
 
         # Notify output of error and skip iteration
         if frame_time == 0:
@@ -209,6 +212,7 @@ def main():
         vision_nt.putNumber('largestAspectRatio', largestAspectRatio)
         vision_nt.putNumber('CenterOfBoxX', centerX)
         vision_nt.putNumber('CenterOfBoxY', centerY)
+        vision_nt.putNumber('advancedDistance', advancedDistance)
 
         if sumArea > 0 and count >= loopLen:
         #if count >= loopLen:
@@ -223,8 +227,7 @@ def main():
             
             
 
-        vision_nt.putNumber('debug', count)
-        
+        vision_nt.putNumber('pitch', pitch)
         cvsrc.putFrame(imgResult)
 
         hueMin = int(vision_nt.getNumber('hueMin',255))
