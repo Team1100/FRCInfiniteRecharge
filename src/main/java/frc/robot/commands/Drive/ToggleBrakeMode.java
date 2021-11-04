@@ -22,7 +22,7 @@ public class ToggleBrakeMode extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Drive.getInstance().brakeModeToggle(isTrue);
+    Drive.getInstance().brakeModeSet(isTrue);
     isFinished = true;
   }
   

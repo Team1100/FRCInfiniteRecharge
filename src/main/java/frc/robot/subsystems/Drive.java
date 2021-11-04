@@ -42,7 +42,7 @@ public class Drive extends SubsystemBase {
 
   private Encoder leftEncoder, rightEncoder;
 
-  public boolean Brake = true;               // SHOULD USUALLY BE FALSE!
+  public boolean brake = true;               // SHOULD USUALLY BE FALSE!
 
   final double PULSE_PER_FOOT = 1300;
   final double PULSE_PER_METER = 4265.1;
@@ -172,16 +172,20 @@ public class Drive extends SubsystemBase {
     return rightEncoder;
   }
 
-  public void brakeModeToggle(boolean bm) {
+  public void brakeModeSet(boolean bm) {
    
-    Brake = bm;
+    brake = bm;
 
-    if (Brake == true) {backLeft.setNeutralMode(NeutralMode.Brake);
-    backRight.setNeutralMode(NeutralMode.Brake);}
+    if (brake == true) 
+    {
+      backLeft.setNeutralMode(NeutralMode.Brake);
+      backRight.setNeutralMode(NeutralMode.Brake);
+    }
 
-    else if(Brake == false) {
+    else if(brake == false) 
+    {
       backLeft.setNeutralMode(NeutralMode.Coast);
-    backRight.setNeutralMode(NeutralMode.Coast);
+      backRight.setNeutralMode(NeutralMode.Coast);
     }
 
   }
