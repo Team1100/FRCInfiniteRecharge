@@ -11,12 +11,14 @@ import frc.robot.commands.Auto.VisionShootBallsAuto;
 import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
+import frc.robot.commands.Drive.ToggleBrakeMode;
 import frc.robot.commands.Shooter.*;
 //import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
 import frc.robot.input.AttackThree;
 import frc.robot.input.ButtonBox;
 import frc.robot.input.XboxController;
+import frc.robot.subsystems.Drive;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -79,6 +81,9 @@ public class OI {
 
     leftStick.getButton(6).whenHeld(new Climb(0.5, true));
 
+    leftStick.getButton(3).whenPressed(new ToggleBrakeMode(true));
+    rightStick.getButton(3).whenPressed(new ToggleBrakeMode(false));
+ 
     ////////////////////////////////////////////////////
     // Now Mapping Commands to Button Box
     ////////////////////////////////////////////////////
