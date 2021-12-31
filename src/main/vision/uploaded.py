@@ -7,236 +7,223 @@ import json
 import numpy as np
 import math
 
-garea = 0
+class CameraView(object):
+    def __init__(self, camera):
+        self.camera = camera
+        self.width = self.camera['width']
+        self.height = self.camera['height']
 
-myColors = [[158,0,255,168,13,255]]
+class VisionApplication(object):
+    def __init__(self):
+        self.garea = 0
 
-imgResult = None
-mask = None
-team = None
+        self.imgResult = None
+        self.mask = None
+        self.team = None
 
-hueMin = 13
-hueMax = 255
-satMin = 1
-satMax = 66
-valMin = 235
-valMax = 255
+        self.hueMin = 13
+        self.hueMax = 255
+        self.satMin = 1
+        self.satMax = 66
+        self.valMin = 235
+        self.valMax = 255
+        self.myColors = [[self.hueMin,self.satMin,self.valMin,self.hueMax,self.satMax,self.valMax]]
 
-boundingCenterX = 0
-centerY = 0
-centerX = 0
-targetDetected = False
+        self.boundingCenterX = 0 # center of the bounding box x axis
+        self.centerY = 0
+        self.centerX = 0
+        self.targetDetected = False
+        self.areaRatio = 0 # this is the areaRatio of every contour that is seen by the camera
+        self.largestAreaRatio = 0 # this is the areaRatio of the target once it has been isolated
+        self.aspectRatio = 0 # this is the aspectRatio of every contour that is seen by the camera
+        self.largestAspectRatio = 0 # this is the aspectRatio fo the target once it has been isolated
 
+        # Initialize configuration
+        self.config = self.readConfig()
+        self.team = self.config["team"]
+        self.camera = CameraView(self.config['cameras'][0])
 
-areaRatio = 0 # this is the areaRatio of every contour that is seen by the camera
-largestAreaRatio = 0 # this is the areaRatio of the target once it has been isolated
-aspectRatio = 0 # this is the aspectRatio of every contour that is seen by the camera
-largestAspectRatio = 0 # this is the aspectRatio fo the target once it has been isolated
+        # Initialize Camera Server
+        self.initializeCameraServer()
 
-def findColor(img,myColors):
-    global mask
-    imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
-    lower = np.array(myColors[0][0:3])
-    upper = np.array(myColors[0][3:6])
-    mask = cv2.inRange(imgHSV, lower, upper)
-    #cv2.imshow("img",mask)
-    getContours(mask)
+        # Initialize NetworkTables Client
+        self.initializeNetworkTables()
 
+    def readConfig(self):
+        config = None
+        with open('/boot/frc.json') as fp:
+            config = json.load(fp)
+        return config
 
-def getContours(img):
-    image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    def initializeCameraServer(self):
+        cserver = CameraServer.getInstance()
+        cserver.startAutomaticCapture()
+        self.cvsrc = cserver.putVideo("visionCam", self.camera.width, self.camera.height)
+        self.cvmask = cserver.putVideo("maskCam", self.camera.width, self.camera.height) #new
+        
+        self.input_stream = CameraServer.getInstance().getVideo()
+        self.output_stream = CameraServer.getInstance().putVideo('Processed', self.camera.width, self.camera.height)
+        self.sink = CameraServer.getInstance().getVideo()
 
-    tolerance = .125
-    idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
-    idealAspectRatio = 1.8 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
-    aspectTolerance = .44 # this is the tolerance for finding the target with the right aspect ratio
-                         # start off with a large tolerance, and if the ideal ratio is correct, lower the tolerance as needed. 
-    global garea
-    global areaRatio
-    global largestAreaRatio
-    global aspectRatio  #width/height of the box
-    global largestAspectRatio
+    def initializeNetworkTables(self):
+        # Table for vision output information
+        ntinst = NetworkTablesInstance.getDefault()
+        ip = ''
+        print("Setting up NetworkTables client for team {} at {}".format(self.team,ip))
+        ntinst.startClientTeam(self.team)
+        #ntinst.startClient(ip)
+        self.vision_nt = ntinst.getTable('Shuffleboard/Vision')
 
-    garea = 0
-    if len(contours) > 0:
-        global targetDetected
-        largest = contours[0]
-        area = 0
-        for contour in contours:
-            
-            contourArea = cv2.contourArea(contour) #area of the particle
-            x, y, w, h, = cv2.boundingRect(contour)
-            boundingArea = w * h
-            if (boundingArea < 1100):
+        self.putMaskingValues()
+
+        # Wait for NetworkTables to start
+        time.sleep(0.5)
+
+    def putMaskingValues(self):
+        self.vision_nt.putNumber('hueMin',self.hueMin)
+        self.vision_nt.putNumber('hueMax',self.hueMax)
+        self.vision_nt.putNumber('satMin',self.satMin)
+        self.vision_nt.putNumber('satMax',self.satMax)
+        self.vision_nt.putNumber('valMin',self.valMin)
+        self.vision_nt.putNumber('valMax',self.valMax)
+
+    def getMaskingValues(self):
+        self.hueMin = int(vision_nt.getNumber('hueMin',255))
+        self.hueMax = int(vision_nt.getNumber('hueMax',255))
+        self.satMin = int(vision_nt.getNumber('satMin',255))
+        self.satMax = int(vision_nt.getNumber('satMax',255))
+        self.valMin = int(vision_nt.getNumber('valMin',255))
+        self.valMax = int(vision_nt.getNumber('valMax',255))
+        self.myColors = [[self.hueMin,self.satMin,self.valMin,self.hueMax,self.satMax,self.valMax]]
+
+    def runApplication(self):
+        count = 0
+        sumArea = 0
+        # used to set a time delay after losing the target to report a lost target
+        targetDetTol = 1.0 
+        t1 = 0
+        t2 = 0
+        while True:
+            camCenter = (self.camera.width * 4)/2
+            offset = camCenter - self.boundingCenterX
+            input_img = None
+            frame_time, input_img = self.sink.grabFrame(input_img)
+            pitch = (self.centerY/2) * 48.9417
+            #(height of target (m) - height of camera in up position (m))/tan(pitch + angle of camera)
+            advancedDistance = (2.286 - .965) / math.tan(math.radians(pitch + 18.0455))
+
+            # Notify output of error and skip iteration
+            if frame_time == 0:
+                self.output_stream.notifyError(self.sink.getError())
                 continue
-            areaRatio = contourArea/boundingArea
-            aspectRatio = w/h
-            if areaRatio > idealRatio - tolerance and areaRatio < idealRatio + tolerance: # if the target is within the right area ratio range, it is possibly the correct target
-                if aspectRatio > idealAspectRatio - aspectTolerance and aspectRatio < idealAspectRatio + aspectTolerance: # if the target is within the correct aspect ratio range aswell, it is definitely the right target
-                    largest = contour
-                    area = boundingArea
-                    largestAreaRatio = areaRatio
-                    largestAspectRatio = aspectRatio
-                #else:
-                    #print(str(aspectRatio))
 
-        
-        
-        peri = cv2.arcLength(largest, True)
-        approx = cv2.approxPolyDP(largest, 0.015 * peri, True)
-        if area > 100: # may not need this if statement. Consider deleting in the future.
-            targetDetected = True
-            global boundingCenterX #center of the bounding box x axis
-            global boundingCenterY # center of the bounding box y axis
-            global centerX
-            global centerY
-            cv2.drawContours(imgResult,largest, -1, (255,0,0), 3)
-            peri = cv2.arcLength(largest, True)
-            garea = area
+            # Convert to HSV and threshold image
+            self.imgResult = input_img.copy()
+            self.targetDetected = False
+            self.findColor(input_img,self.myColors)
+            
+            t2 = time.clock_gettime(time.CLOCK_MONOTONIC) # gets the current "time"
+            timeDiff = t2-t1 # difference between the most recent time and the time recorded when the target was last seen
 
-            approx = cv2.approxPolyDP(largest, 0.02 * peri, True)
-            x, y, w, h, = cv2.boundingRect(approx)
-            boundingCenterX = x + w/2
-            centerX = ((x + (w/2))-320)/320
-            centerY = ((y + (h/2))-180)/180 * -1
+            if self.targetDetected:
+                sumArea += self.garea
+                targetDetTolCount = 0
+                t1 = t2
+                vision_nt.putNumber('targetDetected',1)
+            else: # only sets updates the targetDetected if a certain amount of time has passed
+                if timeDiff > targetDetTol:
+                    vision_nt.putNumber('targetDetected',0)
+             
+            count +=1
+            loopLen = 25
+            vision_nt.putNumber('realTimeArea',self.garea) # these lines put all the necessary data on network tables, which are then displayed on shuffleboard
+            vision_nt.putNumber('areaRatio',self.areaRatio)
+            vision_nt.putNumber('largestAreaRatio', self.largestAreaRatio)
 
-            cv2.rectangle(imgResult, (x,y),(x+w,y+h),(0,255,0),3)
+            vision_nt.putNumber('aspectRatio', self.aspectRatio)
+            
+            vision_nt.putNumber('largestAspectRatio', self.largestAspectRatio)
+            vision_nt.putNumber('CenterOfBoxX', self.centerX)
+            vision_nt.putNumber('CenterOfBoxY', self.centerY)
 
+            vision_nt.putNumber('advancedDistance', advancedDistance)
+            vision_nt.putNumber('offset',-offset)
+
+            if sumArea > 0 and count >= loopLen:
+            #if count >= loopLen:
+                average = sumArea/count
+                distance = (20235 * (average ** -.558))
+
+                vision_nt.putNumber('distance',distance)
+                vision_nt.putNumber('area',average) 
+                sumArea = 0
+                count = 0
+
+            vision_nt.putNumber('pitch', pitch)
+            self.cvsrc.putFrame(self.imgResult)
+            self.getMaskingValues()
+
+            self.cvmask.putFrame(self.mask)
+
+        def findColor(self, img, myColors):
+            imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
+            lower = np.array(myColors[0][0:3])
+            upper = np.array(myColors[0][3:6])
+            self.mask = cv2.inRange(imgHSV, lower, upper)
+            #cv2.imshow("img",self.mask)
+            self.getContours(self.mask)
+
+
+        def getContours(self, img):
+            image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+            tolerance = .125
+            idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
+            idealAspectRatio = 1.8 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
+            aspectTolerance = .44 # this is the tolerance for finding the target with the right aspect ratio
+                                 # start off with a large tolerance, and if the ideal ratio is correct, lower the tolerance as needed. 
+            self.garea = 0
+            if len(contours) > 0:
+                largest = contours[0]
+                area = 0
+                for contour in contours:
+                    
+                    contourArea = cv2.contourArea(contour) #area of the particle
+                    x, y, w, h, = cv2.boundingRect(contour)
+                    boundingArea = w * h
+                    if (boundingArea < 1100):
+                        continue
+                    self.areaRatio = contourArea/boundingArea
+                    self.aspectRatio = w/h
+                    if self.areaRatio > idealRatio - tolerance and self.areaRatio < idealRatio + tolerance: # if the target is within the right area ratio range, it is possibly the correct target
+                        if self.aspectRatio > idealAspectRatio - aspectTolerance and self.aspectRatio < idealAspectRatio + aspectTolerance: # if the target is within the correct aspect ratio range aswell, it is definitely the right target
+                            largest = contour
+                            area = boundingArea
+                            self.largestAreaRatio = self.areaRatio
+                            self.largestAspectRatio = self.aspectRatio
+                        #else:
+                            #print(str(self.aspectRatio))
+
+                
+                
+                peri = cv2.arcLength(largest, True)
+                approx = cv2.approxPolyDP(largest, 0.015 * peri, True)
+                if area > 100: # may not need this if statement. Consider deleting in the future.
+                    self.targetDetected = True
+                    cv2.drawContours(self.imgResult,largest, -1, (255,0,0), 3)
+                    peri = cv2.arcLength(largest, True)
+                    self.garea = area
+
+                    approx = cv2.approxPolyDP(largest, 0.02 * peri, True)
+                    x, y, w, h, = cv2.boundingRect(approx)
+                    self.boundingCenterX = x + w/2
+                    self.centerX = ((x + (w/2))-320)/320
+                    self.centerY = ((y + (h/2))-180)/180 * -1
+
+                    cv2.rectangle(self.imgResult, (x,y),(x+w,y+h),(0,255,0),3)
 
 def main():
-   fp = open('/boot/frc.json')
-   config = json.load(fp)
-   camera = config['cameras'][0]
-   global team
-   team = config["team"]
+    visionApp = VisionApplication()
+    visionApp.runApplication()
 
-   width = camera['width']
-   height = camera['height']
-   cserver = CameraServer.getInstance()
-   cserver.startAutomaticCapture()
-   cvsrc = cserver.putVideo("visionCam", width, height)
-   cvmask = cserver.putVideo("maskCam", width, height) #new
-   
-   input_stream = CameraServer.getInstance().getVideo()
-   output_stream = CameraServer.getInstance().putVideo('Processed', width, height)
-   sink = CameraServer.getInstance().getVideo()
-
-   # Table for vision output information
-   ntinst = NetworkTablesInstance.getDefault()
-   ip = ''
-   print("Setting up NetworkTables client for team {} at {}".format(team,ip))
-   ntinst.startClientTeam(team)
-   #ntinst.startClient(ip)
-   vision_nt = ntinst.getTable('Shuffleboard/Vision')
-
-   vision_nt.putNumber('hueMin',13)
-   vision_nt.putNumber('hueMax',255)
-   vision_nt.putNumber('satMin',1)
-   vision_nt.putNumber('satMax',66)
-   vision_nt.putNumber('valMin',235)
-   vision_nt.putNumber('valMax',255)
-
-
-
-
-
-   # Wait for NetworkTables to start
-   time.sleep(0.5)
-   count = 0
-   sumArea = 0
-   # used to set a time delay after losing the target to report a lost target
-   targetDetTol = 1.0 
-   t1 = 0
-   t2 = 0
-   while True:
-
-
-        global boundingCenterX
-        global boundingCenterY
-        global centerX
-        global centerY
-        global imgResult
-        global mask
-        global hueMin
-        global hueMax
-        global satMin
-        global satMax
-        global valMin
-        global valMax
-        global myColors
-        global targetDetected
-        global areaRatio
-        global largestAreaRatio
-        global aspectRatio
-        global largestAspectRatio
-
-        camCenter = (width * 4)/2
-        offset = camCenter - boundingCenterX
-        input_img = None
-        frame_time, input_img = sink.grabFrame(input_img)
-        pitch = (centerY/2) * 48.9417
-        #(height of target (m) - height of camera in up position (m))/tan(pitch + angle of camera)
-        advancedDistance = (2.286 - .965) / math.tan(math.radians(pitch + 18.0455))
-
-        # Notify output of error and skip iteration
-        if frame_time == 0:
-            output_stream.notifyError(sink.getError())
-            continue
-
-        # Convert to HSV and threshold image
-        imgResult = input_img.copy()
-        targetDetected = False
-        findColor(input_img,myColors)
-        
-        t2 = time.clock_gettime(time.CLOCK_MONOTONIC) # gets the current "time"
-        timeDiff = t2-t1 # difference between the most recent time and the time recorded when the target was last seen
-
-        if targetDetected:
-            sumArea += garea
-            targetDetTolCount = 0
-            t1 = t2
-            vision_nt.putNumber('targetDetected',1)
-        else: # only sets updates the targetDetected if a certain amount of time has passed
-            if timeDiff > targetDetTol:
-                vision_nt.putNumber('targetDetected',0)
-         
-        count +=1
-        loopLen = 25
-        vision_nt.putNumber('realTimeArea',garea) # these lines put all the necessary data on network tables, which are then displayed on shuffleboard
-        vision_nt.putNumber('areaRatio',areaRatio)
-        vision_nt.putNumber('offset',-offset)
-        vision_nt.putNumber('largestAreaRatio', largestAreaRatio)
-
-        vision_nt.putNumber('aspectRatio', aspectRatio)
-        
-        vision_nt.putNumber('largestAspectRatio', largestAspectRatio)
-        vision_nt.putNumber('CenterOfBoxX', centerX)
-        vision_nt.putNumber('CenterOfBoxY', centerY)
-        vision_nt.putNumber('advancedDistance', advancedDistance)
-
-        if sumArea > 0 and count >= loopLen:
-        #if count >= loopLen:
-            average = sumArea/count
-            distance = (20235 * (average ** -.558))
-
-            vision_nt.putNumber('distance',distance)
-            vision_nt.putNumber('area',average) 
-            sumArea = 0
-            count = 0
-
-            
-            
-
-        vision_nt.putNumber('pitch', pitch)
-        cvsrc.putFrame(imgResult)
-
-        hueMin = int(vision_nt.getNumber('hueMin',255))
-        hueMax = int(vision_nt.getNumber('hueMax',255))
-        satMin = int(vision_nt.getNumber('satMin',255))
-        satMax = int(vision_nt.getNumber('satMax',255))
-        valMin = int(vision_nt.getNumber('valMin',255))
-        valMax = int(vision_nt.getNumber('valMax',255))
-
-        myColors = [[hueMin,satMin,valMin,hueMax,satMax,valMax]]
-        cvmask.putFrame(mask)
-main()    
+main()   
