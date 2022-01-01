@@ -13,6 +13,18 @@ class CameraView(object):
         self.width = self.camera['width']
         self.height = self.camera['height']
 
+class TargetBoundingBox(object):
+    def __init__(self, imageResult, approx):
+        self.imageResult = imageResult
+        self.x, self.y, self.w, self.h, = cv2.boundingRect(approx)
+        self.boundingCenterX = self.x + self.w/2
+        self.centerX = ((self.x + (self.w/2))-320)/320
+        self.centerY = ((self.y + (self.h/2))-180)/180 * -1
+
+    def drawRectangle(self):
+        # Draw rectangle on the Image
+        cv2.rectangle(self.imageResult, (self.x,self.y),(self.x+self.w,self.y+self.h),(0,255,0),3)
+
 class VisionApplication(object):
     def __init__(self):
         self.garea = 0
@@ -29,14 +41,19 @@ class VisionApplication(object):
         self.valMax = 255
         self.myColors = [[self.hueMin,self.satMin,self.valMin,self.hueMax,self.satMax,self.valMax]]
 
-        self.boundingCenterX = 0 # center of the bounding box x axis
-        self.centerY = 0
-        self.centerX = 0
         self.targetDetected = False
         self.areaRatio = 0 # this is the areaRatio of every contour that is seen by the camera
         self.largestAreaRatio = 0 # this is the areaRatio of the target once it has been isolated
         self.aspectRatio = 0 # this is the aspectRatio of every contour that is seen by the camera
         self.largestAspectRatio = 0 # this is the aspectRatio fo the target once it has been isolated
+
+        self.advancedDistance = 0
+
+        self.mask = None
+        self.contours = None
+        self.target = None
+
+        self.boundingBox = None # Target bounding box
 
         # Initialize configuration
         self.config = self.readConfig()
@@ -105,12 +122,12 @@ class VisionApplication(object):
         t2 = 0
         while True:
             camCenter = (self.camera.width * 4)/2
-            offset = camCenter - self.boundingCenterX
+            offset = camCenter - self.boundingBox.boundingCenterX
             input_img = None
             frame_time, input_img = self.sink.grabFrame(input_img)
-            pitch = (self.centerY/2) * 48.9417
+            pitch = (self.boundingBox.centerY/2) * 48.9417
             #(height of target (m) - height of camera in up position (m))/tan(pitch + angle of camera)
-            advancedDistance = (2.286 - .965) / math.tan(math.radians(pitch + 18.0455))
+            self.advancedDistance = (2.286 - .965) / math.tan(math.radians(pitch + 18.0455))
 
             # Notify output of error and skip iteration
             if frame_time == 0:
@@ -120,7 +137,10 @@ class VisionApplication(object):
             # Convert to HSV and threshold image
             self.imgResult = input_img.copy()
             self.targetDetected = False
-            self.findColor(input_img,self.myColors)
+            self.mask = self.getImageMask(input_img,self.myColors)
+            self.contours = self.getContours(self.mask)
+            self.target = self.isolateTarget(self.contours)
+            self.boundingBox = self.drawBoundingBox(self.target)
             
             t2 = time.clock_gettime(time.CLOCK_MONOTONIC) # gets the current "time"
             timeDiff = t2-t1 # difference between the most recent time and the time recorded when the target was last seen
@@ -143,10 +163,10 @@ class VisionApplication(object):
             vision_nt.putNumber('aspectRatio', self.aspectRatio)
             
             vision_nt.putNumber('largestAspectRatio', self.largestAspectRatio)
-            vision_nt.putNumber('CenterOfBoxX', self.centerX)
-            vision_nt.putNumber('CenterOfBoxY', self.centerY)
+            vision_nt.putNumber('CenterOfBoxX', self.boundingBox.centerX)
+            vision_nt.putNumber('CenterOfBoxY', self.boundingBox.centerY)
 
-            vision_nt.putNumber('advancedDistance', advancedDistance)
+            vision_nt.putNumber('advancedDistance', self.advancedDistance)
             vision_nt.putNumber('offset',-offset)
 
             if sumArea > 0 and count >= loopLen:
@@ -165,62 +185,57 @@ class VisionApplication(object):
 
             self.cvmask.putFrame(self.mask)
 
-        def findColor(self, img, myColors):
-            imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
-            lower = np.array(myColors[0][0:3])
-            upper = np.array(myColors[0][3:6])
-            self.mask = cv2.inRange(imgHSV, lower, upper)
-            #cv2.imshow("img",self.mask)
-            self.getContours(self.mask)
+    def getImageMask(self, img, myColors):
+        imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)  
+        lower = np.array(myColors[0][0:3])
+        upper = np.array(myColors[0][3:6])
+        mask = cv2.inRange(imgHSV, lower, upper)
+        #cv2.imshow("img",mask)
+        return mask
 
 
-        def getContours(self, img):
-            image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    def getContours(self, img):
+        image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        return countours
 
-            tolerance = .125
-            idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
-            idealAspectRatio = 1.8 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
-            aspectTolerance = .44 # this is the tolerance for finding the target with the right aspect ratio
-                                 # start off with a large tolerance, and if the ideal ratio is correct, lower the tolerance as needed. 
-            self.garea = 0
-            if len(contours) > 0:
-                largest = contours[0]
-                area = 0
-                for contour in contours:
-                    
-                    contourArea = cv2.contourArea(contour) #area of the particle
-                    x, y, w, h, = cv2.boundingRect(contour)
-                    boundingArea = w * h
-                    if (boundingArea < 1100):
-                        continue
-                    self.areaRatio = contourArea/boundingArea
-                    self.aspectRatio = w/h
-                    if self.areaRatio > idealRatio - tolerance and self.areaRatio < idealRatio + tolerance: # if the target is within the right area ratio range, it is possibly the correct target
-                        if self.aspectRatio > idealAspectRatio - aspectTolerance and self.aspectRatio < idealAspectRatio + aspectTolerance: # if the target is within the correct aspect ratio range aswell, it is definitely the right target
-                            largest = contour
-                            area = boundingArea
-                            self.largestAreaRatio = self.areaRatio
-                            self.largestAspectRatio = self.aspectRatio
-                        #else:
-                            #print(str(self.aspectRatio))
+    def isolateTarget(self, contours):
+        tolerance = .125
+        idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
+        idealAspectRatio = 1.8 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
+        aspectTolerance = .44 # this is the tolerance for finding the target with the right aspect ratio
+        # start off with a large tolerance, and if the ideal ratio is correct, lower the tolerance as needed. 
+        self.garea = 0
+        target = self.target # Default to the "old" target
+        if len(contours) > 0:
+            largest = contours[0]
+            area = 0
+            for contour in contours:
+                contourArea = cv2.contourArea(contour) #area of the particle
+                x, y, w, h, = cv2.boundingRect(contour)
+                boundingArea = w * h
+                if (boundingArea < 1100):
+                    continue
+                self.areaRatio = contourArea/boundingArea
+                self.aspectRatio = w/h
+                if self.areaRatio > idealRatio - tolerance and self.areaRatio < idealRatio + tolerance: # if the target is within the right area ratio range, it is possibly the correct target
+                    if self.aspectRatio > idealAspectRatio - aspectTolerance and self.aspectRatio < idealAspectRatio + aspectTolerance: # if the target is within the correct aspect ratio range aswell, it is definitely the right target
+                        largest = contour
+                        area = boundingArea
+                        self.largestAreaRatio = self.areaRatio
+                        self.largestAspectRatio = self.aspectRatio
+                        self.targetDetected = True
+                        self.garea = area
+                        target = largest
+                        # Draw the contours
+                        cv2.drawContours(self.imgResult, target, -1, (255,0,0), 3)
+        return target
 
-                
-                
-                peri = cv2.arcLength(largest, True)
-                approx = cv2.approxPolyDP(largest, 0.015 * peri, True)
-                if area > 100: # may not need this if statement. Consider deleting in the future.
-                    self.targetDetected = True
-                    cv2.drawContours(self.imgResult,largest, -1, (255,0,0), 3)
-                    peri = cv2.arcLength(largest, True)
-                    self.garea = area
-
-                    approx = cv2.approxPolyDP(largest, 0.02 * peri, True)
-                    x, y, w, h, = cv2.boundingRect(approx)
-                    self.boundingCenterX = x + w/2
-                    self.centerX = ((x + (w/2))-320)/320
-                    self.centerY = ((y + (h/2))-180)/180 * -1
-
-                    cv2.rectangle(self.imgResult, (x,y),(x+w,y+h),(0,255,0),3)
+    def drawBoundingBox(self, target):
+        peri = cv2.arcLength(target, True)
+        approx = cv2.approxPolyDP(target, 0.02 * peri, True)
+        boundingBox = TargetBoundingBox(self.imgResult, approx)
+        boundingBox.drawRectangle()
+        return boundingBox
 
 def main():
     visionApp = VisionApplication()
