@@ -48,7 +48,7 @@ class VisionApplication(object):
         self.largestAspectRatio = 0 # this is the aspectRatio fo the target once it has been isolated
 
         self.advancedDistance = 0
-
+        self.vision_nt = None 
         self.mask = None
         self.contours = None
         self.target = None
@@ -105,12 +105,12 @@ class VisionApplication(object):
         self.vision_nt.putNumber('valMax',self.valMax)
 
     def getMaskingValues(self):
-        self.hueMin = int(vision_nt.getNumber('hueMin',255))
-        self.hueMax = int(vision_nt.getNumber('hueMax',255))
-        self.satMin = int(vision_nt.getNumber('satMin',255))
-        self.satMax = int(vision_nt.getNumber('satMax',255))
-        self.valMin = int(vision_nt.getNumber('valMin',255))
-        self.valMax = int(vision_nt.getNumber('valMax',255))
+        self.hueMin = int(self.vision_nt.getNumber('hueMin',255))
+        self.hueMax = int(self.vision_nt.getNumber('hueMax',255))
+        self.satMin = int(self.vision_nt.getNumber('satMin',255))
+        self.satMax = int(self.vision_nt.getNumber('satMax',255))
+        self.valMin = int(self.vision_nt.getNumber('valMin',255))
+        self.valMax = int(self.vision_nt.getNumber('valMax',255))
         self.myColors = [[self.hueMin,self.satMin,self.valMin,self.hueMax,self.satMax,self.valMax]]
 
     def runApplication(self):
@@ -122,12 +122,9 @@ class VisionApplication(object):
         t2 = 0
         while True:
             camCenter = (self.camera.width * 4)/2
-            offset = camCenter - self.boundingBox.boundingCenterX
             input_img = None
             frame_time, input_img = self.sink.grabFrame(input_img)
-            pitch = (self.boundingBox.centerY/2) * 48.9417
             #(height of target (m) - height of camera in up position (m))/tan(pitch + angle of camera)
-            self.advancedDistance = (2.286 - .965) / math.tan(math.radians(pitch + 18.0455))
 
             # Notify output of error and skip iteration
             if frame_time == 0:
@@ -142,6 +139,10 @@ class VisionApplication(object):
             self.target = self.isolateTarget(self.contours)
             self.boundingBox = self.drawBoundingBox(self.target)
             
+            pitch = (self.boundingBox.centerY/2) * 48.9417
+
+            self.advancedDistance = (2.298 - .9779) / math.tan(math.radians(pitch + 20.93552078))
+            offset = camCenter - self.boundingBox.boundingCenterX
             t2 = time.clock_gettime(time.CLOCK_MONOTONIC) # gets the current "time"
             timeDiff = t2-t1 # difference between the most recent time and the time recorded when the target was last seen
 
@@ -149,37 +150,37 @@ class VisionApplication(object):
                 sumArea += self.garea
                 targetDetTolCount = 0
                 t1 = t2
-                vision_nt.putNumber('targetDetected',1)
+                self.vision_nt.putNumber('targetDetected',1)
             else: # only sets updates the targetDetected if a certain amount of time has passed
                 if timeDiff > targetDetTol:
-                    vision_nt.putNumber('targetDetected',0)
+                    self.vision_nt.putNumber('targetDetected',0)
              
             count +=1
             loopLen = 25
-            vision_nt.putNumber('realTimeArea',self.garea) # these lines put all the necessary data on network tables, which are then displayed on shuffleboard
-            vision_nt.putNumber('areaRatio',self.areaRatio)
-            vision_nt.putNumber('largestAreaRatio', self.largestAreaRatio)
+            self.vision_nt.putNumber('realTimeArea',self.garea) # these lines put all the necessary data on network tables, which are then displayed on shuffleboard
+            self.vision_nt.putNumber('areaRatio',self.areaRatio)
+            self.vision_nt.putNumber('largestAreaRatio', self.largestAreaRatio)
 
-            vision_nt.putNumber('aspectRatio', self.aspectRatio)
+            self.vision_nt.putNumber('aspectRatio', self.aspectRatio)
             
-            vision_nt.putNumber('largestAspectRatio', self.largestAspectRatio)
-            vision_nt.putNumber('CenterOfBoxX', self.boundingBox.centerX)
-            vision_nt.putNumber('CenterOfBoxY', self.boundingBox.centerY)
+            self.vision_nt.putNumber('largestAspectRatio', self.largestAspectRatio)
+            self.vision_nt.putNumber('CenterOfBoxX', self.boundingBox.centerX)
+            self.vision_nt.putNumber('CenterOfBoxY', self.boundingBox.centerY)
 
-            vision_nt.putNumber('advancedDistance', self.advancedDistance)
-            vision_nt.putNumber('offset',-offset)
+            self.vision_nt.putNumber('advancedDistance', self.advancedDistance)
+            self.vision_nt.putNumber('offset',-offset)
 
             if sumArea > 0 and count >= loopLen:
             #if count >= loopLen:
                 average = sumArea/count
                 distance = (20235 * (average ** -.558))
 
-                vision_nt.putNumber('distance',distance)
-                vision_nt.putNumber('area',average) 
+                self.vision_nt.putNumber('distance',distance)
+                self.vision_nt.putNumber('area',average) 
                 sumArea = 0
                 count = 0
 
-            vision_nt.putNumber('pitch', pitch)
+            self.vision_nt.putNumber('pitch', pitch)
             self.cvsrc.putFrame(self.imgResult)
             self.getMaskingValues()
 
@@ -196,10 +197,10 @@ class VisionApplication(object):
 
     def getContours(self, img):
         image, contours, hierarchy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        return countours
+        return contours
 
     def isolateTarget(self, contours):
-        tolerance = .125
+        tolerance = .225
         idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
         idealAspectRatio = 1.8 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
         aspectTolerance = .44 # this is the tolerance for finding the target with the right aspect ratio
