@@ -1,3 +1,4 @@
+#to search for a variable, click on the variable, hit escape, and type "#". Press "n" to move up and "N" to move down
 from cscore import CameraServer
 from networktables import NetworkTablesInstance
 
@@ -14,9 +15,15 @@ class CameraView(object):
         self.height = self.camera['height']
 
 class TargetBoundingBox(object):
-    def __init__(self, imageResult, approx):
+    def __init__(self, imageResult, approx, targetDetected):
         self.imageResult = imageResult
-        self.x, self.y, self.w, self.h, = cv2.boundingRect(approx)
+        self.targetDetected = targetDetected
+        if self.targetDetected:
+            self.x, self.y, self.w, self.h, = cv2.boundingRect(approx)
+        else:
+            self.x, self.y, self.w, self.h, = 1, 1, 1, 1 
+        
+
         self.boundingCenterX = self.x + self.w/2
         self.centerX = ((self.x + (self.w/2))-320)/320
         self.centerY = ((self.y + (self.h/2))-180)/180 * -1
@@ -39,6 +46,7 @@ class VisionApplication(object):
         self.satMax = 66
         self.valMin = 235
         self.valMax = 255
+       
         self.myColors = [[self.hueMin,self.satMin,self.valMin,self.hueMax,self.satMax,self.valMax]]
 
         self.targetDetected = False
@@ -85,7 +93,7 @@ class VisionApplication(object):
     def initializeNetworkTables(self):
         # Table for vision output information
         ntinst = NetworkTablesInstance.getDefault()
-        ip = ''
+        ip = '' #for use with a computer
         print("Setting up NetworkTables client for team {} at {}".format(self.team,ip))
         ntinst.startClientTeam(self.team)
         #ntinst.startClient(ip)
@@ -183,7 +191,6 @@ class VisionApplication(object):
             self.vision_nt.putNumber('pitch', pitch)
             self.cvsrc.putFrame(self.imgResult)
             self.getMaskingValues()
-
             self.cvmask.putFrame(self.mask)
 
     def getImageMask(self, img, myColors):
@@ -201,12 +208,13 @@ class VisionApplication(object):
 
     def isolateTarget(self, contours):
         tolerance = .225
-        idealRatio = 0.1 # this is the ideal ratio for the area ratio value. 
+        idealRatio = 0.1 # this is the ideal ratio for the area ratio value.
         idealAspectRatio = 1.8 # this is the ideal aspect ratio based off of the diagram but can be changed as needed.
         aspectTolerance = .44 # this is the tolerance for finding the target with the right aspect ratio
         # start off with a large tolerance, and if the ideal ratio is correct, lower the tolerance as needed. 
         self.garea = 0
         target = self.target # Default to the "old" target
+        self.targetDetected = False
         if len(contours) > 0:
             largest = contours[0]
             area = 0
@@ -232,9 +240,12 @@ class VisionApplication(object):
         return target
 
     def drawBoundingBox(self, target):
-        peri = cv2.arcLength(target, True)
-        approx = cv2.approxPolyDP(target, 0.02 * peri, True)
-        boundingBox = TargetBoundingBox(self.imgResult, approx)
+        if self.targetDetected:
+            peri = cv2.arcLength(target, True)
+            approx = cv2.approxPolyDP(target, 0.02 * peri, True)
+        else:
+            approx = None
+        boundingBox = TargetBoundingBox(self.imgResult, approx, self.targetDetected)
         boundingBox.drawRectangle()
         return boundingBox
 
