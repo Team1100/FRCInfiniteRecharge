@@ -54,18 +54,14 @@ public class PIDVisionTurretTarget extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_timer.hasElapsed(TIME_TOLERANCE)) {
-      timeHasElapsed = true;
-    }
     boolean finished = false;
-    if (timeHasElapsed) {
-      if (!Vision.getInstance().isTargetFound())
+
+    if (m_timer.hasElapsed(TIME_TOLERANCE)) {
+      if (!Vision.getInstance().isTargetFound() || getController().atSetpoint()) {
         finished = true;
-      else
-        finished = getController().atSetpoint();
+        m_timer.stop();
+      }
     }
-
-
     return finished;
   }
 }
