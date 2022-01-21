@@ -17,7 +17,7 @@ import frc.robot.subsystems.Drive;
 /**
  * A Default Drive commmand that passes joystick input to a TankDrive drivetrain.
  */
-public class DefaultDrive extends CommandBase {
+public class TankDrive extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drive m_drive;
   private final AttackThreeAxis yAxis = AttackThreeAxis.kY;
@@ -25,11 +25,11 @@ public class DefaultDrive extends CommandBase {
   private int counter;
 
   /**
-   * Creates a new DefaultDrive.
+   * Creates a new TankDrive.
    *
    * @param drive the subsystem used by this command.
    */
-  public DefaultDrive(Drive drive) {
+  public TankDrive(Drive drive) {
     m_drive = drive;
     oi = OI.getInstance();
     counter = 0;
@@ -39,7 +39,7 @@ public class DefaultDrive extends CommandBase {
 
   public static void registerWithTestingDashboard() {
     Drive drive = Drive.getInstance();
-    DefaultDrive cmd = new DefaultDrive(Drive.getInstance());
+    TankDrive cmd = new TankDrive(Drive.getInstance());
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
   }
 
