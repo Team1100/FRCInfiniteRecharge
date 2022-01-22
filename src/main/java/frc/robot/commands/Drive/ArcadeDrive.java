@@ -22,9 +22,9 @@ public class ArcadeDrive extends CommandBase {
   public ArcadeDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = Drive.getInstance();
-    oi = OI.getInstance();
+    
     addRequirements(m_drive);
-    m_xbox = oi.getXbox();
+    
   }
 
   public static void registerWithTestingDashboard() {
@@ -36,7 +36,8 @@ public class ArcadeDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    oi = OI.getInstance();
+    m_xbox = oi.getXbox();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,7 +47,7 @@ public class ArcadeDrive extends CommandBase {
     double rotation = m_xbox.getAxis(XboxAxis.kXRight);
     double speed = m_xbox.getAxis(XboxAxis.kYLeft);
 
-    m_drive.arcadeDrive(speed, rotation);
+    m_drive.arcadeDrive(-speed, rotation);
   }
 
   // Called once the command ends or is interrupted.

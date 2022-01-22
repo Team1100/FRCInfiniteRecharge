@@ -137,11 +137,11 @@ public class Drive extends SubsystemBase {
   }
 
   public void arcadeDrive(double fwd, double rot) {
-    drive.arcadeDrive(fwd, rot);
+    drivetrain.arcadeDrive(fwd, rot);
   }
 
   public void setMaxOutput(double maxOutput) {
-    drive.setMaxOutput(maxOutput);
+    drivetrain.setMaxOutput(maxOutput);
   }
 
   //Sensor Methods
