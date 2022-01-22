@@ -12,6 +12,7 @@ import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Drive.ToggleBrakeMode;
+import frc.robot.commands.Drive.ArcadeDrive;
 import frc.robot.commands.Shooter.*;
 //import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
@@ -66,8 +67,9 @@ public class OI {
     
     // Start and Back
     PIDBottomShooter pidBottomShooter = new PIDBottomShooter(5500, true);
-    xbox.getButtonStart().whenPressed(pidBottomShooter);
-    xbox.getButtonBack().cancelWhenPressed(pidBottomShooter);
+    xbox.getButtonStart().toggleWhenPressed(pidBottomShooter);
+    ArcadeDrive arcadeDrive = new ArcadeDrive();
+    xbox.getButtonBack().toggleWhenPressed(arcadeDrive);
 
     // DPAD
     xbox.getDPad().getUp().whileHeld(new Climb(-0.5,true));

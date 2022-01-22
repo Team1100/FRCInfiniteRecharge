@@ -49,7 +49,7 @@ public class RobotContainer {
   private final Auto auto;
 
   //Commands
-  private final DefaultDrive defaultdrive;
+  private final TankDrive tankDrive;
   private final DefaultIntake defaultintake;
   private final DefaultTurret defaultturret;
 
@@ -84,8 +84,8 @@ public class RobotContainer {
     auto = Auto.getInstance();
 
     //Default command instantiation
-    defaultdrive = new DefaultDrive(drive);
-    drive.setDefaultCommand(defaultdrive);
+    tankDrive = new TankDrive(drive);
+    drive.setDefaultCommand(tankDrive);
     defaultintake = new DefaultIntake(ballIntake);
     ballIntake.setDefaultCommand(defaultintake);
     defaultturret = new DefaultTurret(turret);
@@ -108,7 +108,8 @@ public class RobotContainer {
 
 
     // Register commands with TestingDashboard commands
-    DefaultDrive.registerWithTestingDashboard();
+    TankDrive.registerWithTestingDashboard();
+    ArcadeDrive.registerWithTestingDashboard();
     DriveDistance.registerWithTestingDashboard();
     TurnAngle.registerWithTestingDashboard();
     PIDTurnAngle.registerWithTestingDashboard();
