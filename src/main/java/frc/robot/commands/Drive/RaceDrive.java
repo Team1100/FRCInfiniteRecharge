@@ -17,14 +17,14 @@ public class RaceDrive extends CommandBase {
   private final Drive m_drive;
   private static OI oi;
   private static XboxController m_xbox;
-  
+
 
   public RaceDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = Drive.getInstance();
-    
+
     addRequirements(m_drive);
-    
+
   }
 
   public static void registerWithTestingDashboard() {
@@ -44,15 +44,12 @@ public class RaceDrive extends CommandBase {
   @Override
   public void execute() {
 
-    /*if forward and reverse are not "0", then disable movement
-    
-    */
+    double rotation = m_xbox.getAxis(XboxAxis.kXLeft);
+    double revSpeed = m_xbox.getAxis(XboxAxis.kLeftTrigger);
+    double fwdSpeed = m_xbox.getAxis(XboxAxis.kRightTrigger);
+    double speed = fwdSpeed - revSpeed;
 
-    double rotation = m_xbox.getAxis(XboxAxis.kXRight);
-    double forward = m_xbox.getAxis(XboxAxis.kLeftTrigger);
-    double reverse = m_xbox.getAxis(XboxAxis.kRightTrigger);
-
-    m_drive.raceDrive(forward, rotation);
+    m_drive.arcadeDrive(speed, rotation);
   }
 
   // Called once the command ends or is interrupted.
