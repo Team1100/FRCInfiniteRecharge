@@ -49,7 +49,7 @@ public class RaceDrive extends CommandBase {
     double fwdSpeed = m_xbox.getAxis(XboxAxis.kRightTrigger);
     double speed = fwdSpeed - revSpeed;
 
-    m_drive.arcadeDrive(speed, rotation);
+    m_drive.arcadeDrive(speed, rotation, true);
   }
 
   // Called once the command ends or is interrupted.

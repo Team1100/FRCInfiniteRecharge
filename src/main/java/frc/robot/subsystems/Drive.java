@@ -136,8 +136,8 @@ public class Drive extends SubsystemBase {
     drivetrain.feed();
   }
 
-  public void arcadeDrive(double fwd, double rot) {
-    drivetrain.arcadeDrive(fwd, rot);
+  public void arcadeDrive(double fwd, double rot, boolean sqInputs) {
+    drivetrain.arcadeDrive(fwd, rot, sqInputs);
   }
 
   public void setMaxOutput(double maxOutput) {
