@@ -12,24 +12,24 @@ import frc.robot.input.XboxController.XboxAxis;
 import frc.robot.subsystems.Drive;
 
 
-public class ArcadeDrive extends CommandBase {
-  /** Creates a new ArcadeDrive. */
+public class RaceDrive extends CommandBase {
+  /** Creates a new RaceDrive. */
   private final Drive m_drive;
   private static OI oi;
   private static XboxController m_xbox;
-  
 
-  public ArcadeDrive() {
+
+  public RaceDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = Drive.getInstance();
-    
+
     addRequirements(m_drive);
-    
+
   }
 
   public static void registerWithTestingDashboard() {
     Drive drive = Drive.getInstance();
-    ArcadeDrive cmd = new ArcadeDrive();
+    RaceDrive cmd = new RaceDrive();
     TestingDashboard.getInstance().registerCommand(drive, "Basic", cmd);
   }
 
@@ -44,10 +44,12 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
 
-    double rotation = m_xbox.getAxis(XboxAxis.kXRight);
-    double speed = m_xbox.getAxis(XboxAxis.kYLeft);
+    double rotation = m_xbox.getAxis(XboxAxis.kXLeft);
+    double revSpeed = m_xbox.getAxis(XboxAxis.kLeftTrigger);
+    double fwdSpeed = m_xbox.getAxis(XboxAxis.kRightTrigger);
+    double speed = fwdSpeed - revSpeed;
 
-    m_drive.arcadeDrive(-speed, rotation, true);
+    m_drive.arcadeDrive(speed, rotation, true);
   }
 
   // Called once the command ends or is interrupted.

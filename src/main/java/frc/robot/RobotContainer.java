@@ -110,6 +110,7 @@ public class RobotContainer {
     // Register commands with TestingDashboard commands
     TankDrive.registerWithTestingDashboard();
     ArcadeDrive.registerWithTestingDashboard();
+    RaceDrive.registerWithTestingDashboard();
     DriveDistance.registerWithTestingDashboard();
     TurnAngle.registerWithTestingDashboard();
     PIDTurnAngle.registerWithTestingDashboard();

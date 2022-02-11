@@ -36,14 +36,14 @@ public class OI {
    * Used outside of the OI class to return an instance of the class.
    * @return Returns instance of OI class formed from constructor.
    */
-  public static OI getInstance() {
+  public static OI getInstance() { 
     if (oi == null) {
       oi = new OI();
     }
     return oi;
   }
 
-  public OI() {
+  private OI() {
     // User Input
     // TODO: Tune deadband
     leftStick = new AttackThree(RobotMap.U_JOYSTICK_LEFT, 0.01);
@@ -68,8 +68,9 @@ public class OI {
     // Start and Back
     PIDBottomShooter pidBottomShooter = new PIDBottomShooter(5500, true);
     xbox.getButtonStart().toggleWhenPressed(pidBottomShooter);
-    ArcadeDrive arcadeDrive = new ArcadeDrive();
-    xbox.getButtonBack().toggleWhenPressed(arcadeDrive);
+
+    xbox.getButtonBack().toggleWhenPressed(new ArcadeDrive());
+    
 
     // DPAD
     xbox.getDPad().getUp().whileHeld(new Climb(-0.5,true));
