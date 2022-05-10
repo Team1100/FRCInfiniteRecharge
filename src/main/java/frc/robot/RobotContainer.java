@@ -19,7 +19,6 @@ import frc.robot.commands.BallIntake.*;
 import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Drive.*;
-import frc.robot.commands.Drive.DriveDistance;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
@@ -50,8 +49,8 @@ public class RobotContainer {
 
   //Commands
   private final TankDrive tankDrive;
+  private final ArcadeDrive arcadeDrive;
   private final DefaultIntake defaultintake;
-  private final DefaultTurret defaultturret;
 
   BarrelRacingPath barrelRacingPath;
   ShootAndCrossLineAuto shootAndCrossLineAuto;
@@ -85,11 +84,12 @@ public class RobotContainer {
 
     //Default command instantiation
     tankDrive = new TankDrive(drive);
-    drive.setDefaultCommand(tankDrive);
+    arcadeDrive = new ArcadeDrive();
+    drive.setDefaultCommand(arcadeDrive);
     defaultintake = new DefaultIntake(ballIntake);
     ballIntake.setDefaultCommand(defaultintake);
-    defaultturret = new DefaultTurret(turret);
-    turret.setDefaultCommand(defaultturret);
+    //defaultturret = new DefaultTurret(turret);
+    //turret.setDefaultCommand(defaultturret);
 
     // Auto command instantiation
     barrelRacingPath = new BarrelRacingPath();
