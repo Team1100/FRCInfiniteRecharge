@@ -13,6 +13,7 @@ import frc.robot.commands.Climb.*;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Drive.ToggleBrakeMode;
 import frc.robot.commands.Drive.ArcadeDrive;
+import frc.robot.commands.Drive.TankDrive;
 import frc.robot.commands.Shooter.*;
 //import frc.robot.commands.Spinner.*;
 import frc.robot.commands.Turret.*;
@@ -60,23 +61,23 @@ public class OI {
     xbox.getButtonRightBumper().whileHeld(new ShooterUp());
 
     // XYAB
-    xbox.getButtonX().whenPressed(new BallIntakeUp());
-    xbox.getButtonY().whenHeld(new FeedBalls());
-    xbox.getButtonA().whenPressed(new BallIntakeDown());
-    xbox.getButtonB().whenHeld(new SpitBalls());
+    xbox.getDPad().getUp().whenPressed(new BallIntakeUp());
+    xbox.getButtonB().whenHeld(new FeedBalls());
+    xbox.getDPad().getDown().whenPressed(new BallIntakeDown());
+    xbox.getButtonX().whenHeld(new SpitBalls());
     
+    xbox.getDPad().getLeft().whenHeld(new TurretLeft());
+    xbox.getDPad().getRight().whenHeld(new TurretRight());
     // Start and Back
     PIDBottomShooter pidBottomShooter = new PIDBottomShooter(5500, true);
-    xbox.getButtonStart().toggleWhenPressed(pidBottomShooter);
-
-    xbox.getButtonBack().toggleWhenPressed(new ArcadeDrive());
-    
+    xbox.getButtonY().whenHeld(pidBottomShooter);
+    //xbox.getButtonBack().toggleWhenPressed(new TankDrive(Drive.getInstance()));
 
     // DPAD
-    xbox.getDPad().getUp().whileHeld(new Climb(-0.5,true));
+    //xbox.getDPad().getUp().whileHeld(new Climb(-0.5,true));
 
     // Left and Right Stick buttons
-    xbox.getButtonLeftStick().toggleWhenPressed(new HookUp(0));
+    //xbox.getButtonLeftStick().toggleWhenPressed(new HookUp(0));
 
     ////////////////////////////////////////////////////
     // Now Mapping Commands to AttackThree controllers
