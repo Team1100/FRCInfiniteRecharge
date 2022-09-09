@@ -6,6 +6,7 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.OI;
+import frc.robot.RobotMap;
 import frc.robot.TestingDashboard;
 import frc.robot.input.XboxController;
 import frc.robot.input.XboxController.XboxAxis;
@@ -22,7 +23,7 @@ public class ArcadeDrive extends CommandBase {
   public ArcadeDrive() {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = Drive.getInstance();
-    
+
     addRequirements(m_drive);
     
   }
@@ -46,6 +47,9 @@ public class ArcadeDrive extends CommandBase {
 
     double rotation = m_xbox.getAxis(XboxAxis.kXRight);
     double speed = m_xbox.getAxis(XboxAxis.kYLeft);
+
+    speed = speed * m_drive.getPercentPower();
+    rotation = rotation * m_drive.getPercentPower();
 
     m_drive.arcadeDrive(-speed, rotation, true);
   }

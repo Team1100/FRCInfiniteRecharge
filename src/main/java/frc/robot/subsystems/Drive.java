@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -54,6 +55,8 @@ public class Drive extends SubsystemBase {
 
   private DifferentialDrive drivetrain;
 
+  private AnalogInput m_potentiometer;
+
   private AHRS ahrs;
 
   private static Drive drive;
@@ -73,6 +76,8 @@ public class Drive extends SubsystemBase {
     rightEncoder = new Encoder(RobotMap.D_RIGHT_ENCODER_A, RobotMap.D_RIGHT_ENCODER_B);
     leftEncoder.setDistancePerPulse(INCHES_PER_PULSE);
     rightEncoder.setDistancePerPulse(INCHES_PER_PULSE);
+
+    m_potentiometer = new AnalogInput(RobotMap.D_POTENTIOMETER);
 
     //brakeModeToggle();
 
@@ -145,6 +150,11 @@ public class Drive extends SubsystemBase {
   }
 
   //Sensor Methods
+  public double getPercentPower() {
+    double percent = m_potentiometer.getVoltage() / 5;
+    
+    return percent;
+  }
 
   //AHRS Methods
   public double getYaw() {
