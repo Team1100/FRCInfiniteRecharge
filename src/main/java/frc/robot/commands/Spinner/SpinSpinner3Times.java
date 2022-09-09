@@ -12,6 +12,7 @@ package frc.robot.commands.Spinner;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
 
@@ -41,6 +42,7 @@ public class SpinSpinner3Times extends CommandBase {
     Spinner spinner = Spinner.getInstance();
     SpinSpinner3Times cmd = new SpinSpinner3Times();
     TestingDashboard.getInstance().registerCommand(spinner, "Basic", cmd);
+    TestingDashboard.getInstance().registerNumber(spinner, "Motor", "SpinnerMotorSpeed", Constants.kSpinnerMotorDefeaultSpeed);
   }
 
   // Called when the command is initially scheduled.
@@ -56,7 +58,7 @@ public class SpinSpinner3Times extends CommandBase {
   @Override
   public void execute() {
     m_period = SmartDashboard.getNumber("SpinnerColorNotFoundTimeout", 5.0);
-    double speed = SmartDashboard.getNumber("SpinnerMotorSpeed",0.2);    
+    double speed = TestingDashboard.getInstance().getNumber(m_spinner, "SpinnerMotorSpeed");    
     String color = m_spinner.getColor();
     if (!color.equals(m_currentColor)) {
       m_currentColor = color;

@@ -12,6 +12,7 @@ package frc.robot.commands.Spinner;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.TestingDashboard;
 import frc.robot.subsystems.Spinner;
 
@@ -36,7 +37,7 @@ public class SpinSpinnerMotorTimed extends CommandBase {
   public static void registerWithTestingDashboard() {
     Spinner spinner = Spinner.getInstance();
     double period = SmartDashboard.getNumber("SpinneMotorPeriod", 5);
-    double speed = SmartDashboard.getNumber("SpinnerMotorSpeed", 0.2);  
+    double speed = Constants.kSpinnerMotorDefeaultSpeed;  
     SpinSpinnerMotorTimed cmd = new SpinSpinnerMotorTimed(period, speed);
     TestingDashboard.getInstance().registerCommand(spinner, "Timed", cmd);
   }

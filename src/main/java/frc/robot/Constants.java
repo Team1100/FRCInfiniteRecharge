@@ -38,6 +38,10 @@ public final class Constants {
 
     public static final boolean kGyroReversed = false;
 
+    // Subsystem constants
+
+    public static final double kSpinnerMotorDefeaultSpeed = 0.2;
+
     // defines zone constants
     public static final int kZoneGreen = 0;
     public static final int kZoneYellow = 1;
